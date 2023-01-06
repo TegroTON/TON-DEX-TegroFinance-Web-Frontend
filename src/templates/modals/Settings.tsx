@@ -18,25 +18,22 @@ export function SettingsModal() {
                         <button type="button" className="btn border-0 p-0" data-bs-dismiss="modal" aria-label="Close"><i className="fa-solid fa-xmark fa-lg"></i></button>
                     </Modal.Header>
                     <Modal.Body className="p-0">
-                    <div className="fw-500 fs-18 text-muted mb-4">
-                                Slippage tolerance
-                        <OverlayTrigger
-                            key="right"
-                            placement="right"
-                            overlay={
-                                <Tooltip className="fs-12 ms-4" id={`tooltip-$right`}>
-                                    Your transaction will revert it the price changes unfavorably by more than this percentage.
-                                </Tooltip>
-                            }
-                        >
-                             <a href="#!" className="text-muted ms-2">
+                        <div className="fw-500 fs-18 text-muted mb-4">
+                            Slippage tolerance
+                            <OverlayTrigger
+                                key="right"
+                                placement="right"
+                                overlay={
+                                    <Tooltip className="fs-12 ms-4" id={`tooltip-$right`}>
+                                        Your transaction will revert it the price changes unfavorably by more than this percentage.
+                                    </Tooltip>
+                                }
+                            >
+                                <a href="#!" className="text-muted ms-2">
                                     <i className="fa-regular fa-circle-question color-blue"></i>
                                 </a>
-                        </OverlayTrigger>
-                        
-                               
-                            </div>
-
+                            </OverlayTrigger>
+                        </div>
                         <Row>
                             <Col lg={3} className="mb-2 mb-lg-0">
                                 <a
