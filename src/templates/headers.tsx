@@ -361,7 +361,7 @@ export function DefaultHeader() {
                                         </NavDropdown.Item>
                                     </div>
                                 </Nav.Item>
-                                <Nav.Item className="btn-change-theme me-0 me-lg-2">
+                                <Nav.Item className="btn-toggle-mode me-0 me-lg-2">
                                     <Nav.Link href="javascript://">
                                         <div className="dark-mode-icon w-100">
                                             <div className="d-flex align-items-center w-100">

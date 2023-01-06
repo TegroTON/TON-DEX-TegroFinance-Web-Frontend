@@ -1,17 +1,17 @@
 function getTheme() {
-    return window.localStorage.getItem('theme') || 'light-theme'; // Default to Light if key not present.
+    return window.localStorage.getItem('theme') || 'auto-mode'; // Default to Light if key not present.
 }
 
 function getOppositeTheme() {
     const theme = getTheme();
-if (theme === 'light-theme')
-      return 'dark-theme';
+if (theme === 'light-mode')
+      return 'dark-mode';
 else
-      return 'light-theme';
+      return 'light-mode';
 }
 
 window.onload = () => {
-    const button = document.querySelector('.btn-change-theme');
+    const button = document.querySelector('.btn-toggle-mode');
 const body = document.querySelector('body');
 
 if (body)

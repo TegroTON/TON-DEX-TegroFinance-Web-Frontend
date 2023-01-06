@@ -1,12 +1,13 @@
-import {useNavigate} from 'react-router-dom';
-import React, {useContext, useEffect, useState} from 'react';
-import {useForm} from 'react-hook-form';
-import {Coins} from 'ton3-core';
-import {NavComponent} from './components/Nav';
-import {DexContext, DexContextType} from '../../context';
-import {PairData} from '../../types';
-import {Token} from '../../ton/dex/api/types';
-import {fieldNormalizer} from '../../utils';
+import { useNavigate } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Coins } from 'ton3-core';
+import { NavComponent } from './components/Nav';
+import { DexContext, DexContextType } from '../../context';
+import { PairData } from '../../types';
+import { Token } from '../../ton/dex/api/types';
+import { fieldNormalizer } from '../../utils';
+import { Container, Row, Col, Card, Button, Form, InputGroup, ListGroup } from 'react-bootstrap';
 
 export default function AddLiquidityPage() {
     const navigate = useNavigate();
@@ -54,8 +55,8 @@ export default function AddLiquidityPage() {
         register,
         setValue,
         getValues,
-        formState: {isValid},
-    } = useForm({mode: 'onChange'});
+        formState: { isValid },
+    } = useForm({ mode: 'onChange' });
 
     const [lastSide, setLastSide] = useState<('left' | 'right')>('left');
 
@@ -103,195 +104,163 @@ export default function AddLiquidityPage() {
     useEffect(() => updateAmount(lastSide), [leftReserved, rightReserved]);
 
     return (
-        <div className="container">
-            <div className="row">
-                <div className="col-lg-7 col-xl-5 mx-auto">
-                    <NavComponent/>
-                    <div className="card rounded shadow border-0">
-                        <form className="card-body p-40" action="">
+        <Container>
+            <Row className="justify-content-md-center">
+                <Col lg={7} xl={5}>
+                    <NavComponent />
+                    <Card>
+                        <Form>
                             <div className="d-flex align-items-center mb-4">
+                                <Button variant="btn btn-light p-2" onClick={go_back} className="me-3">
+                                    <i className="fa-regular fa-arrow-left" />
+                                </Button>
                                 <h2 className="card-title fs-24 fw-700 me-auto">
-                                    <a onClick={go_back} className="me-3">
-                                        <i className="fa-regular fa-arrow-left"/>
-                                    </a>
                                     Add Liquidity
                                 </h2>
-                                {/* <a href="#!" data-bs-toggle="modal" data-bs-target="#SettingsModal"> */}
-                                {/*     <i className="fa-regular fa-gear fa-lg" /> */}
-                                {/* </a> */}
                             </div>
 
-                            <div className="d-flex justify-content-between mb-3 px-2">
-                                <label htmlFor=""/>
-                                <div className="fw-500 color-grey">
-                                    Balance:
-                                    {' '}
-                                    <span>{`${(leftBalance ?? tonBalance).toString()} ${from.symbol}`}</span>
-                                </div>
-                            </div>
-                            <div className="input-group mb-4">
-                                <input
-                                    className="form-control fw-500 fs-18 px-3"
-                                    placeholder="0"
-                                    type="text"
-                                    inputMode="decimal"
-                                    aria-invalid="false"
-                                    {...register('left', {
-                                        onChange: (event) => {
-                                            fieldNormalizer('left', event.target.value, setValue);
-                                            updateAmount('left');
-                                        },
-                                        validate: (value) => value && parseFloat(value) > 0,
-                                    })}
-                                />
-                                <div className="input-group-text p-1">
-                                    <a
-                                        className="btn btn-sm bg-soft-blue rounded-8 d-flex align-items-center justify-content-center px-4"
-                                        style={{minWidth: '164px'}}
-                                        href="#!"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#TokenModalLeft"
-                                    >
-                                        <img
-                                            src={from.image}
-                                            width="24"
-                                            height="24"
-                                            alt={from.name}
-                                        />
-                                        <span
-                                            className="mx-3 fw-500 text-uppercase"
-                                        >
-                                            {from.symbol}
+                            <Form.Group className="mb-4">
+                                <div className="d-flex justify-content-between mb-2 px-1">
+                                    <Form.Label>You pay:</Form.Label>
+                                    {walletInfo ? (
+                                        <span className="small fw-500 color-grey">
+                                            Balance: {' '} {`${(leftBalance ?? tonBalance).toString()} ${from.symbol}`}
                                         </span>
-                                        <i className="fa-solid fa-ellipsis-vertical"/>
-                                    </a>
+                                    ) : ('')}
                                 </div>
-                            </div>
+                                <InputGroup className="mb-3">
+                                    <Form.Control
+                                        placeholder="0"
+                                        type="text"
+                                        inputMode="decimal"
+                                        aria-invalid="false"
+                                        {...register('left', {
+                                            onChange: (event) => {
+                                                fieldNormalizer('left', event.target.value, setValue);
+                                                updateAmount('left');
+                                            },
+                                            validate: (value) => value && parseFloat(value) > 0,
+                                        })}
+                                    />
+                                    <InputGroup.Text className="p-1">
+                                        <Button variant="btn btn-sm btn-light d-flex align-items-center justify-content-center p-2"
+                                            style={{ minWidth: '124px' }}
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#TokenModalLeft"
+                                        >
+                                            <img
+                                                src={from.image}
+                                                width="24"
+                                                height="24"
+                                                alt={from.name}
+                                            />
+                                            <span className="mx-3 fw-500 text-uppercase">
+                                                {from.symbol}
+                                            </span>
+                                            <i className="fa-solid fa-ellipsis-vertical"></i>
+                                        </Button>
+                                    </InputGroup.Text>
+                                </InputGroup>
+                            </Form.Group>
 
-                            <div className="d-flex justify-content-between mb-3 px-2">
-                                <label htmlFor="">+</label>
-                                <div className="fw-500 color-grey">
-                                    {'Balance: '}
-                                    <span>{`${(rightBalance ?? tonBalance).toString()} ${to.symbol}`}</span>
-                                </div>
-                            </div>
-                            <div className="input-group mb-4">
-                                <input
-                                    className="form-control fw-500 fs-18 px-3"
-                                    placeholder="0"
-                                    defaultValue={outAmount.toString()}
-                                    // disabled
-                                    {...register('right', {
-                                        onChange: (event) => {
-                                            fieldNormalizer('right', event.target.value, setValue);
-                                            updateAmount('right');
-                                        },
-                                        validate: (value) => value && parseFloat(value) > 0,
-                                    })}
-                                />
-                                <div className="input-group-text p-1">
-                                    <a
-                                        className="btn btn-sm bg-soft-blue rounded-8 d-flex align-items-center justify-content-center px-4"
-                                        style={{minWidth: '164px'}}
-                                        href="#!"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#TokenModalRight"
-                                    >
-                                        <img
-                                            src={to.image}
-                                            width="24"
-                                            height="24"
-                                            alt={to.name}
-                                        />
-                                        <span
-                                            className="mx-3 fw-500 text-uppercase"
-                                        >
-                                            {to.symbol}
+                            <Form.Group className="mb-4">
+                                <div className="d-flex justify-content-between mb-2 px-1">
+                                    <Form.Label>You receive:</Form.Label>
+                                    {walletInfo ? (
+                                        <span className="small fw-500 color-grey">
+                                            {'Balance: '} {`${(rightBalance ?? tonBalance).toString()} ${to.symbol}`}
                                         </span>
-                                        <i className="fa-solid fa-ellipsis-vertical"/>
-                                    </a>
+                                    ) : ('')}
                                 </div>
-                            </div>
+                                <InputGroup className="mb-3">
+                                    <Form.Control
+                                        placeholder="0"
+                                        defaultValue={outAmount.toString()}
+                                        // disabled
+                                        {...register('right', {
+                                            onChange: (event) => {
+                                                fieldNormalizer('right', event.target.value, setValue);
+                                                updateAmount('right');
+                                            },
+                                            validate: (value) => value && parseFloat(value) > 0,
+                                        })}
+                                    />
+                                    <InputGroup.Text className="p-1">
+                                        <Button variant="btn btn-sm btn-light d-flex align-items-center justify-content-center p-2"
+                                            style={{ minWidth: '124px' }}
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#TokenModalRight"
+                                        >
+                                            <img
+                                                src={to.image}
+                                                width="24"
+                                                height="24"
+                                                alt={to.name}
+                                            />
+                                            <span className="mx-3 fw-500 text-uppercase">
+                                                {to.symbol}
+                                            </span>
+                                            <i className="fa-solid fa-ellipsis-vertical"></i>
+                                        </Button>
+                                    </InputGroup.Text>
+                                </InputGroup>
+                            </Form.Group>
 
-                            <div className="card-alert p-4 bg-soft-blue rounded-8">
-                                <ul className="list-unstyled">
-                                    <li className="list-item d-flex mb-4">
-                                        <span className="me-auto fw-500">{`${from.symbol} per ${to.symbol}`}</span>
-                                        <span
-                                            className="text-muted"
+                            <ListGroup className="list-unstyled bg-light p-3 rounded-8 mb-4">
+                                <ListGroup.Item className="d-flex mb-3">
+                                    <span className="me-auto fw-500">{`${from.symbol} per ${to.symbol}`}</span>
+                                    <span className="text-muted">
+                                        {rightPrice.toString()}
+                                    </span>
+                                </ListGroup.Item>
+                                <ListGroup.Item className="d-flex mb-3">
+                                    <span className="me-auto fw-500">{`${to.symbol} per ${from.symbol}`}</span>
+                                    <span className="text-muted">
+                                        {leftPrice.toString()}
+                                    </span>
+                                </ListGroup.Item>
+                                <ListGroup.Item className="list-item d-flex">
+                                    <span className="me-auto fw-500">Share of Pool:</span>
+                                    <span className="text-muted">
+                                        {`${(share * 100).toFixed(2)}%`}
+                                    </span>
+                                </ListGroup.Item>
+                            </ListGroup>
+                            {isValid ? (
+                                (((leftBalance && leftBalance.gte(inAmount)) || (!leftBalance && tonBalance.gte(inAmount)))
+                                    && ((rightBalance && rightBalance.gte(outAmount)) || (!rightBalance && tonBalance.gte(outAmount))))
+                                    ? (
+                                        <Button
+                                            className="btn btn-primary w-100"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#ConfirmStake"
                                         >
-                                            {rightPrice.toString()}
-                                        </span>
-                                    </li>
-                                    <li className="list-item d-flex mb-4">
-                                        <span className="me-auto fw-500">{`${to.symbol} per ${from.symbol}`}</span>
-                                        <span
-                                            className="text-muted"
-                                        >
-                                            {leftPrice.toString()}
-                                        </span>
-                                    </li>
-                                    <li className="list-item d-flex">
-                                        <span className="me-auto fw-500">Share of Pool</span>
-                                        <span
-                                            className="text-muted"
-                                        >
-                                            {`${(share * 100).toFixed(2)}%`}
-                                        </span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div className="text-center mt-40 d-flex justify-content-center">
-                                {isValid ? (
-                                    (((leftBalance && leftBalance.gte(inAmount)) || (!leftBalance && tonBalance.gte(inAmount)))
-                                        && ((rightBalance && rightBalance.gte(outAmount)) || (!rightBalance && tonBalance.gte(outAmount))))
-                                        ? (
-                                            <button
-                                                type="button"
-                                                className="btn btn-primary"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#ConfirmStake"
-                                            >
-                                                Suggest
-                                            </button>
-                                        ) : (
-                                            <button type="button" className="btn btn-outline-primary"
-                                                    style={{cursor: 'not-allowed'}}>
-                                                {`Insufficient ${from.symbol} or ${to.symbol} balance`}
-                                            </button>
-                                        )
-                                ) : (
-                                    <button type="button" className="btn btn-outline-primary"
-                                            style={{cursor: 'not-allowed'}}>
-                                        Enter an amount
-                                    </button>
-                                )}
-                            </div>
-                        </form>
-                    </div>
-                    <div
-                        className="alert alert-dismissible bg-white rounded shadow border-0 fade show mt-40 p-4"
-                        role="alert"
-                    >
+                                            Add Liquidity
+                                        </Button>
+                                    ) : (
+                                        <div className="bg-soft-red text-center fw-500 p-3 w-100 rounded-8">
+                                            {`Insufficient ${from.symbol} or ${to.symbol} balance`}
+                                        </div>
+                                    )
+                            ) : (
+                                <div className="bg-soft-green text-center fw-500 p-3 w-100 rounded-8">
+                                    Enter an amount
+                                </div>
+                            )}
+                        </Form>
+                    </Card>
+                    <div className="alert alert-dismissible bg-light rounded shadow border-0 fade show mt-40 p-4" role="alert">
                         <div className="d-flex">
-                            <i className="fa-regular fa-circle-info fa-2x color-red mt-1"/>
+                            <i className="fa-regular fa-circle-info fa-2x color-red mt-1" />
                             <p className="ms-3 mb-0 pe-3 text-muted">
-                                By adding liquidity you&apos;ll earn 0.25% of all trades on this
-                                pair
-                                proportional to your share of the pool. Fees are added to the pool,
-                                accrue in real time and can be claimed by withdrawing
+                                By adding liquidity you'll earn 0.17% of all trades on this pair proportional to your share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing
                                 your liquidity.
                             </p>
                         </div>
-                        <button
-                            type="button"
-                            className="btn-close"
-                            data-bs-dismiss="alert"
-                            aria-label="Close"
-                        />
+                        <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" />
                     </div>
-                </div>
-            </div>
-        </div>
+                </Col>
+            </Row>
+        </Container>
     );
 }

@@ -123,7 +123,7 @@ export default function SwapPage() {
                                     <Form.Label>You pay:</Form.Label>
                                     {walletInfo ? (
                                         <span className="small fw-500 color-grey">
-                                            {'Balance: '} {`${(leftBalance ?? tonBalance).toString()} ${from.symbol}`}
+                                            Balance: {' '} {`${(leftBalance ?? tonBalance).toString()} ${from.symbol}`}
                                         </span>
                                     ) : ('')}
                                 </div>
@@ -204,19 +204,19 @@ export default function SwapPage() {
                             </Form.Group>
 
                             <ListGroup className="list-unstyled bg-light p-3 rounded-8 mb-4">
-                                <ListGroup.Item className="list-item d-flex mb-3">
+                                <ListGroup.Item className="d-flex mb-3">
                                     <span className="me-auto fw-500">Price:</span>
                                     <span className="text-muted">
                                         {`${(realPrice ?? '0').toString()} ${from.symbol} per 1 ${to.symbol}`}
                                     </span>
                                 </ListGroup.Item>
-                                <ListGroup.Item className="list-item d-flex mb-3">
+                                <ListGroup.Item className="d-flex mb-3">
                                     <span className="me-auto fw-500">Slippage Tolerance:</span>
                                     <span className="text-muted">
                                         {`${slippage}%`}
                                     </span>
                                 </ListGroup.Item>
-                                <ListGroup.Item className="list-item d-flex mb-3">
+                                <ListGroup.Item className="d-flex mb-3">
                                     <span className="me-auto fw-500">Minimum received:</span>
                                     <span className="text-muted">
                                         {`${(minReceived ?? '0').toString()} ${to.symbol}`}
