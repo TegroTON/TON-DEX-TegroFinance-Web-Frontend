@@ -1,18 +1,19 @@
-import {useContext} from 'react';
-import {QRCode} from 'react-qrcode-logo';
-import {DexContext, DexContextType} from '../../context';
+import { useContext } from 'react';
+import { QRCode } from 'react-qrcode-logo';
+import { DexContext, DexContextType } from '../../context';
+import { Modal } from 'react-bootstrap';
 
 export function ProcessingModal() {
-    const {walletInfo} = useContext(DexContext) as DexContextType;
+    const { walletInfo } = useContext(DexContext) as DexContextType;
     // const { swapInfo: { pair: { right } } } = dexInfo;
     // const symbol = right ? right.jetton.meta.symbol : 'TON';
 
     return (
         <div className="modal fade" id="ProcessingModal" tabIndex={-1} aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered mobile-modal-bottom">
-                <div className="modal-content border-0 rounded p-40">
-                    <div className="modal-body text-center py-5">
-                        <i className="fa-regular fa-server fa-3x mb-4 color-blue"/>
+                <div className="modal-content p-4">
+                    <Modal.Body className="text-center py-5">
+                        <i className="fa-regular fa-server fa-3x mb-4 color-blue" />
                         <h2 className="card-title fs-24 fw-700 mb-3 position-relative">
                             Processing
                             <span className="dots ms-1 mt-1">
@@ -42,7 +43,7 @@ export function ProcessingModal() {
                         {/*    <br /> */}
                         {/*    after this transaction has been processed. */}
                         {/* </p> */}
-                    </div>
+                    </Modal.Body>
                 </div>
             </div>
         </div>

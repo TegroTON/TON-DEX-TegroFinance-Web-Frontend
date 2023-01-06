@@ -5,6 +5,7 @@ import { DexBetaPairContract } from '../../ton/dex/contracts/DexBetaPairContract
 import { tonClient } from '../../ton';
 import { Token } from '../../ton/dex/api/types';
 import { TON_ADDRESS } from '../../ton/dex/constants';
+import { Modal, Button } from 'react-bootstrap';
 
 export function ConfirmSwapModal() {
     const {
@@ -76,70 +77,51 @@ export function ConfirmSwapModal() {
     return (
         <div className="modal fade" id="ConfirmSwap" tabIndex={-1} aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered mobile-modal-bottom">
-                <div className="modal-content border-0 rounded p-40">
-                    <div className="modal-header border-0 p-0 mb-40">
-                        <h5 className="modal-title" id="ConnectModalLabel">You get</h5>
-                        <button
-                            type="button"
-                            className="btn p-0"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                        >
-                            <i className="fa-solid fa-xmark fa-lg" />
-                        </button>
-                    </div>
-                    <div className="modal-body p-0">
+                <div className="modal-content p-4">
+                    <Modal.Header className="border-0 mb-40 p-0">
+                        <Modal.Title>You get</Modal.Title>
+                        <button type="button" className="btn border-0 p-0" data-bs-dismiss="modal" aria-label="Close"><i className="fa-solid fa-xmark fa-lg"></i></button>
+                    </Modal.Header>
+                    <Modal.Body className="p-0">
                         <div className="d-flex align-items-center mb-4">
-                            <img src={to.image} width="40" height="40" alt={to.name} />
+                            <img src={to.image} width="48" height="48" alt={to.name} />
                             <div className="ms-4">
                                 <h4 className="fs-24 fw-700 mb-0">{`${outAmount} ${to.symbol}`}</h4>
-                                <p className="mb-0 text-muted">{`${from.name} / ${to.name}`}</p>
+                                <p className="mb-0 fw-500 text-muted">{`${from.name} / ${to.name}`}</p>
                             </div>
                         </div>
                         <p className="mb-40 text-muted">
-                            {`The result is an orienteer. If the price changes by more than ${slippage}%, `}
+                        The result is an orienteer. If the price changes by more than <span className="fw-700 color-blue">{`${slippage}%`}</span>,
                             <span
                                 className="d-inline d-md-block"
                             >
                                 the transaction will be returned.
                             </span>
                         </p>
-                        <div className="card-alert p-4 bg-soft-blue rounded-8 mb-40">
-                            <ul className="list-unstyled">
-                                <li className="list-item d-flex mb-4">
-                                    <span className="me-auto fw-500">Min Received:</span>
-                                    <span
-                                        className="text-muted"
-                                    >
-                                        {`${minReceived.toString()} ${to.symbol}`}
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="text-center">
-                            <button
-                                type="button"
-                                className="btn btn-sm color-red me-3"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                            >
+                        <ul className="list-unstyled card-alert p-3 bg-light rounded-8 mb-4">
+                            <li className="list-item d-flex mb-0">
+                                <span className="me-auto fw-500">Min Received:</span>
+                                <span
+                                    className="text-muted"
+                                >
+                                    {`${minReceived.toString()} ${to.symbol}`}
+                                </span>
+                            </li>
+                        </ul>
+                        <div className="d-flex">
+                            <Button className="btn btn-outline-light me-auto" data-bs-dismiss="modal" aria-label="Close">
                                 Cancel
-                            </button>
-                            <button
-                                type="button"
-                                className="btn btn-sm btn-danger"
-                                data-bs-dismiss="modal"
-                                data-bs-toggle="modal"
-                                data-bs-target="#ProcessingModal"
+                            </Button>
+                            <Button className="btn btn-red" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#ProcessingModal"
                                 onClick={async () => {
                                     await handleConfirm();
                                 }}
                             >
                                 <i className="fa-regular fa-circle-plus me-2" />
                                 Confirm offer
-                            </button>
+                            </Button>
                         </div>
-                    </div>
+                    </Modal.Body>
                 </div>
             </div>
         </div>

@@ -1,7 +1,8 @@
 import { useContext } from 'react';
-import {Address, BOC, Builder, Coins} from 'ton3-core';
+import { Address, BOC, Builder, Coins } from 'ton3-core';
 import { tonClient } from '../../ton';
 import { DexContext, DexContextType } from '../../context';
+import { Modal, Button } from 'react-bootstrap';
 
 export function RemoveLiquidityModal() {
     const {
@@ -37,36 +38,24 @@ export function RemoveLiquidityModal() {
     return (
         <div className="modal fade" id="RemoveLiquidity" tabIndex={-1} aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered mobile-modal-bottom">
-                <div className="modal-content border-0 rounded p-40">
-                    <div className="modal-body text-center p-0">
-                        <p className="fs-24 mb-40 pb-3">
-                            Are you sure you want to remove
-                            <span className="d-inline d-md-block">
-                                liquidity?
-                            </span>
-                        </p>
-                        <button
-                            type="button"
-                            className="btn btn-sm color-red me-3"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            type="button"
-                            className="btn btn-sm btn-danger"
-                            data-bs-dismiss="modal"
-                            data-bs-toggle="modal"
-                            data-bs-target="#ProcessingModal"
-                            onClick={async () => {
-                                await handleConfirm();
-                            }}
-                        >
-                            <i className="fa-regular fa-trash-can me-2" />
-                            Remove Liquidity
-                        </button>
-                    </div>
+                <div className="modal-content p-4">
+                    <Modal.Body className="text-center py-5">
+                        <p className="fs-24 mb-5 pb-3">Are you sure you want to delete <span className="d-inline d-md-block">the liquidation?</span></p>
+                        <div className="d-flex">
+                            <Button className="btn btn-light me-auto" data-bs-dismiss="modal" aria-label="Close">Cancel</Button>
+                            <Button className="btn btn-sm btn-red"
+                             data-bs-dismiss="modal"
+                             data-bs-toggle="modal"
+                             data-bs-target="#ProcessingModal"
+                             onClick={async () => {
+                                 await handleConfirm();
+                             }}
+                            >
+                                <i className="fa-regular fa-trash-can me-2"></i>
+                                Remove Liquidity
+                            </Button>
+                        </div>
+                    </Modal.Body>
                 </div>
             </div>
         </div>
