@@ -9,7 +9,7 @@ const endpoint = 'https://api.tegro.finance';
 // const endpoint = "http://5.188.119.227:8081"
 
 const normalizeToken = (t: any): Token => ({
-    image: t.symbol !== 'TON' ? `${endpoint}/tokens/${t.symbol}/image` : 'images/ton.png',
+    image: t.symbol !== 'TON' ? `${endpoint}/tokens/${t.symbol}/image` : 'assets/images/ton.png',
     name: t.name,
     symbol: t.symbol,
     decimals: t.decimals,

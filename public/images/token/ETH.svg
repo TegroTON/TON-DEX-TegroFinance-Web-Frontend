@@ -1,6 +1,0 @@
-<svg width="640" height="640" viewBox="0 0 640 640" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M320 0C143.269 0 0 143.269 0 320C0 496.731 143.269 640 320 640C496.731 640 640 496.731 640 320C640 143.269 496.731 0 320 0Z" fill="#2C3C7A"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M320 89.9199L180 320L320 406V89.9199ZM180 342.857L320 550V430L180 342.857Z" fill="white"/>
-<path opacity="0.92" fill-rule="evenodd" clip-rule="evenodd" d="M180 320L320 406L460 320L320 89.9199V234L180 320ZM320 550L460 342.857L320 430V550Z" fill="#BACAF5"/>
-<path d="M320 234L320 406L460 320L320 234Z" fill="#88A2EB"/>
-</svg>

@@ -1,6 +1,6 @@
 function getTheme() {
-    return window.localStorage.getItem('theme') || ''; // Default to Light if key not present.
-} 
+    return window.localStorage.getItem('theme') || 'light-theme'; // Default to Light if key not present.
+}
 
 function getOppositeTheme() {
     const theme = getTheme();

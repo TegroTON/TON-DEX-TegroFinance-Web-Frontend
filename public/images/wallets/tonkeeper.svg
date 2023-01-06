@@ -1,7 +1,0 @@
-<svg fill="none" height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <g fill="#45aef5">
-        <path d="M12 9.75L0 5.25l12-4.5 12 4.5z"></path>
-        <path d="M12 9.75l12-4.5-12 18z" opacity="0.6"></path>
-        <path d="M12 9.75L0 5.25l12 18z" opacity="0.8"></path>
-    </g>
-</svg>
