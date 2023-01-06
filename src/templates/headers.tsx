@@ -24,16 +24,16 @@ export function DefaultHeader() {
                     </Link>
                     <div className="d-block d-lg-none ms-auto me-4">
                         {walletInfo?.isConnected ? (
-                            <Nav.Item className="dropdown">
-                                <Nav.Link className="btn-sm-mobile box-blur border rounded-8 text-nowrap d-flex align-items-center"
+                            <div className="dropdown">
+                                <Nav.Link className="btn btn-sm-mobile box-blur border text-nowrap d-flex align-items-center"
                                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="/images/ton.png" width={18} height={18} alt="Ton Coin" />
+                                    <img src="/assets/images/ton.png" width={18} height={18} alt="Ton Coin" />
                                     <span className="fw-medium ms-2">
                                         {`${walletInfo.balance ? walletInfo.balance.toString().slice(0, 6) : 'Load...'} TON`}
                                     </span>
                                     <i className="fa-solid fa-angle-down ms-3" />
                                 </Nav.Link>
-                                <div className="dropdown-menu" data-bs-popper="static">
+                                <div className="dropdown-menu bg-second border-0 mr-4 mt-2 shadow rounded position-absolute" data-bs-popper="static">
                                     <NavDropdown.Item className="d-flex align-items-center"
                                         onClick={() => navigator.clipboard.writeText(`${walletInfo.address.toString()}`)}
                                     >
@@ -57,7 +57,7 @@ export function DefaultHeader() {
                                         </div>
                                     </NavDropdown.Item>
                                 </div>
-                            </Nav.Item>
+                            </div>
                         ) : (
 
                             <Nav.Item className="btn btn-sm btn-primary btn-sm-mobile text-nowrap"
@@ -381,7 +381,7 @@ export function DefaultHeader() {
                                     <Nav.Item className="dropdown">
                                         <Nav.Link className="box-blur border rounded-8 text-nowrap d-flex align-items-center"
                                             role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img src="/images/ton.png" width={18} height={18} alt="Ton Coin" />
+                                            <img src="/assets/images/ton.png" width={18} height={18} alt="Ton Coin" />
                                             <span className="fw-medium ms-2">
                                                 {`${walletInfo.balance ? walletInfo.balance.toString().slice(0, 6) : 'Load...'} TON`}
                                             </span>

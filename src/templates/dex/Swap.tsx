@@ -133,6 +133,7 @@ export default function SwapPage() {
                                         type="text"
                                         inputMode="decimal"
                                         aria-invalid="false"
+                                        autoComplete="off"
                                         {...register('left', {
                                             onChange: (event) => {
                                                 fieldNormalizer('left', event.target.value, setValue);
