@@ -566,6 +566,11 @@ h3 {
     color: var(--text-primary);
 }
 
+.modal-title.h4 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
 .list-style-inside {
     list-style: none;
 }
