@@ -162,7 +162,11 @@ export default function SwapPage() {
                                     </InputGroup.Text>
                                 </InputGroup>
                             </Form.Group>
-
+                            <Form.Group className="swap-exchange-arrow d-flex justify-content-center">
+                                <Button variant="swap-exchange-arrow__button btn-light btn-icon">
+                                <i className="fa-regular fa-arrow-up-arrow-down"></i>
+                                </Button>
+                            </Form.Group>
                             <Form.Group className="mb-4">
                                 <div className="d-flex justify-content-between mb-2 px-1">
                                     <Form.Label>You receive:</Form.Label>
@@ -173,7 +177,7 @@ export default function SwapPage() {
                                     ) : ('')}
                                 </div>
                                 <InputGroup className="mb-3">
-                                    <Form.Control
+                                    <Form.Control className="bg-light"
                                         placeholder="0"
                                         defaultValue={outAmount.toString()}
                                         disabled
@@ -182,8 +186,8 @@ export default function SwapPage() {
                                             validate: (value) => value && parseFloat(value) > 0,
                                         })}
                                     />
-                                    <InputGroup.Text className="p-1">
-                                        <Button variant="btn btn-sm btn-light d-flex align-items-center justify-content-center p-2"
+                                    <InputGroup.Text className="p-1 bg-light">
+                                        <Button variant="btn btn-sm btn-light border d-flex align-items-center justify-content-center p-2"
                                             style={{ minWidth: '124px' }}
                                             data-bs-toggle="modal"
                                             data-bs-target="#TokenModalRight"

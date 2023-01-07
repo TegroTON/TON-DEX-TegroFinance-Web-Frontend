@@ -121,7 +121,7 @@ export default function AddLiquidityPage() {
 
                             <Form.Group className="mb-4">
                                 <div className="d-flex justify-content-between mb-2 px-1">
-                                    <Form.Label>You pay:</Form.Label>
+                                    <Form.Label>{from.symbol}:</Form.Label>
                                     {walletInfo ? (
                                         <span className="small fw-500 color-grey">
                                             Balance: {' '} {`${(leftBalance ?? tonBalance).toString()} ${from.symbol}`}
@@ -162,10 +162,14 @@ export default function AddLiquidityPage() {
                                     </InputGroup.Text>
                                 </InputGroup>
                             </Form.Group>
-
+                            <Form.Group className="swap-exchange-arrow d-flex justify-content-center">
+                                <Button variant="swap-exchange-arrow__button btn-light btn-icon">
+                                    <i className="fa-regular fa-arrow-up-arrow-down"></i>
+                                </Button>
+                            </Form.Group>
                             <Form.Group className="mb-4">
                                 <div className="d-flex justify-content-between mb-2 px-1">
-                                    <Form.Label>You receive:</Form.Label>
+                                    <Form.Label>{to.symbol}:</Form.Label>
                                     {walletInfo ? (
                                         <span className="small fw-500 color-grey">
                                             {'Balance: '} {`${(rightBalance ?? tonBalance).toString()} ${to.symbol}`}
