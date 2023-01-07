@@ -380,15 +380,15 @@ export function DefaultHeader() {
                                     </div>
                                     </Nav.Item>*/}
                                 <Nav.Item className="me-0 me-lg-2">
-                                    <Nav.Link href="javascript://" className="btn-toggle-mode">
+                                    <Nav.Link href="javascript://" onClick={switchTheme}>
                                         <div className="dark-mode-icon w-100">
-                                            <div className="d-flex align-items-center w-100" onClick={switchTheme}>
+                                            <div className="d-flex align-items-center w-100">
                                                 <span className="d-inline d-lg-none me-auto">Dark Mode</span>
                                                 <i className="fa-solid fa-moon fs-18" style={{ transform: 'rotate(210deg)' }} />
                                             </div>
                                         </div>
                                         <div className="light-mode-icon w-100">
-                                            <div className="d-flex align-items-center w-100" onClick={switchTheme}>
+                                            <div className="d-flex align-items-center w-100">
                                                 <span className="d-inline d-lg-none me-auto">Light Mode</span>
                                                 <i className="fa-solid fa-sun-bright fs-18" />
                                             </div>
