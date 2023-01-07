@@ -1209,6 +1209,15 @@ h3 {
     margin: -12px 0 -20px 0;
 }
 
+.btn-swap-exchange-arrow__button {
+    transform: rotate(0deg);
+    transition: all .3s;
+}
+
+.btn-swap-exchange-arrow__button:active, .btn-swap-exchange-arrow__button:focus {
+    transform: rotate(180deg);
+}
+
 @media (max-width: 500px) {
     .wrapper {
         min-height: 100vh;
