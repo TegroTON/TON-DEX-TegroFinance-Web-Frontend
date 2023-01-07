@@ -283,13 +283,14 @@ hr {
 }
 
 button.btn.btn-icon {
-    min-width: 44px;
-    height: 44px;
+    min-width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 15px;
     padding: 0;
+    border-radius: 4px;
 }
 
 .btn-sm {
@@ -304,14 +305,15 @@ button.btn.btn-icon {
     max-height: 32px;
 }
 
-.btn-swap {
-    color: var(--blue-500);
-    opacity: 0.5
-}
-
 .btn.btn-primary {
     border-color: var(--blue-500);
     background-color: var(--blue-500);
+    color: #ffffff;
+}
+
+.btn.btn-primary:hover, .btn.btn-primary:active {
+    border-color: var(--blue-700);
+    background-color: var(--blue-700);
     color: #ffffff;
 }
 
@@ -321,9 +323,9 @@ button.btn.btn-icon {
     color: var(--blue-500);
 }
 
-.btn.btn-primary:hover, .btn.btn-primary:active, .btn.btn-outline-primary:hover, .btn.btn-outline-primary:active {
-    border-color: var(--blue-700);
-    background-color: var(--blue-700);
+.btn.btn-outline-primary:hover, .btn.btn-outline-primary:active {
+    border-color: var(--blue-500);
+    background-color: var(--blue-500);
     color: #ffffff;
 }
 
@@ -628,7 +630,7 @@ h3 {
 }
 
 .list-style-inside li a::before {
-    content: 'Ã¢â‚¬Â¢';
+    content: 'ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢';
     margin-right: 8px;
 }
 
@@ -1203,6 +1205,10 @@ h3 {
     margin: 0;
 }
 
+.swap-exchange-arrow {
+    margin: -12px 0 -20px 0;
+}
+
 @media (max-width: 500px) {
     .wrapper {
         min-height: 100vh;
@@ -1224,6 +1230,10 @@ h3 {
 
     .card-body.p-32, .modal-content.p-32 {
         padding: 24px !important;
+    }
+
+    .swap-exchange-arrow {
+        margin: -12px 0 12px 0;
     }
 
     .modal-content {
