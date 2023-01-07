@@ -95,7 +95,7 @@ export function DefaultFooter() {
                                 className="soc-link px-3 text-muted fs-18"
                                 rel="noreferrer"
                             >
-                                <i className="fa-brands fa-github"></i>
+                                <i className="fa-brands fa-github" />
                             </a>
                         </div>
                     </div>
