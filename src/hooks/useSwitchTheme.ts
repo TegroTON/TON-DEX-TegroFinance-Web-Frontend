@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-export type ThemeType = ('auto-mode' | 'light-mode' | 'dark-mode');
+export type ThemeType = ('light-mode' | 'dark-mode');
 
 const getTheme = () => {
-    return window.localStorage.getItem('theme') as ThemeType || 'auto-mode'
+    return window.localStorage.getItem('theme') === 'dark-mode' ? 'dark-mode' : 'light-mode';
 }
 
 const saveTheme = (newTheme: ThemeType) => {
