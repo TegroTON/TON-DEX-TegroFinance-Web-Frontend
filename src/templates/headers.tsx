@@ -1,8 +1,9 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
+import {useContext, useState} from 'react';
 import { DexContext, DexContextType } from '../context';
 import { DeLabButtonLabel, DeLabConnector } from '../deLabContext';
 import { Container, Row, Col, Nav, Navbar, NavDropdown, Dropdown, Button, Form, InputGroup } from 'react-bootstrap';
+import {log} from "util";
 
 export function DefaultHeader() {
     const navigate = useNavigate();
@@ -15,9 +16,15 @@ export function DefaultHeader() {
     };
     const go_back = () => navigate(-1);
 
+    const [expanded, setExpanded] = useState<boolean>(false);
+    console.log(expanded)
     return (
         <header className="header border-bottom mb-5">
-            <Navbar expand="lg">
+            <Navbar expand="lg"
+                    collapseOnSelect
+                    expanded={expanded}
+                    onToggle={() => setExpanded(!expanded)}
+                    onSelect={() => setExpanded(false)}>
                 <Container fluid className="px-auto px-xl-5">
                     <Link to="/" className="header__logo">
                         <img src="/assets/images/logotype.svg" alt="" className="header__logo-img" />
@@ -75,12 +82,24 @@ export function DefaultHeader() {
                     </Navbar.Toggle>
                     <Navbar.Collapse id="navbarDexContent">
                         <div className="d-flex flex-column flex-lg-row w-100">
-                            <Nav className="d-block d-lg-flex align-items-center order-2 order-lg-1">
+                            <Nav className="d-block d-lg-flex align-items-center order-2 order-lg-1" >
                                 <Nav.Item>
-                                    <Link className={`nav-link text-nowrap ${location.pathname === '/' ? 'active-link' : ''}`} to="/">Exchange</Link>
+                                    <Link
+                                        className={`nav-link text-nowrap ${location.pathname === '/' ? 'active-link' : ''}`}
+                                        to="/"
+                                        onClick={() => setExpanded(false)}
+                                    >
+                                        Exchange
+                                    </Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Link className={`nav-link text-nowrap ${location.pathname.slice(0, 10) === '/liquidity' ? 'active-link' : ''}`} to="/liquidity">Liquidity</Link>
+                                    <Link
+                                        className={`nav-link text-nowrap ${location.pathname.slice(0, 10) === '/liquidity' ? 'active-link' : ''}`}
+                                        to="/liquidity"
+                                        onClick={() => setExpanded(false)}
+                                    >
+                                        Liquidity
+                                    </Link>
                                 </Nav.Item>
                                 <Nav.Item className="dropdown">
                                     <Nav.Link className="text-nowrap" role="button" data-bs-toggle="dropdown" aria-expanded="false">
