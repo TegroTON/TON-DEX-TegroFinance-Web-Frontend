@@ -750,6 +750,10 @@ h3 {
     position: sticky;
 }
 
+.header .container-fluid {
+    max-width: 1920px;
+}
+
 .header__logo {
     margin-right: 16px;
 }
