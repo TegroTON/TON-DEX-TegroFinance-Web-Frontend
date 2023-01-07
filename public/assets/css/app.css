@@ -1434,7 +1434,7 @@ h3 {
     .table-referal tr td:nth-child(2)::before {
         content: "Pay / Receive";
     }
-
+ 
     .table-referal tr td:nth-child(3)::before {
         content: "Date";
     }
