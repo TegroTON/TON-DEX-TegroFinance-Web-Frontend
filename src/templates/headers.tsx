@@ -393,7 +393,7 @@ export function DefaultHeader() {
                                     </Nav.Link>
                                 </Nav.Item>
                                 {walletInfo?.isConnected ? (
-                                    <Nav.Item className="dropdown">
+                                    <Nav.Item className="dropdown d-none d-lg-block">
                                         <Nav.Link className="box-blur border rounded-8 text-nowrap d-flex align-items-center"
                                             role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             <img src="/assets/images/ton.png" width={18} height={18} alt="Ton Coin" />
