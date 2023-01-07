@@ -81,9 +81,9 @@ export function ConfirmStakeModal() {
                 <div className="modal-content p-4">
                     <Modal.Body className="text-center py-5">
                         <p className="fs-24 mb-5 pb-3">Do you want to stake?</p>
-                        <div className="d-flex">
-                            <Button className="btn btn-light me-auto" data-bs-dismiss="modal" aria-label="Close">Cancel</Button>
-                            <Button className="btn btn-sm btn-red"
+                        <div className="d-flex flex-column flex-md-row justify-content-center">
+                            <Button className="btn btn-light me-0 me-md-3" data-bs-dismiss="modal" aria-label="Close">Cancel</Button>
+                            <Button className="btn btn-red mt-3 mt-md-0"
                                 data-bs-dismiss="modal"
                                 data-bs-toggle="modal"
                                 data-bs-target="#ProcessingModal"

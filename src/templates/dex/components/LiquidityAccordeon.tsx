@@ -37,7 +37,7 @@ export function LiquidityAccordionComponent(
     };
 
     return (
-        <div className="accordion" id="accordionLiquidity">
+        <div className="accordion mb-4" id="accordionLiquidity">
             <div className="accordion-item py-4 collapsed" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
                 <div className="d-flex align-items-center">
                     <div className="accordion-item__images">
