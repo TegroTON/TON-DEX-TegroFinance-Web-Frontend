@@ -89,6 +89,14 @@ export function DefaultFooter() {
                                     className="fa-brands fa-linkedin-in"
                                 />
                             </a>
+                            <a
+                                href="https://github.com/TegroTON/"
+                                target="_blank"
+                                className="soc-link px-3 text-muted fs-18"
+                                rel="noreferrer"
+                            >
+                                <i className="fa-brands fa-github"></i>
+                            </a>
                         </div>
                     </div>
                 </div>

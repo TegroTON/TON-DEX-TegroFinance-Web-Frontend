@@ -233,11 +233,11 @@ export function DefaultHeader() {
                                                         <div className="text-muted small">Use all the features of the service</div>
                                                     </div>
                                                 </NavDropdown.Item>
-                                                <NavDropdown.Item className="d-flex" href="https://tegro.money/company-career/" target="_blank">
-                                                    <i className="fa-light fa-code dropdown-item-icon" />
+                                                <NavDropdown.Item className="d-flex" href="https://tegro.gitbook.io/en/dex/bug-bounty" target="_blank">
+                                                    <i className="fa-light fa-bug dropdown-item-icon"/>
                                                     <div className="ms-3">
-                                                        Jobs
-                                                        <div className="text-muted small">Leaders in the provision of services</div>
+                                                    Bug Bounty
+                                                        <div className="text-muted small">You can be rewarded for finding vulnerabilities in Tegro.Finance</div>
                                                     </div>
                                                 </NavDropdown.Item>
                                             </Col>
@@ -256,7 +256,7 @@ export function DefaultHeader() {
                                                         <div className="text-muted small">Last updated October 18, 2022.</div>
                                                     </div>
                                                 </NavDropdown.Item>
-                                                <NavDropdown.Item className="d-flex" href="https://tegro.money/contacts/" target="_blank">
+                                                <NavDropdown.Item className="d-flex" href="https://t.me/TegroForum" target="_blank">
                                                     <i className="fa-light fa-envelope-open-text dropdown-item-icon" />
                                                     <div className="ms-3">
                                                         Contact Us

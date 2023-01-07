@@ -630,7 +630,7 @@ h3 {
 }
 
 .list-style-inside li a::before {
-    content: 'ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢';
+    content: 'ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢';
     margin-right: 8px;
 }
 
@@ -1212,6 +1212,8 @@ h3 {
 .btn-swap-exchange-arrow__button {
     transform: rotate(0deg);
     transition: all .3s;
+    color: var(--text-second);
+    border: 0;
 }
 
 .btn-swap-exchange-arrow__button:active, .btn-swap-exchange-arrow__button:focus {

@@ -163,7 +163,7 @@ export default function AddLiquidityPage() {
                                 </InputGroup>
                             </Form.Group>
                             <Form.Group className="swap-exchange-arrow d-flex justify-content-center">
-                                <Button variant="swap-exchange-arrow__button btn-light btn-icon">
+                                <Button variant="swap-exchange-arrow__button">
                                     <i className="fa-regular fa-arrow-up-arrow-down"></i>
                                 </Button>
                             </Form.Group>

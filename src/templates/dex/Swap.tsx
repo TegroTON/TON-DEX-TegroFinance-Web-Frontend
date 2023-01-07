@@ -163,8 +163,8 @@ export default function SwapPage() {
                                 </InputGroup>
                             </Form.Group>
                             <Form.Group className="swap-exchange-arrow d-flex justify-content-center">
-                                <Button variant="swap-exchange-arrow__button btn-light btn-icon">
-                                <i className="fa-regular fa-arrow-up-arrow-down"></i>
+                                <Button variant="swap-exchange-arrow__button btn-icon">
+                                    <i className="fa-regular fa-arrow-up-arrow-down"></i>
                                 </Button>
                             </Form.Group>
                             <Form.Group className="mb-4">
@@ -206,7 +206,6 @@ export default function SwapPage() {
                                     </InputGroup.Text>
                                 </InputGroup>
                             </Form.Group>
-
                             <ListGroup className="list-unstyled bg-light p-3 rounded-8 mb-4">
                                 <ListGroup.Item className="d-flex mb-3">
                                     <span className="me-auto fw-500">Price:</span>
