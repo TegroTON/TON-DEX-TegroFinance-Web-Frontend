@@ -6,7 +6,7 @@ export function NavComponent() {
 
     return (
         <>
-            <Nav justify variant="pills" className="content-nav-pills mb-3 d-flex d-lg-none" defaultActiveKey="/">
+            <Nav justify variant="pills" className="content-nav-pills mb-3 mb-lg-4 d-flex" defaultActiveKey="/">
                 <Nav.Item>
                     <Link className={`nav-link btn ${location.pathname === '/' ? 'active' : ''}`} to="/">Exchange</Link>
                 </Nav.Item>
