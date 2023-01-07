@@ -59,7 +59,6 @@ export function DefaultHeader() {
                                 </div>
                             </div>
                         ) : (
-
                             <Nav.Item className="btn btn-sm btn-primary btn-sm-mobile text-nowrap"
                                 onClick={() => DeLabConnector.openModal()}
                             >
@@ -69,14 +68,11 @@ export function DefaultHeader() {
                             </Nav.Item>
                         )}
                     </div>
-
-
                     <Navbar.Toggle data-bs-target="#navbarDexContent" data-bs-toggle="collapse" className="btn-toogler">
                         <span />
                         <span />
                         <span />
                     </Navbar.Toggle>
-
                     <Navbar.Collapse id="navbarDexContent">
                         <div className="d-flex flex-column flex-lg-row w-100">
                             <Nav className="d-block d-lg-flex align-items-center order-2 order-lg-1">
@@ -344,7 +340,7 @@ export function DefaultHeader() {
                                 </Form>
                             </Nav>
                             <Nav className="d-block d-lg-flex align-items-center align-items-lg-center border-top-mobile order-3 ms-0 ms-lg-2">
-                                <Nav.Item className="dropdown">
+                                {/* <Nav.Item className="dropdown">
                                     <Nav.Link role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         <i className="fa-light fa-globe fa-lg d-none d-lg-block" />
                                         <span className="d-inline d-lg-none">Language</span>
@@ -360,9 +356,9 @@ export function DefaultHeader() {
                                             Spanish
                                         </NavDropdown.Item>
                                     </div>
-                                </Nav.Item>
-                                <Nav.Item className="btn-toggle-mode me-0 me-lg-2">
-                                    <Nav.Link href="javascript://">
+                                    </Nav.Item>*/}
+                                <Nav.Item className="me-0 me-lg-2">
+                                    <Nav.Link href="javascript://" className="btn-toggle-mode">
                                         <div className="dark-mode-icon w-100">
                                             <div className="d-flex align-items-center w-100">
                                                 <span className="d-inline d-lg-none me-auto">Dark Mode</span>
