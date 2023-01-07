@@ -623,14 +623,14 @@ h3 {
     list-style: none;
 }
 
-.list-style-inside li a {
+.list-style-inside a {
     position: relative;
     display: flex;
     align-items: center;
 }
 
-.list-style-inside li a::before {
-    content: 'ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢';
+.list-style-inside a::before {
+    content: '\23';
     margin-right: 8px;
 }
 
