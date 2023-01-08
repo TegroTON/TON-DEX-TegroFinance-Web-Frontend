@@ -623,14 +623,14 @@ h3 {
     list-style: none;
 }
 
-.list-style-inside li a {
+.list-style-inside a {
     position: relative;
     display: flex;
     align-items: center;
 }
 
-.list-style-inside li a::before {
-    content: 'ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢';
+.list-style-inside a::before {
+    content: '\23';
     margin-right: 8px;
 }
 
@@ -748,6 +748,10 @@ h3 {
     z-index: 99;
     padding: 9px 0;
     position: sticky;
+}
+
+.header .container-fluid {
+    max-width: 1920px;
 }
 
 .header__logo {
@@ -1212,6 +1216,8 @@ h3 {
 .btn-swap-exchange-arrow__button {
     transform: rotate(0deg);
     transition: all .3s;
+    color: var(--text-second);
+    border: 0;
 }
 
 .btn-swap-exchange-arrow__button:active, .btn-swap-exchange-arrow__button:focus {
@@ -1434,7 +1440,7 @@ h3 {
     .table-referal tr td:nth-child(2)::before {
         content: "Pay / Receive";
     }
-
+ 
     .table-referal tr td:nth-child(3)::before {
         content: "Date";
     }
