@@ -45,7 +45,7 @@ export default function LiquidityPage() {
                                             return (
                                                 <LiquidityAccordionComponent
                                                     pair={PAIR}
-                                                    lpBalance={pp.lpBalance}
+                                                    poolPosition={pp}
                                                     key={k}
                                                     k={k}
                                                 />

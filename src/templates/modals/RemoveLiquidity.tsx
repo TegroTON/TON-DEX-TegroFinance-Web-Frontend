@@ -7,16 +7,20 @@ import { Modal, Button } from 'react-bootstrap';
 export function RemoveLiquidityModal() {
     const {
         walletInfo,
-        poolPositions,
+        removePosition,
+        poolPositions
     } = useContext(DexContext) as DexContextType;
+    const poolPosition = !removePosition ? poolPositions.length > 0 ? poolPositions[0] : null : removePosition;
+    if (!poolPosition) return (<></>);
+
     const tonBalance = walletInfo ? walletInfo.balance : new Coins(0);
     const handleConfirm = async () => {
-        const pairAddress = poolPositions[0].pair;
+        const pairAddress = poolPosition.pair;
         const wallet = await tonClient.Jetton.getWalletAddress(pairAddress, walletInfo!.address);
         const payload = new Builder()
             .storeUint(0x595f07bc, 32)
             .storeUint(515, 64)
-            .storeCoins(poolPositions[0].lpBalance)
+            .storeCoins(poolPosition.lpBalance)
             .storeAddress(walletInfo!.address)
             .storeBit(0)
             .cell();

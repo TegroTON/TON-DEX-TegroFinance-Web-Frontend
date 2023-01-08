@@ -3,18 +3,21 @@ import { Address, Coins } from 'ton3-core';
 import { DexContext, DexContextType } from '../../../context';
 import {Pair, Token} from '../../../ton/dex/api/types';
 import { Button } from 'react-bootstrap';
+import {RemoveLiquidityModal} from "../../modals";
+import {PoolPosition} from "../../../types";
 
 export function LiquidityAccordionComponent(
     {
         pair,
-        lpBalance,
+        poolPosition,
         k,
     }:
-        { pair: Pair, lpBalance: Coins, k: number },
+        { pair: Pair, poolPosition: PoolPosition, k: number },
 ) {
     const {
         pairs,
         tokens,
+        setRemovePosition
     } = useContext(DexContext) as DexContextType;
 
     const {
@@ -25,7 +28,7 @@ export function LiquidityAccordionComponent(
         lpSupply,
     } = pair;
 
-    const share = new Coins(lpBalance).div(lpSupply.toString());
+    const share = new Coins(poolPosition.lpBalance).div(lpSupply.toString());
 
     const l = tokens?.find((t) => t.address.eq(leftToken.address)) as Token;
 
@@ -75,7 +78,7 @@ export function LiquidityAccordionComponent(
                         </li>
                     </ul>
                     <div className="text-center mt-3">
-                        <Button variant="btn btn-ms btn-outline-red" data-bs-toggle="modal" data-bs-target="#RemoveLiquidity">
+                        <Button onClick={() => {setRemovePosition(poolPosition)}} variant="btn btn-ms btn-outline-red" data-bs-toggle="modal" data-bs-target="#RemoveLiquidity">
                             <i className="fa-regular fa-trash-can me-2" />
                             Remove Liquidity
                         </Button>

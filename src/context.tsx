@@ -44,6 +44,8 @@ export type DexContextType = {
 
     slippage: number;
     switchSwap: () => void;
+    setRemovePosition: (x: PoolPosition | null) => void;
+    removePosition: PoolPosition | null;
 };
 
 export const DexContext = React.createContext<DexContextType | null>(null);
@@ -186,7 +188,7 @@ export const DexContextProvider: React.FC<Props> = ({ children }) => {
             const pair2 = await getPair("TON", rightSwapToken.symbol, tokens);
             setSwapPairs([pair1, pair2]);
         }
-        console.log("reserves updated")
+        // console.log("reserves updated")
     }
 
     const updateSlippage = (newSlippage: number) => {
@@ -287,6 +289,8 @@ export const DexContextProvider: React.FC<Props> = ({ children }) => {
     const swapLeft = {token: leftSwapToken, userWallet: leftUserWallet, userBalance: leftUserBalance}
     const swapRight = {token: rightSwapToken, userWallet: rightUserWallet, userBalance: rightUserBalance}
 
+    const [removePosition, setRemovePosition] = React.useState<PoolPosition | null>(null);
+
     return (
         <DexContext.Provider value={{
             pairs,
@@ -306,7 +310,9 @@ export const DexContextProvider: React.FC<Props> = ({ children }) => {
             updatePoolPair,
             updatePoolParams,
             slippage,
-            switchSwap
+            switchSwap,
+            removePosition,
+            setRemovePosition
         }}
         >
             {children}
