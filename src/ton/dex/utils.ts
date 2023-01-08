@@ -5,9 +5,9 @@ import { Pair, Pairs } from './api/types';
 
 export const getPairByTokens = (pairs: Pairs, token1: Address, token2: Address): Pair => {
     // const pairs = await getPairs(null);
-    const pair = pairs.find((p) => ((p.leftToken.eq(token1) && p.rightToken.eq(token2)) || (p.leftToken.eq(token2) && p.rightToken.eq(token1))));
-    console.log('GGG', pair);
-    if (pair!.leftToken.eq(token1)) {
+    const pair = pairs.find((p) => ((p.leftToken.address.eq(token1) && p.rightToken.address.eq(token2)) || (p.leftToken.address.eq(token2) && p.rightToken.address.eq(token1))));
+    // console.log('GGG', pair);
+    if (pair!.leftToken.address.eq(token1)) {
         return pair!;
     }
     return {
@@ -89,6 +89,23 @@ export const getOutAmount = (inAmount: Coins, inReserved: Coins, outReserved: Co
         .add(inAmountWithFee);
     return numerator.div(denominator.toString());
 };
+
+export const calcOutAmountAndPriceImpact = (inAmount: Coins, pairs: Pair[]): [Coins, number] => {
+    const isRoute = pairs.length === 2;
+    if (isRoute) {
+        const out1 = getOutAmount(inAmount, pairs[0].leftReserved, pairs[0].rightReserved);
+        const outAmount = getOutAmount(out1, pairs[1].leftReserved, pairs[1].rightReserved);
+        const priceImpact1 = new Coins(inAmount).div(new Coins(pairs[0].leftReserved).add(inAmount).toString()).mul(100);
+        const priceImpact2 = new Coins(out1).div(new Coins(pairs[1].leftReserved).add(out1).toString()).mul(100);
+        const priceImpact = Number(new Coins(priceImpact1).add(priceImpact2).toString());
+        // const priceImpact = Number(new Coins(inAmount).mul(out1.toString()).div(new Coins(pairs[0].leftReserved).mul(pairs[1].leftReserved.toString()).add(new Coins(inAmount).mul(out1.toString())).toString()).mul(100).toString());
+        return [outAmount, priceImpact]
+    } else {
+        const outAmount = getOutAmount(inAmount, pairs[0].leftReserved, pairs[0].rightReserved);
+        const priceImpact = Number(new Coins(inAmount).div(new Coins(pairs[0].leftReserved).add(inAmount).toString()).mul(100.4).toString());
+        return [outAmount, priceImpact]
+    }
+}
 
 export const getStakeAmount = (inAmount: Coins, inReserved: Coins, outReserved: Coins): Coins => {
     const numerator = new Coins(inAmount).mul(outReserved.toString());

@@ -11,7 +11,7 @@ export const walletsListQuery = selector({
     key: 'walletsList',
     get: async () => {
         const walletsList = await connector.getWallets();
-        console.log(walletsList);
+        // console.log(walletsList);
 
         const embeddedWallet = walletsList.filter(isWalletInfoInjected).find((wallet: any) => wallet.embedded);
 

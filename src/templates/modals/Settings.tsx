@@ -4,10 +4,9 @@ import { Modal, Row, Col, Form, InputGroup, Button, OverlayTrigger, Tooltip } fr
 
 export function SettingsModal() {
     const {
-        swapParams,
+        slippage,
         updateSlippage,
     } = useContext(DexContext) as DexContextType;
-    const { slippage } = swapParams;
 
     return (
         <div className="modal fade" id="SettingsModal" tabIndex={-1} aria-hidden="true">

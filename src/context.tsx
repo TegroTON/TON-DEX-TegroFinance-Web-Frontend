@@ -1,26 +1,28 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Coins } from 'ton3-core';
+import {Address, Coins} from 'ton3-core';
 import {
-    PairData, PoolPosition, PoolPositions, SwapParams,
+    PairData, PoolPosition, PoolPositions, SwapParams, TokenData,
 } from './types';
 import {
     getDefaultPair,
     getDefaultPairs,
     getDefaultSwapParams,
     getDefaultTokens,
-    getJettonBalance,
+    getJettonBalance, getTGRToken, getTGRTokenData, getTONToken, getTONTokenData,
 } from './ton/utils';
 import { tonClient } from './ton';
 import { getOutAmount, getPairByTokens } from './ton/dex/utils';
-import { getPairs, getTokens } from './ton/dex/api/apiClient';
+import {getPair, getPairs, getTokens} from './ton/dex/api/apiClient';
 import { DeLabContext, DeLabContextType } from './deLabContext';
-import { Pair, Pairs, Tokens } from './ton/dex/api/types';
+import {Pair, Pairs, Token, Tokens} from './ton/dex/api/types';
 import { TON_ADDRESS } from './ton/dex/constants';
 
 export type DexContextType = {
     pairs: Pairs;
     tokens: Tokens;
-    swapPair: PairData;
+    swapLeft: TokenData;
+    swapRight: TokenData;
+    swapPairs: Pair[];
     swapParams: SwapParams;
     updateSwapParams: (newSwapParams: SwapParams) => void;
     poolPair: PairData;
@@ -29,16 +31,19 @@ export type DexContextType = {
 
     poolPositions: PoolPositions;
     walletInfo: DeLabContextType | null;
-    updatePair: ({
-        when,
+    updatePoolPair: ({
         newPair,
     }: {
-        when?: ('pool' | 'swap'),
         newPair?: Pair
     }) => void
 
+    updateSwap: ({ side, symbol }: {side?: ('left' | 'right'), symbol: string}) => void;
+
     updateSlippage: (newSlippage: number) => void;
     updatePoolPositions: () => void;
+
+    slippage: number;
+    switchSwap: () => void;
 };
 
 export const DexContext = React.createContext<DexContextType | null>(null);
@@ -51,24 +56,31 @@ export const DexContextProvider: React.FC<Props> = ({ children }) => {
     const [swapParams, setSwapParams] = React.useState<SwapParams>(getDefaultSwapParams());
     const [poolParams, setPoolParams] = React.useState<SwapParams>(getDefaultSwapParams());
 
+    const [slippage, setSlippage] = React.useState(5.0);
+
     const [pairs, setPairs] = React.useState<Pairs>(getDefaultPairs());
     const [tokens, setTokens] = React.useState<Tokens>(getDefaultTokens());
 
-    const [swapPair, setSwapPair] = React.useState<PairData>(getDefaultPair());
+    // SWAP PARAMS
+    const [leftSwapToken, setLeftSwapToken] = React.useState(getTONToken());
+    const [leftUserWallet, setLeftUserWallet] = React.useState(Address.NONE);
+    const [leftUserBalance, setLeftUserBalance] = React.useState(new Coins(0));
+
+    const [rightSwapToken, setRightSwapToken] = React.useState(getTGRToken());
+    const [rightUserWallet, setRightUserWallet] = React.useState(Address.NONE);
+    const [rightUserBalance, setRightUserBalance] = React.useState(new Coins(0));
+
+    // Route if swapPairs.length === 2
+    const [swapPairs, setSwapPairs] = React.useState<Pairs>([getDefaultPairs()[0]]);
+
     const [poolPair, setPoolPair] = React.useState<PairData>(getDefaultPair());
 
     const [poolPositions, setPoolPositions] = React.useState<PoolPositions>([]);
 
     const walletInfo = useContext(DeLabContext) as DeLabContextType;
 
-    const updatePair = async ({
-        when,
-        newPair,
-    }: {
-        when?: ('pool' | 'swap'),
-        newPair?: Pair
-    }) => {
-        let newXXXPair = !when || when === 'swap' ? swapPair : poolPair;
+    const updatePoolPair = async ({ newPair, }: { newPair?: Pair }) => {
+        let newXXXPair = poolPair;
 
         if (newPair) {
             newXXXPair = {
@@ -76,7 +88,7 @@ export const DexContextProvider: React.FC<Props> = ({ children }) => {
                 leftToken: newPair.leftToken,
                 rightToken: newPair.rightToken,
                 address: newPair.address,
-            };
+            }
             setSwapParams({
                 ...swapParams,
                 outAmount: getOutAmount(
@@ -101,8 +113,8 @@ export const DexContextProvider: React.FC<Props> = ({ children }) => {
 
         // надо обновить адрес кошелька, баланс, резерв
         if (walletInfo.isConnected && walletInfo.address) {
-            leftWallet = leftToken.eq(TON_ADDRESS) ? null : await tonClient.Jetton.getWalletAddress(leftToken, walletInfo.address);
-            rightWallet = rightToken.eq(TON_ADDRESS) ? null : await tonClient.Jetton.getWalletAddress(rightToken, walletInfo.address);
+            leftWallet = leftToken.address.eq(TON_ADDRESS) ? null : await tonClient.Jetton.getWalletAddress(leftToken.address, walletInfo.address);
+            rightWallet = rightToken.address.eq(TON_ADDRESS) ? null : await tonClient.Jetton.getWalletAddress(rightToken.address, walletInfo.address);
             leftBalance = leftWallet ? await getJettonBalance(leftWallet) : null;
             rightBalance = rightWallet ? await getJettonBalance(rightWallet) : null;
         } else {
@@ -115,7 +127,7 @@ export const DexContextProvider: React.FC<Props> = ({ children }) => {
         const {
             leftReserved,
             rightReserved,
-        } = getPairByTokens(pairs, leftToken, rightToken);
+        } = getPairByTokens(pairs, leftToken.address, rightToken.address);
 
         console.log('left', leftReserved.toString(), 'right', rightReserved.toString());
 
@@ -129,22 +141,56 @@ export const DexContextProvider: React.FC<Props> = ({ children }) => {
             rightReserved,
         };
         // saveSwapInfo({ swapParams, pair: newSwapPair });
-        if (!when || (when === 'swap')) {
-            setSwapPair(newXXXPair);
-        } else {
-            setPoolPair(newXXXPair);
-        }
+        setPoolPair(newXXXPair);
     };
 
+    const switchSwap = () => {
+        const tempLeft = leftSwapToken;
+        const tempRight = rightSwapToken;
+        setLeftSwapToken(tempRight);
+        setRightSwapToken(tempLeft);
+    }
+
+    const updateSwap = async ({ side, symbol }: {side?: ('left' | 'right'), symbol: string}) => {
+        const [leftToken, rightToken] = side && side === 'right' ? [rightSwapToken, leftSwapToken] : [leftSwapToken, rightSwapToken];
+
+        let token = tokens?.find((t) => t.symbol === symbol);
+        if (token && token.address.eq(rightToken.address)) {
+            switchSwap();
+            return;
+        }
+        token = token === undefined || token.address.eq(rightToken.address) ? getTONToken() : token;
+        token = token.address.eq(rightToken.address) ? getTGRToken() : token;
+
+        if (side === 'left') {
+            setLeftSwapToken(token);
+        } else {
+            setRightSwapToken(token);
+        }
+    }
+
+    const updateSwapPairs = async () => {
+        const isSimpleSwap = (leftSwapToken.symbol === "TON" || rightSwapToken.symbol === "TON");
+        if (isSimpleSwap) {
+            if (leftSwapToken.symbol !== swapPairs[0].leftToken.symbol &&
+                rightSwapToken.symbol !== swapPairs[0].rightToken.symbol) {
+                setSwapParams({...swapParams, inAmount: new Coins(0), outAmount: new Coins(0)});
+            }
+            setSwapPairs([await getPair(leftSwapToken.symbol, rightSwapToken.symbol, tokens)])
+        } else {
+            if (swapPairs.length === 1 || (leftSwapToken.symbol !== swapPairs[0].leftToken.symbol &&
+                rightSwapToken.symbol !== swapPairs[1].rightToken.symbol)) {
+                setSwapParams({...swapParams, inAmount: new Coins(0), outAmount: new Coins(0)});
+            }
+            const pair1 = await getPair(leftSwapToken.symbol, "TON", tokens);
+            const pair2 = await getPair("TON", rightSwapToken.symbol, tokens);
+            setSwapPairs([pair1, pair2]);
+        }
+        console.log("reserves updated")
+    }
+
     const updateSlippage = (newSlippage: number) => {
-        let correctSlippage = newSlippage;
-        if (correctSlippage > 99.6) correctSlippage = 99.6;
-        if (correctSlippage < 0.1) correctSlippage = 0.1;
-        const newSwapParams = {
-            ...swapParams,
-            slippage: correctSlippage,
-        };
-        setSwapParams(newSwapParams);
+        setSlippage(newSlippage < 0.1 ? 0.1 : newSlippage > 99.6 ? 99.6 : newSlippage);
     };
 
     const updateSwapParams = (newSwapParams: SwapParams) => {
@@ -172,26 +218,35 @@ export const DexContextProvider: React.FC<Props> = ({ children }) => {
         }
     };
 
+    const updateBalances = async () => {
+        const leftUserWallet = leftSwapToken.symbol === "TON" ? walletInfo.address : await tonClient.Jetton.getWalletAddress(leftSwapToken.address, walletInfo.address);
+        const leftUserBalance = leftSwapToken.symbol === "TON" ? walletInfo.balance : getJettonBalance(leftUserWallet);
+
+        const rightUserWallet = rightSwapToken.symbol === "TON" ? walletInfo.address : await tonClient.Jetton.getWalletAddress(rightSwapToken.address, walletInfo.address);
+        const rightUserBalance = rightSwapToken.symbol === "TON" ? walletInfo.balance : getJettonBalance(rightUserWallet);
+
+
+        setLeftUserWallet(leftUserWallet)
+        setLeftUserBalance(await leftUserBalance)
+
+        setRightUserWallet(rightUserWallet)
+        setRightUserBalance(await rightUserBalance)
+    }
+
     useEffect(() => {
-        updatePair({ when: 'swap' })
+        updatePoolPair({})
             .then();
-        updatePair({ when: 'pool' })
-            .then();
-        updatePoolPositions()
-            .then();
-    }, [walletInfo.address, walletInfo.isConnected, pairs, swapPair.leftToken]);
+        return () => {};
+    }, [walletInfo.address, walletInfo.isConnected, pairs]);
 
     const [lastBalance, setLastBalance] = useState<Coins>(new Coins(0));
     useEffect(() => {
         if (!(lastBalance.eq(walletInfo.balance))) {
             setLastBalance(walletInfo.balance);
-            updatePair({ when: 'swap' })
-                .then();
-            updatePair({ when: 'pool' })
-                .then();
-            updatePoolPositions()
+            updatePoolPair({})
                 .then();
         }
+        return () => {};
     }, [walletInfo.balance]);
 
     const updateTokens = async () => {
@@ -202,31 +257,56 @@ export const DexContextProvider: React.FC<Props> = ({ children }) => {
     };
 
     useEffect(() => {
-        // updatePairs();
-    }, [pairs]);
+        updateSwapPairs();
+        return () => {};
+    }, [leftSwapToken, rightSwapToken]);
+
+    useEffect(() => {
+        updateBalances();
+        // const interval = setInterval(updateBalances, 3000);
+        // return () => clearInterval(interval);
+        return () => {};
+    }, [swapPairs]);
+
+    useEffect(() => {
+        updateSwapPairs();
+        return () => {};
+    }, [walletInfo.balance])
+
+
     useEffect(() => {
         updatePairs();
+        return () => {};
     }, [tokens]);
     useEffect(() => {
         // updateDexInfo().then();
         updateTokens();
+        return () => {};
     }, []);
+
+    const swapLeft = {token: leftSwapToken, userWallet: leftUserWallet, userBalance: leftUserBalance}
+    const swapRight = {token: rightSwapToken, userWallet: rightUserWallet, userBalance: rightUserBalance}
 
     return (
         <DexContext.Provider value={{
             pairs,
             tokens,
-            swapPair,
+            swapLeft,
+            swapRight,
             swapParams,
+            swapPairs,
             poolPair,
             poolPositions,
             walletInfo,
             updateSlippage,
             updateSwapParams,
-            updatePair,
+            updateSwap,
             updatePoolPositions,
             poolParams,
+            updatePoolPair,
             updatePoolParams,
+            slippage,
+            switchSwap
         }}
         >
             {children}

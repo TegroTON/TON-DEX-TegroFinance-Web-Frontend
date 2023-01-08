@@ -66,6 +66,36 @@ export class DexBetaPairContract {
         return stack.map((item: bigint) => new Coins(item, { isNano: true })) as [Coins, Coins];
     }
 
+    createRouteSwapRequest(inAmount: Coins, minReserved0: Coins, minReceived: Coins, myAddress: Address, nextDexAddress: Address): Cell {
+        const queryId = Math.round(Date.now() / Math.PI / Math.random());
+        const payload = new Builder()
+            .storeUint(DexOP.swapJetton, 32) // sub-op
+            .storeBit(0) // extract
+            .storeCoins(new Coins(4999999999)) // max_in
+            .storeCoins(new Coins(0)) // min_out
+            .storeAddress(nextDexAddress) // destination
+            .storeAddress(myAddress) // error_destination
+            .storeBit(1) // custom payload
+            .storeRef(new Builder()
+                .storeBit(0) // extract
+                .storeCoins(new Coins(minReserved0)) // max_in
+                .storeCoins(new Coins(minReceived)) // min_out
+                .storeAddress(myAddress) // destination
+                .storeAddress(this.address) // error_destination
+                .storeBit(0) // custom payload
+                .cell()
+            )
+            .cell();
+        return JettonWallet.createTransferRequest({
+            queryId,
+            amount: inAmount,
+            destination: this.address,
+            responseDestination: myAddress,
+            forwardAmount: new Coins(0.5),
+            forwardPayload: payload,
+        });
+    }
+
     createJettonSwapRequest(jettonAmount: Coins, minReceived: Coins, myAddress: Address): Cell {
         const queryId = Math.round(Date.now() / Math.PI / Math.random());
         const payload = new Builder()
@@ -82,7 +112,7 @@ export class DexBetaPairContract {
             amount: jettonAmount,
             destination: this.address,
             responseDestination: myAddress,
-            forwardAmount: new Coins(0.15),
+            forwardAmount: new Coins(0.2),
             forwardPayload: payload,
         });
     }

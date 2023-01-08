@@ -6,46 +6,62 @@ import { tonClient } from '../../ton';
 import { Token } from '../../ton/dex/api/types';
 import { TON_ADDRESS } from '../../ton/dex/constants';
 import { Modal, Button } from 'react-bootstrap';
+import {getOutAmount} from "../../ton/dex/utils";
 
 export function ConfirmSwapModal() {
     const {
         walletInfo,
-        swapPair,
+        swapLeft,
+        swapRight,
+        swapPairs,
         swapParams,
+        slippage,
         tokens,
-        updatePair,
     } = useContext(DexContext) as DexContextType;
     const {
-        slippage,
         inAmount,
         outAmount,
     } = swapParams;
     const tonBalance = walletInfo ? walletInfo.balance : new Coins(0);
     const minReceived = new Coins(outAmount).mul(1 - slippage / 100);
 
-    const from = tokens?.find((t) => t.address.eq(swapPair.leftToken)) as Token;
+    const from = swapLeft.token;
 
-    const to = tokens?.find((t) => t.address.eq(swapPair.rightToken)) as Token;
+    const to = swapRight.token;
+
+    const isRoute = swapPairs.length === 2;
 
     const handleConfirm = async () => {
         // const adapter = walletService.getWalletAdapter(walletInfo?.adapterId as string);
-        const dexPair = new DexBetaPairContract(new Address(swapPair.address));
+        const dexPair = new DexBetaPairContract(new Address(swapPairs[0].address));
         // console.log(left, address.toString());
-        if (swapPair.rightToken.eq(TON_ADDRESS)) {
-            const payload = dexPair.createJettonSwapRequest(inAmount, minReceived, walletInfo?.address as Address);
-            await walletInfo?.sendTransaction({
-                to: swapPair.leftWallet!.toString(),
-                value: new Coins(0.5).toNano(),
-                payload: BOC.toBase64Standard(payload),
-                // .replaceAll('+', '-')
-                // .replaceAll('/', '_'),
-            });
+        if (swapPairs[0].rightToken.address.eq(TON_ADDRESS)) {
+            if (isRoute) {
+                const minReserved0 = getOutAmount(inAmount, swapPairs[0].leftReserved, swapPairs[0].rightReserved);
+                const payload = dexPair.createRouteSwapRequest(inAmount, minReserved0, minReceived, walletInfo?.address as Address, swapPairs[1].address);
+                await walletInfo?.sendTransaction({
+                    to: swapLeft.userWallet.toString("base64", {bounceable: true}),
+                    value: new Coins(0.6).toNano(),
+                    payload: BOC.toBase64Standard(payload),
+                    // .replaceAll('+', '-')
+                    // .replaceAll('/', '_'),
+                });
+            } else {
+                const payload = dexPair.createJettonSwapRequest(inAmount, minReceived, walletInfo?.address as Address);
+                await walletInfo?.sendTransaction({
+                    to: swapLeft.userWallet.toString("base64", {bounceable: true}),
+                    value: new Coins(0.3).toNano(),
+                    payload: BOC.toBase64Standard(payload),
+                    // .replaceAll('+', '-')
+                    // .replaceAll('/', '_'),
+                });
+            }
+
         } else {
-            console.log(minReceived.toString());
             const payload = DexBetaPairContract.createTonSwapRequest(inAmount, minReceived, walletInfo?.address as Address);
             await walletInfo?.sendTransaction({
                 to: dexPair.address.toString(),
-                value: new Coins(inAmount).add(new Coins(0.5))
+                value: new Coins(inAmount).add(new Coins(0.3))
                     .toNano(),
                 payload: BOC.toBase64Standard(payload),
                 // .replaceAll('+', '-')
@@ -66,7 +82,6 @@ export function ConfirmSwapModal() {
         const interval = setInterval(async () => {
             const balance = await tonClient.getBalance(new Address(walletInfo!.address!));
             if (!tonBalance.eq(balance)) {
-                await updatePair({});
                 window.location.reload();
             }
         }, 1000);

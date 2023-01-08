@@ -1,21 +1,21 @@
 import { useContext } from 'react';
 import { Address, Coins } from 'ton3-core';
 import { DexContext, DexContextType } from '../../../context';
-import { Token } from '../../../ton/dex/api/types';
+import {Pair, Token} from '../../../ton/dex/api/types';
 import { Button } from 'react-bootstrap';
 
 export function LiquidityAccordionComponent(
     {
         pair,
         lpBalance,
+        k,
     }:
-        { pair: Address, lpBalance: Coins },
+        { pair: Pair, lpBalance: Coins, k: number },
 ) {
     const {
         pairs,
         tokens,
     } = useContext(DexContext) as DexContextType;
-    const PAIR = pairs.find((p) => p.address.eq(pair));
 
     const {
         leftToken,
@@ -23,13 +23,13 @@ export function LiquidityAccordionComponent(
         leftReserved,
         rightReserved,
         lpSupply,
-    } = PAIR!;
+    } = pair;
 
     const share = new Coins(lpBalance).div(lpSupply.toString());
 
-    const l = tokens?.find((t) => t.address.eq(leftToken)) as Token;
+    const l = tokens?.find((t) => t.address.eq(leftToken.address)) as Token;
 
-    const r = tokens?.find((t) => t.address.eq(rightToken)) as Token;
+    const r = tokens?.find((t) => t.address.eq(rightToken.address)) as Token;
 
     const pos = {
         left: new Coins(leftReserved).mul(share.toString()),
@@ -37,12 +37,12 @@ export function LiquidityAccordionComponent(
     };
 
     return (
-        <div className="accordion mb-4" id="accordionLiquidity">
-            <div className="accordion-item py-4 collapsed" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+        <div className="accordion mb-4" id={`accordionLiquidity${k}`}>
+            <div className="accordion-item py-4 collapsed" data-bs-toggle="collapse" data-bs-target={`#collapse${k}`} aria-expanded="false" aria-controls={`collapse${k}`}>
                 <div className="d-flex align-items-center">
                     <div className="accordion-item__images">
-                        <img src={l.image} alt="Tether" className="wc-img" style={{ width: '40px', height: '40px', }} />
-                        <img src={r.image} alt="TGR" className="accordion-item__images-small" />
+                        <img src={l.image} alt={l.symbol} className="wc-img" style={{ width: '40px', height: '40px', }} />
+                        <img src={r.image} alt={l.symbol} className="accordion-item__images-small" />
                     </div>
                     <div className="ms-3">
                         <span className="fs-16 fw-700">{`${l.symbol} / ${r.symbol}`}</span>
@@ -53,7 +53,7 @@ export function LiquidityAccordionComponent(
                         <i className="fa-solid fa-angle-right" />
                     </div>
                 </div>
-                <div id="collapse1" className="accordion-collapse mt-4 collapse" data-bs-parent="#accordionLiquidity">
+                <div id={`collapse${k}`} className="accordion-collapse mt-4 collapse" data-bs-parent={`#accordionLiquidity${k}`}>
                     <ul className="list-unstyled bg-light p-3 rounded-8">
                         <li className="list-item d-flex align-items-center mb-3">
                             <img src={l.image} alt="" className="wc-img" style={{ width: '14px', height: '14px', }} />

@@ -15,7 +15,6 @@ export function ConfirmStakeModal() {
         poolPair,
         poolParams,
         tokens,
-        updatePair,
     } = useContext(DexContext) as DexContextType;
     const {
         inAmount,
@@ -23,9 +22,9 @@ export function ConfirmStakeModal() {
     } = poolParams;
     const tonBalance = walletInfo ? walletInfo.balance : new Coins(0);
 
-    const from = tokens?.find((t) => t.address.eq(poolPair.leftToken)) as Token;
+    const from = tokens?.find((t) => t.address.eq(poolPair.leftToken.address)) as Token;
 
-    const to = tokens?.find((t) => t.address.eq(poolPair.rightToken)) as Token;
+    const to = tokens?.find((t) => t.address.eq(poolPair.rightToken.address)) as Token;
 
     const handleConfirm = async () => {
         // const adapter = walletService.getWalletAdapter(walletInfo?.adapterId as string);
@@ -34,19 +33,19 @@ export function ConfirmStakeModal() {
         let tonAmount = inAmount;
         let jettonAmount = outAmount;
         let jettonWallet = poolPair.rightWallet;
-        if (poolPair.rightToken.eq(TON_ADDRESS)) {
+        if (poolPair.rightToken.address.eq(TON_ADDRESS)) {
             [jettonAmount, tonAmount] = [tonAmount, jettonAmount];
             jettonWallet = poolPair.leftWallet;
         }
 
-        const payload = dexPair.createAddLiquidityRequest(new Coins(0.15).add(tonAmount), jettonAmount, walletInfo!.address);
+        const payload = dexPair.createAddLiquidityRequest(new Coins(0.4).add(tonAmount), jettonAmount, walletInfo!.address);
         // const payload = poolPair.rightToken.eq(TON_ADDRESS)
         //     ? dexPair.createAddLiquidityRequest(outAmount, inAmount, walletInfo!.address)
         //     : dexPair.createAddLiquidityRequest(inAmount, outAmount, walletInfo!.address);
 
         await walletInfo?.sendTransaction({
             to: jettonWallet!.toString(),
-            value: new Coins(0.25).add(tonAmount)
+            value: new Coins(0.5).add(tonAmount)
                 .toNano(),
             payload: BOC.toBase64Standard(payload)
             // .replaceAll('+', '-')
@@ -67,7 +66,6 @@ export function ConfirmStakeModal() {
         const interval = setInterval(async () => {
             const balance = await tonClient.getBalance(new Address(walletInfo!.address!));
             if (!tonBalance.eq(balance)) {
-                await updatePair({});
                 window.location.replace('/liquidity');
             }
         }, 1000);

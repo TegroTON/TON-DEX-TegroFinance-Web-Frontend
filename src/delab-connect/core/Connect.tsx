@@ -77,8 +77,6 @@ class DeLabConnect {
         }, console.error);
 
         this.loadWallet();
-
-        console.log('v: 1.2.4 with TonConnect2.0');
     }
 
     public loadWallet(): void {

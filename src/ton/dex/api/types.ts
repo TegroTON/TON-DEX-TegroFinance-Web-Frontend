@@ -18,11 +18,11 @@ export type Pair = {
     address: Address,
     // leftName: string,
     // leftSymbol: string,
-    leftToken: Address,
+    leftToken: Token,
     leftReserved: Coins,
     // rightName: string,
     // rightSymbol: string,
-    rightToken: Address,
+    rightToken: Token,
     rightReserved: Coins,
     lpSupply: Coins,
 };

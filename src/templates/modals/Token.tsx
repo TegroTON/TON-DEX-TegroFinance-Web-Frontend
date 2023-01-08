@@ -4,23 +4,29 @@ import { Address } from 'ton3-core';
 import { DexContext, DexContextType } from '../../context';
 import { getPairByTokens } from '../../ton/dex/utils';
 import { Modal, Form, InputGroup, ListGroup } from 'react-bootstrap';
+import {getTokenByAddr} from "../../ton/dex/api/apiClient";
+import {useLocation} from "react-router";
+import {TON_ADDRESS} from "../../ton/dex/constants";
 
 export function TokenModal(props: { side: 'Left' | 'Right' }) {
     const { side } = props;
 
     const {
         walletInfo,
-        updatePair,
-        swapPair,
+        swapPairs,
+        swapLeft,
+        swapRight,
         tokens,
         pairs,
+        updateSwap,
+        updatePoolPair
     } = useContext(DexContext) as DexContextType;
 
-    let {
-        leftToken: mySide,
-        rightToken: otherSide
-    } = swapPair;
-    if (side === 'Right') [mySide, otherSide] = [otherSide, mySide];
+    const location = useLocation();
+
+    // console.log(location.pathname);
+
+    const normSide = side && side === 'Left' ? 'left' : 'right';
 
     const {
         register,
@@ -32,18 +38,14 @@ export function TokenModal(props: { side: 'Left' | 'Right' }) {
 
     const changeSelected = async (tokenAddr: string) => {
         const tokenAddress = new Address(tokenAddr);
-        if (!mySide.eq(tokenAddress)) {
-            if (side === 'Left') {
-                await updatePair({
-                    when: "swap",
-                    newPair: getPairByTokens(pairs, otherSide, mySide)
-                });
-            } else {
-                await updatePair({
-                    when: "swap",
-                    newPair: getPairByTokens(pairs, mySide, otherSide)
-                });
+        const token = getTokenByAddr(tokens, tokenAddress);
+
+        if (location.pathname === "/liquidity-add") {
+            if (token.symbol !== "TON") {
+                updatePoolPair({newPair: getPairByTokens(pairs, TON_ADDRESS, token.address)});
             }
+        } else {
+            updateSwap({side: normSide, symbol: token.symbol})
         }
     };
 

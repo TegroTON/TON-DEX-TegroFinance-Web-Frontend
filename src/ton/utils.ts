@@ -1,11 +1,10 @@
 import { Address, Coins } from 'ton3-core';
 import { tonClient } from './index';
-import { PairData, SwapParams } from '../types';
-import { Pair, Tokens } from './dex/api/types';
+import { PairData, SwapParams, TokenData } from '../types';
+import { Pair, Tokens, Token } from './dex/api/types';
 
 export function getDefaultSwapParams(): SwapParams {
     return {
-        slippage: 0.5,
         inAmount: new Coins(0),
         outAmount: new Coins(0),
     };
@@ -14,9 +13,9 @@ export function getDefaultSwapParams(): SwapParams {
 export function getDefaultPairs(): Pair[] {
     return [{
         address: new Address('EQDTjWuJmwD5SJ8l8L0zoNy8mJP4aJ_k6b4Eg2vm88lCpAIC'),
-        leftToken: new Address('Ef8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM0vF'),
+        leftToken: getTONToken(),
         leftReserved: new Coins('0'),
-        rightToken: new Address('EQAvDfWFG0oYX19jwNDNBBL1rKNT9XfaGP9HyTb5nb2Eml6y'),
+        rightToken: getTGRToken(),
         rightReserved: new Coins('0'),
         lpSupply: new Coins(0),
     }];
@@ -32,22 +31,47 @@ export function getDefaultPair(): PairData {
     };
 }
 
-export function getDefaultTokens(): Tokens {
-    return [
-        {
+export function getTONTokenData(): TokenData {
+    return {
+        token: getTONToken(),
+        userWallet: Address.NONE,
+        userBalance: new Coins(0),
+    }
+}
+
+export function getTGRTokenData(): TokenData {
+    return {
+        token: getTGRToken(),
+        userWallet: Address.NONE,
+        userBalance: new Coins(0),
+    }
+}
+
+
+export function getTONToken(): Token {
+    return {
             name: 'Toncoin',
             symbol: 'TON',
             address: new Address('Ef8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM0vF'),
             image: 'https://api.tegro.finance/tokens/TON/image',
             decimals: 9,
-        },
-        {
+        }
+}
+
+export function getTGRToken(): Token {
+    return {
             name: 'Tegro',
             symbol: 'TGR',
             address: new Address('EQAvDfWFG0oYX19jwNDNBBL1rKNT9XfaGP9HyTb5nb2Eml6y'),
             image: 'https://api.tegro.finance/tokens/TGR/image',
             decimals: 9,
-        },
+        }
+}
+
+export function getDefaultTokens(): Tokens {
+    return [
+        getTONToken(),
+        getTGRToken(),
     ];
 }
 

@@ -4,48 +4,38 @@ import { useForm } from 'react-hook-form';
 import usePrefersColorScheme from 'use-prefers-color-scheme';
 import { DexContext, DexContextType } from '../../context';
 import { NavComponent } from './components/Nav';
-import { getOutAmount } from '../../ton/dex/utils';
-import { Token } from '../../ton/dex/api/types';
+import { calcOutAmountAndPriceImpact } from '../../ton/dex/utils';
+import { Pair, Token } from '../../ton/dex/api/types';
 import { PairData } from '../../types';
 import { DeLabButtonLabel, DeLabConnector } from '../../deLabContext';
 import { fieldNormalizer } from '../../utils';
 import { Container, Row, Col, Card, Button, Form, InputGroup, ListGroup } from 'react-bootstrap';
+import {UseFormatPriceImpact} from "../../hooks/useFormatPriceImpact";
+import {UsePrintRoute} from "../../hooks/usePrintRoute";
+import {useCalcPrice} from "../../hooks/useCalcPrice";
 
 export default function SwapPage() {
-    let colorScheme = usePrefersColorScheme();
-    colorScheme = colorScheme === 'no-preference' ? 'dark' : colorScheme;
     const {
-        swapPair,
+        swapLeft,
+        swapRight,
+        slippage,
         swapParams,
         updateSwapParams,
         walletInfo,
         tokens,
+        swapPairs,
+        switchSwap
     } = useContext(DexContext) as DexContextType;
     let {
-        slippage,
         inAmount,
         outAmount,
     } = swapParams;
-    const {
-        leftWallet,
-        rightWallet,
-        leftReserved,
-        rightReserved,
-        rightBalance,
-        leftBalance,
-        leftToken,
-        rightToken,
-    } = swapPair as PairData;
 
-    const tonBalance = walletInfo?.balance ?? new Coins(0);
 
-    const from = tokens?.find((t) => t.address.eq(leftToken)) as Token;
+    // console.log(leftReserved)
+    const price = useCalcPrice(swapPairs);
 
-    const to = tokens?.find((t) => t.address.eq(rightToken)) as Token;
-
-    const price = leftReserved.isZero()
-        ? new Coins(0)
-        : new Coins(rightReserved).div(leftReserved.toString());
+    // console.log("PRICE: ", price.toString());
 
     const [priceImpact, setPriceImpact] = useState(0);
 
@@ -62,12 +52,11 @@ export default function SwapPage() {
     } = useForm({ mode: 'onChange' });
 
     const updateAmount = (side: ('left' | 'right')) => {
-        const [lReserve, rReserve] = side === 'left' ? [leftReserved, rightReserved] : [rightReserved, leftReserved];
         const value = getValues(side);
         if (value) {
             inAmount = new Coins(value);
-            outAmount = getOutAmount(inAmount, lReserve, rReserve);
-            setPriceImpact(Number(new Coins(inAmount).div(new Coins(lReserve).add(inAmount).toString()).mul(100).toString())); // price_impact_trade_cake = amountInCAKE / (reserve_a_initial + amountInCAKE);
+            const [outAmount, priceImpact] = calcOutAmountAndPriceImpact(inAmount, swapPairs);
+            setPriceImpact(priceImpact); // price_impact_trade_cake = amountInCAKE / (reserve_a_initial + amountInCAKE);
             if (side === 'left') {
                 updateSwapParams({
                     ...swapParams,
@@ -105,6 +94,7 @@ export default function SwapPage() {
     // useEffect(() => {
     // }, [outAmount]);
 
+    setValue('left', inAmount.toString());
     setValue('right', outAmount.toString());
 
     return (
@@ -123,7 +113,7 @@ export default function SwapPage() {
                                     <Form.Label>You pay:</Form.Label>
                                     {walletInfo ? (
                                         <span className="small fw-500 color-grey">
-                                            Balance: {' '} {`${(leftBalance ?? tonBalance).toString()} ${from.symbol}`}
+                                            Balance: {' '} {`${(swapLeft.userBalance).toString()} ${swapLeft.token.symbol}`}
                                         </span>
                                     ) : ('')}
                                 </div>
@@ -149,20 +139,20 @@ export default function SwapPage() {
                                             data-bs-target="#TokenModalLeft"
                                         >
                                             <img
-                                                src={from.image}
+                                                src={swapLeft.token.image}
                                                 width="24"
                                                 height="24"
-                                                alt={from.name}
+                                                alt={swapLeft.token.name}
                                             />
                                             <span className="mx-3 fw-500 text-uppercase">
-                                                {from.symbol}
+                                                {swapLeft.token.symbol}
                                             </span>
                                             <i className="fa-solid fa-ellipsis-vertical"></i>
                                         </Button>
                                     </InputGroup.Text>
                                 </InputGroup>
                             </Form.Group>
-                            <Form.Group className="swap-exchange-arrow d-flex justify-content-center">
+                            <Form.Group className="swap-exchange-arrow d-flex justify-content-center" onClick={switchSwap}>
                                 <Button variant="swap-exchange-arrow__button btn-light btn-icon">
                                 <i className="fa-regular fa-arrow-up-arrow-down"></i>
                                 </Button>
@@ -172,7 +162,7 @@ export default function SwapPage() {
                                     <Form.Label>You receive:</Form.Label>
                                     {walletInfo ? (
                                         <span className="small fw-500 color-grey">
-                                            {'Balance: '} {`${(rightBalance ?? tonBalance).toString()} ${to.symbol}`}
+                                            {'Balance: '} {`${(swapRight.userBalance).toString()} ${swapRight.token.symbol}`}
                                         </span>
                                     ) : ('')}
                                 </div>
@@ -193,13 +183,13 @@ export default function SwapPage() {
                                             data-bs-target="#TokenModalRight"
                                         >
                                             <img
-                                                src={to.image}
+                                                src={swapRight.token.image}
                                                 width="24"
                                                 height="24"
-                                                alt={to.name}
+                                                alt={swapRight.token.name}
                                             />
                                             <span className="mx-3 fw-500 text-uppercase">
-                                                {to.symbol}
+                                                {swapRight.token.symbol}
                                             </span>
                                             <i className="fa-solid fa-ellipsis-vertical"></i>
                                         </Button>
@@ -211,7 +201,7 @@ export default function SwapPage() {
                                 <ListGroup.Item className="d-flex mb-3">
                                     <span className="me-auto fw-500">Price:</span>
                                     <span className="text-muted">
-                                        {`${(realPrice ?? '0').toString()} ${from.symbol} per 1 ${to.symbol}`}
+                                        {`${(realPrice ?? '0').toString()} ${swapLeft.token.symbol} per 1 ${swapRight.token.symbol}`}
                                     </span>
                                 </ListGroup.Item>
                                 <ListGroup.Item className="d-flex mb-3">
@@ -223,21 +213,26 @@ export default function SwapPage() {
                                 <ListGroup.Item className="d-flex mb-3">
                                     <span className="me-auto fw-500">Minimum received:</span>
                                     <span className="text-muted">
-                                        {`${(minReceived ?? '0').toString()} ${to.symbol}`}
+                                        {`${(minReceived ?? '0').toString()} ${swapRight.token.symbol}`}
                                     </span>
                                 </ListGroup.Item>
-                                <ListGroup.Item className="list-item d-flex">
+                                <ListGroup.Item className="d-flex mb-3">
                                     <span className="me-auto fw-500">Price Impact:</span>
                                     <span className="text-muted">
-                                        {`${priceImpact
-                                            .toFixed(2)}%`}
+                                        <UseFormatPriceImpact priceImpact={priceImpact}/>
+                                    </span>
+                                </ListGroup.Item>
+                                <ListGroup.Item className="d-flex list-item">
+                                    <span className="me-auto fw-500">Route:</span>
+                                    <span className="text-muted">
+                                        <UsePrintRoute pairs={swapPairs}/>
                                     </span>
                                 </ListGroup.Item>
                             </ListGroup>
                             <>
                                 {walletInfo?.isConnected ? (
-                                    isValid ? (
-                                        ((leftBalance && leftBalance.gte(inAmount)) || (!leftBalance && tonBalance.gte(inAmount))) ? (
+                                    isValid && !inAmount.isZero() ? (
+                                        ((swapLeft.userBalance.gte(inAmount))) ? (
                                             <Button variant="btn btn-green p-3 w-100"
                                                 type="button"
                                                 data-bs-toggle="modal"
@@ -248,7 +243,7 @@ export default function SwapPage() {
                                         ) : (
 
                                             <div className="bg-soft-red text-center fw-500 p-3 w-100 rounded-8">
-                                                {`Insufficient ${from.symbol} balance`}
+                                                {`Insufficient ${swapLeft.token.symbol} balance`}
                                             </div>
 
                                         )
@@ -264,7 +259,6 @@ export default function SwapPage() {
                                     >
                                         Connect Wallet
                                     </Button>
-
                                 )}
                             </>
                         </Form>

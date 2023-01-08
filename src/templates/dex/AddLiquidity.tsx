@@ -19,10 +19,10 @@ export default function AddLiquidityPage() {
         updatePoolParams,
         walletInfo,
         tokens,
+        slippage
     } = useContext(DexContext) as DexContextType;
 
     let {
-        slippage,
         inAmount,
         outAmount
     } = poolParams;
@@ -41,9 +41,9 @@ export default function AddLiquidityPage() {
 
     const [share, setShare] = useState(0);
 
-    const from = tokens?.find((t) => t.address.eq(leftToken)) as Token;
+    const from = tokens?.find((t) => t.address.eq(leftToken.address)) as Token;
 
-    const to = tokens?.find((t) => t.address.eq(rightToken)) as Token;
+    const to = tokens?.find((t) => t.address.eq(rightToken.address)) as Token;
     const leftPrice = leftReserved.isZero()
         ? new Coins(0)
         : new Coins(rightReserved).div(leftReserved.toString());
@@ -63,7 +63,7 @@ export default function AddLiquidityPage() {
     const updateAmount = (side: ('left' | 'right')) => {
         setLastSide(side);
         const value = getValues(side) ?? 0;
-        console.log('val', value);
+        // console.log('val', value);
         if (value) {
             inAmount = new Coins(value);
 
@@ -162,11 +162,11 @@ export default function AddLiquidityPage() {
                                     </InputGroup.Text>
                                 </InputGroup>
                             </Form.Group>
-                            <Form.Group className="swap-exchange-arrow d-flex justify-content-center">
-                                <Button variant="swap-exchange-arrow__button btn-light btn-icon">
-                                    <i className="fa-regular fa-arrow-up-arrow-down"></i>
-                                </Button>
-                            </Form.Group>
+                            {/*<Form.Group className="swap-exchange-arrow d-flex justify-content-center">*/}
+                            {/*    <Button variant="swap-exchange-arrow__button btn-light btn-icon">*/}
+                            {/*        <i className="fa-regular fa-arrow-up-arrow-down"></i>*/}
+                            {/*    </Button>*/}
+                            {/*</Form.Group>*/}
                             <Form.Group className="mb-4">
                                 <div className="d-flex justify-content-between mb-2 px-1">
                                     <Form.Label>{to.symbol}:</Form.Label>

@@ -7,7 +7,7 @@ import { useTonConenctWallet } from '../../hooks/useTonConnectWallet';
 export default function ComingSoonPage() {
     const walletsList = useRecoilValueLoadable(walletsListQuery);
     const wallet = useTonConenctWallet();
-    console.log(wallet);
+    // console.log(wallet);
     const main = async () => {
         if (walletsList.contents.embeddedWallet) {
             connector.connect({ jsBridgeKey: walletsList.contents.embeddedWallet.jsBridgeKey });
@@ -20,7 +20,7 @@ export default function ComingSoonPage() {
         };
 
         const universalLink = connector.connect(tonkeeperConnectionSource);
-        console.log(universalLink);
+        // console.log(universalLink);
     };
 
     useEffect(() => {

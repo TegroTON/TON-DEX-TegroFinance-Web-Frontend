@@ -8,7 +8,7 @@ import { DexContextProvider } from './context';
 import { DeLabContextProvider } from './deLabContext';
 import { RecoilRoot } from 'recoil';
 
-console.log('test');
+// console.log('test');
 // walletService.registerAdapter('ton-wallet', new TonWalletWalletAdapter(tonClient, new TonWalletClient(window)));
 // walletService.registerAdapter('tonhub', new TonhubWalletAdapter(new TonhubConnector({network: 'sandbox'})));
 

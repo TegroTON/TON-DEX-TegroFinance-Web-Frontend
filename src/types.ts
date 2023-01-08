@@ -1,4 +1,5 @@
 import {Address, Coins} from 'ton3-core';
+import {Token} from "./ton/dex/api/types";
 
 export interface LocationParams {
     from: string;
@@ -7,10 +8,16 @@ export interface LocationParams {
     data: object;
 }
 
+export type TokenData = {
+    token: Token
+    userWallet: Address
+    userBalance: Coins
+};
+
 export type PairData = {
     address: Address;
-    leftToken: Address;
-    rightToken: Address;
+    leftToken: Token;
+    rightToken: Token;
     leftWallet: Address | null;
     rightWallet: Address | null;
     leftBalance: Coins | null
@@ -21,7 +28,6 @@ export type PairData = {
 };
 
 export type SwapParams = {
-    slippage: number
     inAmount: Coins
     outAmount: Coins
 };

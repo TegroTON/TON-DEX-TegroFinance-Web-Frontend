@@ -20,7 +20,7 @@ export function DefaultHeader() {
     const switchTheme = useSwitchTheme();
 
     const [expanded, setExpanded] = useState<boolean>(false);
-    console.log(expanded)
+    // console.log(expanded)
     return (
         <header className="header border-bottom mb-5">
             <Navbar expand="lg"
@@ -281,84 +281,84 @@ export function DefaultHeader() {
                                             style={{ minHeight: '44px' }}
                                         />
                                     </InputGroup>
-                                    <div className="dropdown-menu" data-bs-popper="static">
-                                        <NavDropdown.Item className="px-2 px-lg-3 py-2" href="/symbol-detail">
-                                            <div className="d-flex align-items-center">
-                                                <img src="/assets/images/ton.png" width={32} height={32} alt="Ton Coin" />
-                                                <div className="ms-3">
-                                                    <span className="d-block fw-500">TON Coin</span>
-                                                    <span className="d-block color-grey small">TON</span>
-                                                </div>
-                                                <div className="ms-auto text-end">
-                                                    <div className="fw-500">
-                                                        $2.09 USD
-                                                    </div>
-                                                    <div className="fw-500 color-green small mt-1">
-                                                        <span className="color-green" data-bs-toggle="tooltip" data-bs-title="Net Position Ratio">
-                                                            <i className="fa-solid fa-caret-up me-1" />  0.63%
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </NavDropdown.Item>
-                                        <NavDropdown.Item className="px-2 px-lg-3 py-2" href="/symbol-detail">
-                                            <div className="d-flex align-items-center">
-                                                <img src="/assets/images/token/eth.svg" width={32} height={32} alt="Ton Coin" />
-                                                <div className="ms-3">
-                                                    <span className="d-block fw-500">Ether</span>
-                                                    <span className="d-block color-grey small">ETH</span>
-                                                </div>
-                                                <div className="ms-auto text-end">
-                                                    <div className="fw-500">
-                                                        $1522.09 USD
-                                                    </div>
-                                                    <div className="fw-500 color-green small mt-1">
-                                                        <span className="color-green" data-bs-toggle="tooltip" data-bs-title="Net Position Ratio">
-                                                            <i className="fa-solid fa-caret-up me-1" />  2.34%
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </NavDropdown.Item>
-                                        <NavDropdown.Item className="px-2 px-lg-3 py-2" href="/symbol-detail">
-                                            <div className="d-flex align-items-center">
-                                                <img src="/assets/images/token/BNB.svg" width={32} height={32} alt="Ton Coin" />
-                                                <div className="ms-3">
-                                                    <span className="d-block fw-500">Binance Coin</span>
-                                                    <span className="d-block color-grey small">BNB</span>
-                                                </div>
-                                                <div className="ms-auto text-end">
-                                                    <div className="fw-500">
-                                                        $12.09 USD
-                                                    </div>
-                                                    <div className="fw-500 color-green small mt-1">
-                                                        <span className="color-red" data-bs-toggle="tooltip" data-bs-title="Net Position Ratio">
-                                                            <i className="fa-solid fa-caret-down me-1" />  2.02%
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </NavDropdown.Item>
-                                        <NavDropdown.Item className="px-2 px-lg-3 py-2" href="/symbol-detail">
-                                            <div className="d-flex align-items-center">
-                                                <img src="/assets/images/token/Tether.svg" width={32} height={32} alt="Ton Coin" />
-                                                <div className="ms-3">
-                                                    <span className="d-block fw-500">Tether</span>
-                                                    <span className="d-block color-grey small">USDT</span>
-                                                </div>
-                                                <div className="ms-auto text-end">
-                                                    <div className="fw-500">
-                                                        $1.00 USD
-                                                    </div>
-                                                    <div className="fw-500 color-green small mt-1">
-                                                        <span className="color-grey" data-bs-toggle="tooltip" data-bs-title="Net Position Ratio">
-                                                            0.00%
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </NavDropdown.Item>
-                                    </div>
+                                    {/*<div className="dropdown-menu" data-bs-popper="static">*/}
+                                    {/*    <NavDropdown.Item className="px-2 px-lg-3 py-2" href="/symbol-detail">*/}
+                                    {/*        <div className="d-flex align-items-center">*/}
+                                    {/*            <img src="/assets/images/ton.png" width={32} height={32} alt="Ton Coin" />*/}
+                                    {/*            <div className="ms-3">*/}
+                                    {/*                <span className="d-block fw-500">TON Coin</span>*/}
+                                    {/*                <span className="d-block color-grey small">TON</span>*/}
+                                    {/*            </div>*/}
+                                    {/*            <div className="ms-auto text-end">*/}
+                                    {/*                <div className="fw-500">*/}
+                                    {/*                    $2.09 USD*/}
+                                    {/*                </div>*/}
+                                    {/*                <div className="fw-500 color-green small mt-1">*/}
+                                    {/*                    <span className="color-green" data-bs-toggle="tooltip" data-bs-title="Net Position Ratio">*/}
+                                    {/*                        <i className="fa-solid fa-caret-up me-1" />  0.63%*/}
+                                    {/*                    </span>*/}
+                                    {/*                </div>*/}
+                                    {/*            </div>*/}
+                                    {/*        </div>*/}
+                                    {/*    </NavDropdown.Item>*/}
+                                    {/*    <NavDropdown.Item className="px-2 px-lg-3 py-2" href="/symbol-detail">*/}
+                                    {/*        <div className="d-flex align-items-center">*/}
+                                    {/*            <img src="/assets/images/token/eth.svg" width={32} height={32} alt="Ton Coin" />*/}
+                                    {/*            <div className="ms-3">*/}
+                                    {/*                <span className="d-block fw-500">Ether</span>*/}
+                                    {/*                <span className="d-block color-grey small">ETH</span>*/}
+                                    {/*            </div>*/}
+                                    {/*            <div className="ms-auto text-end">*/}
+                                    {/*                <div className="fw-500">*/}
+                                    {/*                    $1522.09 USD*/}
+                                    {/*                </div>*/}
+                                    {/*                <div className="fw-500 color-green small mt-1">*/}
+                                    {/*                    <span className="color-green" data-bs-toggle="tooltip" data-bs-title="Net Position Ratio">*/}
+                                    {/*                        <i className="fa-solid fa-caret-up me-1" />  2.34%*/}
+                                    {/*                    </span>*/}
+                                    {/*                </div>*/}
+                                    {/*            </div>*/}
+                                    {/*        </div>*/}
+                                    {/*    </NavDropdown.Item>*/}
+                                    {/*    <NavDropdown.Item className="px-2 px-lg-3 py-2" href="/symbol-detail">*/}
+                                    {/*        <div className="d-flex align-items-center">*/}
+                                    {/*            <img src="/assets/images/token/BNB.svg" width={32} height={32} alt="Ton Coin" />*/}
+                                    {/*            <div className="ms-3">*/}
+                                    {/*                <span className="d-block fw-500">Binance Coin</span>*/}
+                                    {/*                <span className="d-block color-grey small">BNB</span>*/}
+                                    {/*            </div>*/}
+                                    {/*            <div className="ms-auto text-end">*/}
+                                    {/*                <div className="fw-500">*/}
+                                    {/*                    $12.09 USD*/}
+                                    {/*                </div>*/}
+                                    {/*                <div className="fw-500 color-green small mt-1">*/}
+                                    {/*                    <span className="color-red" data-bs-toggle="tooltip" data-bs-title="Net Position Ratio">*/}
+                                    {/*                        <i className="fa-solid fa-caret-down me-1" />  2.02%*/}
+                                    {/*                    </span>*/}
+                                    {/*                </div>*/}
+                                    {/*            </div>*/}
+                                    {/*        </div>*/}
+                                    {/*    </NavDropdown.Item>*/}
+                                    {/*    <NavDropdown.Item className="px-2 px-lg-3 py-2" href="/symbol-detail">*/}
+                                    {/*        <div className="d-flex align-items-center">*/}
+                                    {/*            <img src="/assets/images/token/Tether.svg" width={32} height={32} alt="Ton Coin" />*/}
+                                    {/*            <div className="ms-3">*/}
+                                    {/*                <span className="d-block fw-500">Tether</span>*/}
+                                    {/*                <span className="d-block color-grey small">USDT</span>*/}
+                                    {/*            </div>*/}
+                                    {/*            <div className="ms-auto text-end">*/}
+                                    {/*                <div className="fw-500">*/}
+                                    {/*                    $1.00 USD*/}
+                                    {/*                </div>*/}
+                                    {/*                <div className="fw-500 color-green small mt-1">*/}
+                                    {/*                    <span className="color-grey" data-bs-toggle="tooltip" data-bs-title="Net Position Ratio">*/}
+                                    {/*                        0.00%*/}
+                                    {/*                    </span>*/}
+                                    {/*                </div>*/}
+                                    {/*            </div>*/}
+                                    {/*        </div>*/}
+                                    {/*    </NavDropdown.Item>*/}
+                                    {/*</div>*/}
                                 </Form>
                             </Nav>
                             <Nav className="d-block d-lg-flex align-items-center align-items-lg-center border-top-mobile order-3 ms-0 ms-lg-2">
