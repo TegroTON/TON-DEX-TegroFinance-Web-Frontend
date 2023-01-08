@@ -10,9 +10,9 @@ import { PairData } from '../../types';
 import { DeLabButtonLabel, DeLabConnector } from '../../deLabContext';
 import { fieldNormalizer } from '../../utils';
 import { Container, Row, Col, Card, Button, Form, InputGroup, ListGroup } from 'react-bootstrap';
-import {UseFormatPriceImpact} from "../../hooks/useFormatPriceImpact";
-import {UsePrintRoute} from "../../hooks/usePrintRoute";
-import {useCalcPrice} from "../../hooks/useCalcPrice";
+import { UseFormatPriceImpact } from "../../hooks/useFormatPriceImpact";
+import { UsePrintRoute } from "../../hooks/usePrintRoute";
+import { useCalcPrice } from "../../hooks/useCalcPrice";
 
 export default function SwapPage() {
     const {
@@ -139,6 +139,7 @@ export default function SwapPage() {
                                             data-bs-target="#TokenModalLeft"
                                         >
                                             <img
+                                                className="rounded-circle"
                                                 src={swapLeft.token.image}
                                                 width="24"
                                                 height="24"
@@ -154,7 +155,7 @@ export default function SwapPage() {
                             </Form.Group>
                             <Form.Group className="swap-exchange-arrow d-flex justify-content-center" onClick={switchSwap}>
                                 <Button variant="swap-exchange-arrow__button btn-icon">
-                                <i className="fa-regular fa-arrow-up-arrow-down"></i>
+                                    <i className="fa-regular fa-arrow-up-arrow-down"></i>
                                 </Button>
                             </Form.Group>
                             <Form.Group className="mb-4">
@@ -183,6 +184,7 @@ export default function SwapPage() {
                                             data-bs-target="#TokenModalRight"
                                         >
                                             <img
+                                                className="rounded-circle"
                                                 src={swapRight.token.image}
                                                 width="24"
                                                 height="24"
@@ -218,13 +220,13 @@ export default function SwapPage() {
                                 <ListGroup.Item className="d-flex mb-3">
                                     <span className="me-auto fw-500">Price Impact:</span>
                                     <span className="text-muted">
-                                        <UseFormatPriceImpact priceImpact={priceImpact}/>
+                                        <UseFormatPriceImpact priceImpact={priceImpact} />
                                     </span>
                                 </ListGroup.Item>
                                 <ListGroup.Item className="d-flex list-item">
                                     <span className="me-auto fw-500">Route:</span>
                                     <span className="text-muted">
-                                        <UsePrintRoute pairs={swapPairs}/>
+                                        <UsePrintRoute pairs={swapPairs} />
                                     </span>
                                 </ListGroup.Item>
                             </ListGroup>

@@ -149,6 +149,7 @@ export default function AddLiquidityPage() {
                                             data-bs-target="#TokenModalLeft"
                                         >
                                             <img
+                                                className="rounded-circle"
                                                 src={from.image}
                                                 width="24"
                                                 height="24"
@@ -196,6 +197,7 @@ export default function AddLiquidityPage() {
                                             data-bs-target="#TokenModalRight"
                                         >
                                             <img
+                                                className="rounded-circle"
                                                 src={to.image}
                                                 width="24"
                                                 height="24"

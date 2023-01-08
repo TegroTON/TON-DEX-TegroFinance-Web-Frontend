@@ -1,9 +1,9 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import {useContext, useState} from 'react';
+import { useContext, useState } from 'react';
 import { DexContext, DexContextType } from '../context';
 import { DeLabButtonLabel, DeLabConnector } from '../deLabContext';
 import { Container, Row, Col, Nav, Navbar, NavDropdown, Dropdown, Button, Form, InputGroup } from 'react-bootstrap';
-import {log} from "util";
+import { log } from "util";
 import { useSwitchTheme } from "../hooks/useSwitchTheme";
 
 export function DefaultHeader() {
@@ -24,10 +24,10 @@ export function DefaultHeader() {
     return (
         <header className="header border-bottom mb-5">
             <Navbar expand="lg"
-                    collapseOnSelect
-                    expanded={expanded}
-                    onToggle={() => setExpanded(!expanded)}
-                    onSelect={() => setExpanded(false)}>
+                collapseOnSelect
+                expanded={expanded}
+                onToggle={() => setExpanded(!expanded)}
+                onSelect={() => setExpanded(false)}>
                 <Container fluid className="px-auto px-xl-5">
                     <Link to="/" className="header__logo">
                         <img src="/assets/images/logotype.svg" alt="" className="header__logo-img" />
@@ -234,9 +234,9 @@ export function DefaultHeader() {
                                                     </div>
                                                 </NavDropdown.Item>
                                                 <NavDropdown.Item className="d-flex" href="https://tegro.gitbook.io/en/dex/bug-bounty" target="_blank">
-                                                    <i className="fa-light fa-bug dropdown-item-icon"/>
+                                                    <i className="fa-light fa-bug dropdown-item-icon" />
                                                     <div className="ms-3">
-                                                    Bug Bounty
+                                                        Bug Bounty
                                                         <div className="text-muted small">You can be rewarded for finding vulnerabilities in Tegro.Finance</div>
                                                     </div>
                                                 </NavDropdown.Item>
@@ -399,7 +399,7 @@ export function DefaultHeader() {
                                     <Nav.Item className="dropdown d-none d-lg-block">
                                         <Nav.Link className="box-blur border rounded-8 text-nowrap d-flex align-items-center"
                                             role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img src="/assets/images/ton.png" width={18} height={18} alt="Ton Coin" />
+                                            <img className="rounded-circle" src="/assets/images/ton.png" width={18} height={18} alt="Ton Coin" />
                                             <span className="fw-medium ms-2">
                                                 {`${walletInfo.balance ? walletInfo.balance.toString().slice(0, 6) : 'Load...'} TON`}
                                             </span>
