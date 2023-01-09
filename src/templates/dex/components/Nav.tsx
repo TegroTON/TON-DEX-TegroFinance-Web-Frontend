@@ -6,12 +6,15 @@ export function NavComponent() {
 
     return (
         <>
-            <Nav justify variant="pills" className="content-nav-pills mb-3 mb-lg-4 d-flex" defaultActiveKey="/">
+            <Nav justify variant="pills" className="content-nav-pills mb-3 mb-lg-4" defaultActiveKey="/">
                 <Nav.Item>
                     <Link className={`nav-link btn ${location.pathname === '/' ? 'active' : ''}`} to="/">Exchange</Link>
                 </Nav.Item>
                 <Nav.Item>
                     <Link className={`nav-link btn ${location.pathname.slice(0, 10) === '/liquidity' ? 'active' : ''}`} to="/liquidity">Liquidity</Link>
+                </Nav.Item>
+                <Nav.Item>
+                    <Link className={`nav-link btn ${location.pathname.slice(0, 10) === '/referral' ? 'active' : ''}`} to="/referral">Referral</Link>
                 </Nav.Item>
             </Nav>
         </>
