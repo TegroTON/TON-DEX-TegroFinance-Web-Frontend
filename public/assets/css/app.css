@@ -594,6 +594,18 @@ h3 {
     background: var(--red-500);
 }
 
+.alert-success {
+    background: var(--green-100);
+    border: 0;
+    color: var(--green-700);
+}
+
+.alert-danger {
+    background: var(--red-100);
+    border: 0;
+    color: var(--red-700)
+}
+
 .u-badge {
     background: var(--red-500);
     font-size: 12px;

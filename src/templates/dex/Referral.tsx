@@ -28,7 +28,9 @@ export function ReferralPage() {
                                     <InputGroup>
                                         <Form.Control className="fs-14" defaultValue="https://tegro.finance/?ref=6e02054c95b51f663878" />
                                         <InputGroup.Text className="p-1">
-                                            <Button variant="outline-light btn-sm border-0 fs-14">
+                                            <Button variant="outline-light btn-sm border-0 fs-14"
+                                            onClick={() => navigator.clipboard.writeText(`https://tegro.finance/?ref=6e02054c95b51f663878`)}
+                                            >
                                                 <i className="fa-regular fa-copy fa-lg" />
                                             </Button>
                                         </InputGroup.Text>
