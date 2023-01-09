@@ -65,15 +65,14 @@ export function SettingsModal() {
                                 <InputGroup className="mb-3">
                                     <Form.Control
                                         type="number"
-                                        className="form-control"
-                                        defaultValue={slippage}
+                                        className="text-center fw-500"
                                         min={0.1}
                                         max={99.9}
                                         step={0.1}
                                         style={{ height: '50px' }}
                                         onChange={(event) => updateSlippage(parseFloat(event.target.value))}
                                         required={![0.1, 0.5, 1].includes(slippage)}
-                                        placeholder="3%"
+                                        placeholder={`${slippage}`}
                                     />
                                     <InputGroup.Text id="basic-addon1">
                                         <i className="fa-solid fa-percent"></i>

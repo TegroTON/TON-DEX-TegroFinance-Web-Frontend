@@ -205,12 +205,18 @@ export function ReferralPage() {
                     <Card className="p-0" style={{ contain: 'paint' }}>
                         <div className="d-block d-md-flex align-items-center box-blur px-4 py-3 border-bottom">
                             <h1 className="fs-20 me-auto m-0">Referral List</h1>
-                            <form className="ms-auto mt-3 mt-md-0">
-                                <div className="input-group">
-                                    <input type="search" className="form-control" placeholder="Search wallet / ref.link..." style={{ minHeight: '46px' }} />
-                                    <button className="input-group-text border-0"><i className="fa-regular fa-magnifying-glass" /></button>
-                                </div>
-                            </form>
+                            <Form className="ms-auto mt-3 mt-md-0">
+                                <InputGroup>
+                                    <Form.Control
+                                        placeholder="Search wallet / ref.link..."
+                                        aria-label="Search wallet / ref.link..."
+                                        style={{ minHeight: '46px' }}
+                                    />
+                                    <InputGroup.Text id="basic-addon1">
+                                        <i className="fa-regular fa-magnifying-glass" />
+                                    </InputGroup.Text>
+                                </InputGroup>
+                            </Form>
                         </div>
                         <table className="table table-tokens">
                             <thead className="sticky-top" style={{ top: '79px' }}>

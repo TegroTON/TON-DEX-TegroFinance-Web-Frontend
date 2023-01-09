@@ -1341,8 +1341,26 @@ h3 {
 }
 
 .accordion-item {
+    cursor: pointer;
     color: var(--text-primary);
+    border: 0;
+    background: transparent;
 }
+
+.accordion-item .fa-angle-right {
+    transform: rotate(0deg);
+    transition: all .3s;
+    margin-top: 2px;
+}
+
+.accordion-item[aria-expanded="true"]:last-child {
+    border-bottom: 1px solid var(--bg-primary)!important
+}
+
+.accordion-item[aria-expanded="true"] .fa-angle-right {
+    transform: rotate(-90deg)
+}
+
 
 .accordion-header .accordion-button {
     background: transparent;

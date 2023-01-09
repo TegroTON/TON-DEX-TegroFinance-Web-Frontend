@@ -23,10 +23,8 @@
       <meta content="TegroFinance - A next evolution DeFi exchange on The Open Network (TON)" name="twitter:title" />
       <meta content="Cheaper and faster than any DEX? Discover Tegro Finance, the leading DEX on The Open Network (TON) with the best farms in DeFi and a lottery for TGR."
             name="twitter:description" />
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800;900&display=swap"
-            rel="stylesheet">
-      <link rel="stylesheet" href="/assets/libs/fontawesome/css/all.min.css">
       <link href="/assets/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="/assets/libs/fontawesome/css/all.min.css">
       <link href="/assets/css/app.css" rel="stylesheet">
 </head>
 
@@ -34,6 +32,26 @@
       <div class="border-page-right border-page-left" id="root"></div>
       <script src="/src/main.tsx" type="module"></script>
       <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!--      <script async src="/assets/js/theme.js"></script>-->
+      <script src="/assets/js/chart.js"></script>
+      <script>
+            window.onload = () => {
+                  const ctx = document.getElementById('TokenChart');
+
+                  new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                              labels: ["03:00", "", "", "", "", "", "06:00", "", "", "", "", "", "09:00", "", "", "", "", "", "12:00", "", "", "", "", "", "15:00", "", "", "", "", "", "18:00", "", "", "", "", "", "21:00", "", "", "", "", "", "23:00", ""],
+                              datasets: [{
+                                    label: 'USD',
+                                    data: [2.09, 2.24, 1.58, 1.45, 0.96, 1.98, 2.00, 2.05, 1.09, 1.24, 2.58, 2.45, 1.96, 2.98, 2.00, 2.05, 2.09, 2.24, 1.58, 1.45, 0.96, 1.98, 2.00, 2.05, 2.09, 2.24, 1.58, 1.45, 0.96, 1.98, 2.00, 2.05, 2.09, 2.24, 1.58, 1.45, 0.96, 1.98, 2.00, 2.05, 2.09, 2.24, 1.58, 1.45],
+                                    borderWidth: 2,
+                                    borderColor: "#1b73f9",
+                                    backgroundColor: "#1b73f9",
+                              }]
+                        }
+                  });
+            };
+      </script>
 </body>
+
 </html>

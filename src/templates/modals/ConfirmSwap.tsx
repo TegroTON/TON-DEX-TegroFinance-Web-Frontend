@@ -124,7 +124,7 @@ export function ConfirmSwapModal() {
                             </li>
                         </ul>
                         <div className="d-flex">
-                            <Button className="btn btn-outline-light me-auto" data-bs-dismiss="modal" aria-label="Close">
+                            <Button className="btn btn-light me-auto" data-bs-dismiss="modal" aria-label="Close">
                                 Cancel
                             </Button>
                             <Button className="btn btn-red" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#ProcessingModal"

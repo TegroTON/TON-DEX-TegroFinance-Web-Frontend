@@ -242,20 +242,24 @@ export function DefaultHeader() {
                                                 </NavDropdown.Item>
                                             </Col>
                                             <Col>
-                                                <NavDropdown.Item className="d-flex" href="/privacy">
+                                                <Link className="d-flex dropdown-item" to="/privacy"
+                                                    onClick={() => setExpanded(false)}
+                                                >
                                                     <i className="fa-light fa-file-contract dropdown-item-icon" />
                                                     <div className="ms-3">
                                                         Privacy policy
                                                         <div className="text-muted small">Last updated October 5, 2021.</div>
                                                     </div>
-                                                </NavDropdown.Item>
-                                                <NavDropdown.Item className="d-flex" href="/terms">
+                                                </Link>
+                                                <Link className="d-flex dropdown-item" to="/terms"
+                                                    onClick={() => setExpanded(false)}
+                                                >
                                                     <i className="fa-light fa-file-contract dropdown-item-icon" />
                                                     <div className="ms-3">
                                                         Terms of use
                                                         <div className="text-muted small">Last updated October 18, 2022.</div>
                                                     </div>
-                                                </NavDropdown.Item>
+                                                </Link>
                                                 <NavDropdown.Item className="d-flex" href="https://t.me/TegroForum" target="_blank">
                                                     <i className="fa-light fa-envelope-open-text dropdown-item-icon" />
                                                     <div className="ms-3">

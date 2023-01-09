@@ -85,7 +85,7 @@ export function TokenModal(props: { side: 'Left' | 'Right' }) {
                                                 onChange: (event) => changeSelected(event.target.name),
                                             })}
                                         />
-                                        <img className="token-form__img"
+                                        <img className="token-form__img rounded-circle"
                                             src={token.image} width="24px" height="24px"
                                             alt={token.symbol}
                                         />
@@ -116,7 +116,7 @@ export function TokenModal(props: { side: 'Left' | 'Right' }) {
                                                     onChange: (event) => changeSelected(event.target.name),
                                                 })}
                                             />
-                                            <img className="token-form__img" src={token.image} width="24px" height="24px" alt={token.symbol} />
+                                            <img className="token-form__img rounded-circle" src={token.image} width="24px" height="24px" alt={token.symbol} />
                                             <span className="token-form__symbol text-uppercase fw-500 ms-3">{token.symbol}</span>
                                             <span className="token-form__name text-muted ms-auto">{token.name}</span>
                                         </Form.Label>

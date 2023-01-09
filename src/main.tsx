@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
+import "typeface-inter";
 import { ScrollToTop } from './ScrollToTop';
 import { DexContextProvider } from './context';
 import { DeLabContextProvider } from './deLabContext';

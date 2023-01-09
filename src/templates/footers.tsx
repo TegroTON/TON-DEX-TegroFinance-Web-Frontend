@@ -3,21 +3,13 @@ import {
 } from './modals';
 import { ProcessingModal } from './modals/Processing';
 import { ConfirmStakeModal } from './modals/ConfirmStake';
-
 export function DefaultFooter() {
     return (
         <>
             <footer className="footer bg-circle pt-0 pb-5">
                 <div className="container">
                     <div className="text-center d-flex flex-column align-items-center mx-auto">
-                        <a
-                            href="https://t.me/tegro_money"
-                            className="copyright-link fw-700 mb-3"
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            DEX by Tegro
-                        </a>
+                        <span className="copyright-link fw-700 mb-3">DEX by Tegro</span>
                         <div className="soc-box d-flex align-items-center">
                             <a
                                 href="https://www.instagram.com/tegromoney/"
@@ -30,7 +22,7 @@ export function DefaultFooter() {
                                 />
                             </a>
                             <a
-                                href="https://t.me/tegromoney"
+                                href="https://t.me/TegroDEX"
                                 target="_blank"
                                 className="soc-link px-3 text-muted fs-18"
                                 rel="noreferrer"
@@ -40,7 +32,7 @@ export function DefaultFooter() {
                                 />
                             </a>
                             <a
-                                href="https://vk.com/tegromoney"
+                                href="https://vk.com/tegro"
                                 target="_blank"
                                 className="soc-link px-3 text-muted fs-18"
                                 rel="noreferrer"
@@ -50,7 +42,7 @@ export function DefaultFooter() {
                                 />
                             </a>
                             <a
-                                href="https://twitter.com/tegromoney"
+                                href="https://twitter.com/TegroFinance"
                                 target="_blank"
                                 className="soc-link px-3 text-muted fs-18"
                                 rel="noreferrer"
