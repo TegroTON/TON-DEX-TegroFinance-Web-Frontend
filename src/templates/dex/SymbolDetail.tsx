@@ -157,9 +157,12 @@ export function SymbolDetailPage() {
                                     </InputGroup>
                                 </Form.Group>
                                 <Form.Group className="swap-exchange-arrow d-flex justify-content-center">
-                                    <Button variant="swap-exchange-arrow__button p-2 border-0" onClick={switchSwap}>
-                                        <i className="fa-regular fa-arrow-up-arrow-down"></i>
-                                    </Button>
+                                    <input className="swap-exchange-input-check" type="checkbox" value="" id="swap-exchange-arrow" />
+                                    <label
+                                        onClick={switchSwap}
+                                        className="swap-exchange-arrow__button p-2 border-0 form-check-label" htmlFor="swap-exchange-arrow">
+                                        <i className="fa-solid fa-arrow-up-arrow-down"></i>
+                                    </label>
                                 </Form.Group>
                                 <Form.Group className="mb-4">
                                     <div className="d-flex justify-content-between mb-2 px-1">

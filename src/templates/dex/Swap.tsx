@@ -9,7 +9,7 @@ import { Pair, Token } from '../../ton/dex/api/types';
 import { PairData } from '../../types';
 import { DeLabButtonLabel, DeLabConnector } from '../../deLabContext';
 import { fieldNormalizer } from '../../utils';
-import { Container, Row, Col, Card, Button, Form, InputGroup, ListGroup, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, ToggleButton, Form, InputGroup, ListGroup, Alert } from 'react-bootstrap';
 import { UseFormatPriceImpact } from "../../hooks/useFormatPriceImpact";
 import { UsePrintRoute } from "../../hooks/usePrintRoute";
 import { useCalcPrice } from "../../hooks/useCalcPrice";
@@ -96,7 +96,10 @@ export default function SwapPage() {
 
     setValue('left', inAmount.toString());
     setValue('right', outAmount.toString());
-    
+
+    const [checked, setChecked] = useState(false);
+
+
 
     return (
         <Container>
@@ -156,9 +159,12 @@ export default function SwapPage() {
                                 </InputGroup>
                             </Form.Group>
                             <Form.Group className="swap-exchange-arrow d-flex justify-content-center">
-                                <Button variant="swap-exchange-arrow__button p-2 border-0" onClick={switchSwap}>
-                                    <i className="fa-regular fa-arrow-up-arrow-down"></i>
-                                </Button>
+                                    <input className="swap-exchange-input-check" type="checkbox" value="" id="swap-exchange-arrow" />
+                                    <label
+                                        onClick={switchSwap}
+                                        className="swap-exchange-arrow__button p-2 border-0 form-check-label" htmlFor="swap-exchange-arrow">
+                                        <i className="fa-solid fa-arrow-up-arrow-down"></i>
+                                    </label>
                             </Form.Group>
                             <Form.Group className="mb-4">
                                 <div className="d-flex justify-content-between mb-2 px-1">
