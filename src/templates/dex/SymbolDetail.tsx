@@ -13,9 +13,9 @@
 // import { UsePrintRoute } from "../../hooks/usePrintRoute";
 // import { useCalcPrice } from "../../hooks/useCalcPrice";
 // import { Container, Row, Col, Card, Button, ButtonGroup, Form, InputGroup, ListGroup } from 'react-bootstrap';
-//
+
 // export function SymbolDetailPage() {
-//
+
 //     const {
 //         swapLeft,
 //         swapRight,
@@ -31,27 +31,27 @@
 //         inAmount,
 //         outAmount,
 //     } = swapParams;
-//
-//
+
+
 //     // console.log(leftReserved)
 //     const price = useCalcPrice(swapPairs);
-//
+
 //     // console.log("PRICE: ", price.toString());
-//
+
 //     const [priceImpact, setPriceImpact] = useState(0);
-//
+
 //     const realPrice = inAmount.isZero()
 //         ? new Coins(1).div(price.toString())
 //         : new Coins(inAmount).div(outAmount.toString());
 //     const minReceived = new Coins(outAmount).mul(1 - slippage / 100);
-//
+
 //     const {
 //         register,
 //         setValue,
 //         getValues,
 //         formState: { isValid },
 //     } = useForm({ mode: 'onChange' });
-//
+
 //     const updateAmount = (side: ('left' | 'right')) => {
 //         const value = getValues(side);
 //         if (value) {
@@ -80,35 +80,35 @@
 //             setPriceImpact(0);
 //         }
 //     };
-//
+
 //     // const updater = async () => {
 //     //     // await updateDexInfo()
 //     //     // await updateAmount('left')
 //     // };
-//
+
 //     useEffect(() => {
 //         // const interval = setInterval(() => updater(), 5000);
 //         //
 //         // return () => clearInterval(interval)
 //     }, []);
-//
+
 //     // useEffect(() => {
 //     // }, [outAmount]);
-//
+
 //     setValue('left', inAmount.toString());
 //     setValue('right', outAmount.toString());
-//
-//
+
+
 //     return (
 //         <Container>
 //             <Row>
 //                 <Col lg={5} xl={4} className="order-2 order-lg-1 mt-4 mt-lg-0">
 //                     <Card className="h-100">
 //                         <div className="sticky-top" style={{ top: '116px' }}>
-//                         <div className="d-flex align-items-center mb-4">
-//                             <h2 className="card-title fs-24 fw-700 me-auto">Swap</h2>
-//                             <Button variant="btn p-0 border-0" data-bs-toggle="modal" data-bs-target="#SettingsModal"><i className="fa-regular fa-gear fa-lg" /></Button>
-//                         </div>
+//                             <div className="d-flex align-items-center mb-4">
+//                                 <h2 className="card-title fs-24 fw-700 me-auto">Swap</h2>
+//                                 <Button variant="btn p-0 border-0" data-bs-toggle="modal" data-bs-target="#SettingsModal"><i className="fa-regular fa-gear fa-lg" /></Button>
+//                             </div>
 //                             <Form>
 //                                 <Form.Group className="mb-4">
 //                                     <div className="d-flex justify-content-between mb-2 px-1">
@@ -135,6 +135,7 @@
 //                                             })}
 //                                         />
 //                                         <InputGroup.Text className="p-1">
+//                                             <Button variant="outline-green p-2 fs-12 me-3">Max</Button>
 //                                             <Button variant="btn btn-sm btn-light d-flex align-items-center justify-content-center p-2"
 //                                                 style={{ minWidth: '124px' }}
 //                                                 data-bs-toggle="modal"
@@ -155,10 +156,13 @@
 //                                         </InputGroup.Text>
 //                                     </InputGroup>
 //                                 </Form.Group>
-//                                 <Form.Group className="swap-exchange-arrow d-flex justify-content-center" onClick={switchSwap}>
-//                                     <Button variant="swap-exchange-arrow__button btn-icon">
-//                                         <i className="fa-regular fa-arrow-up-arrow-down"></i>
-//                                     </Button>
+//                                 <Form.Group className="swap-exchange-arrow d-flex justify-content-center">
+//                                     <input className="swap-exchange-input-check" type="checkbox" value="" id="swap-exchange-arrow" />
+//                                     <label
+//                                         onClick={switchSwap}
+//                                         className="swap-exchange-arrow__button p-2 border-0 form-check-label" htmlFor="swap-exchange-arrow">
+//                                         <i className="fa-solid fa-arrow-up-arrow-down"></i>
+//                                     </label>
 //                                 </Form.Group>
 //                                 <Form.Group className="mb-4">
 //                                     <div className="d-flex justify-content-between mb-2 px-1">
@@ -244,17 +248,17 @@
 //                                                     Exchange
 //                                                 </Button>
 //                                             ) : (
-//
+
 //                                                 <div className="bg-soft-red text-center fw-500 p-3 w-100 rounded-8">
 //                                                     {`Insufficient ${swapLeft.token.symbol} balance`}
 //                                                 </div>
-//
+
 //                                             )
 //                                         ) : (
 //                                             <div className="bg-soft-green text-center fw-500 p-3 w-100 rounded-8">
 //                                                 Enter an amount
 //                                             </div>
-//
+
 //                                         )
 //                                     ) : (
 //                                         <Button variant="primary p-3 w-100" type="button"
@@ -334,5 +338,3 @@
 //         </Container>
 //     )
 // }
-
-export {}

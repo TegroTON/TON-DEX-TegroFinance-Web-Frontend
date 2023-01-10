@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Coins } from 'ton3-core';
 import { useForm } from 'react-hook-form';
 import { DexContext, DexContextType } from '../../context';
@@ -84,6 +84,9 @@ export default function SwapPage() {
     } catch {
         // pass
     }
+
+    const [checked, setChecked] = useState(false);
+
     return (
         <Container>
             <Row className="justify-content-md-center">
@@ -120,6 +123,7 @@ export default function SwapPage() {
                                         })}
                                     />
                                     <InputGroup.Text className="p-1">
+                                        <Button variant="outline-green p-2 fs-12 me-3">Max</Button>
                                         <Button variant="btn btn-sm btn-light d-flex align-items-center justify-content-center p-2"
                                             style={{ minWidth: '124px' }}
                                             data-bs-toggle="modal"
@@ -140,10 +144,13 @@ export default function SwapPage() {
                                     </InputGroup.Text>
                                 </InputGroup>
                             </Form.Group>
-                            <Form.Group className="swap-exchange-arrow d-flex justify-content-center" onClick={switchSwap}>
-                                <Button variant="swap-exchange-arrow__button btn-icon">
-                                    <i className="fa-regular fa-arrow-up-arrow-down"></i>
-                                </Button>
+                            <Form.Group className="swap-exchange-arrow d-flex justify-content-center">
+                                    <input className="swap-exchange-input-check" type="checkbox" value="" id="swap-exchange-arrow" />
+                                    <label
+                                        onClick={switchSwap}
+                                        className="swap-exchange-arrow__button p-2 border-0 form-check-label" htmlFor="swap-exchange-arrow">
+                                        <i className="fa-solid fa-arrow-up-arrow-down"></i>
+                                    </label>
                             </Form.Group>
                             <Form.Group className="mb-4">
                                 <div className="d-flex justify-content-between mb-2 px-1">
