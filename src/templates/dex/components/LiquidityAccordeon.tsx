@@ -30,13 +30,13 @@ export function LiquidityAccordionComponent(
 
     const share = new Coins(poolPosition.lpBalance).div(lpSupply.toString());
 
-    const l = tokens?.find((t) => t.address.eq(leftToken.address)) as Token;
+    const l = leftToken;
 
-    const r = tokens?.find((t) => t.address.eq(rightToken.address)) as Token;
+    const r = rightToken;
 
     const pos = {
-        left: new Coins(leftReserved).mul(share.toString()),
-        right: new Coins(rightReserved).mul(share.toString()),
+        left: new Coins(leftReserved, {decimals: leftToken.decimals}).mul(share.toString()),
+        right: new Coins(rightReserved, {decimals: rightToken.decimals}).mul(share.toString()),
     };
 
     return (
@@ -44,8 +44,8 @@ export function LiquidityAccordionComponent(
             <div className="accordion-item py-4 collapsed" data-bs-toggle="collapse" data-bs-target={`#collapse${k}`} aria-expanded="false" aria-controls={`collapse${k}`}>
                 <div className="d-flex align-items-center">
                     <div className="accordion-item__images">
-                        <img src={l.image} alt={l.symbol} className="wc-img" style={{ width: '40px', height: '40px', }} />
-                        <img src={r.image} alt={l.symbol} className="accordion-item__images-small" />
+                        <img src={l.image} alt={l.name} className="wc-img" style={{ width: '40px', height: '40px', }} />
+                        <img src={r.image} alt={r.name} className="accordion-item__images-small" />
                     </div>
                     <div className="ms-3">
                         <span className="fs-16 fw-700">{`${l.symbol} / ${r.symbol}`}</span>
@@ -59,12 +59,12 @@ export function LiquidityAccordionComponent(
                 <div id={`collapse${k}`} className="accordion-collapse mt-4 collapse" data-bs-parent={`#accordionLiquidity${k}`}>
                     <ul className="list-unstyled bg-light p-3 rounded-8">
                         <li className="list-item d-flex align-items-center mb-3">
-                            <img src={l.image} alt="" className="wc-img" style={{ width: '14px', height: '14px', }} />
+                            <img src={l.image} alt={l.name} className="wc-img rounded-circle" style={{ width: '14px', height: '14px', }} />
                             <span className="ms-2 me-auto fw-500"> {`${l.name} position:`}</span>
                             <span className="text-muted">{`${pos.left} ${l.symbol}`}</span>
                         </li>
                         <li className="list-item d-flex align-items-center mb-3">
-                            <img src={r.image} alt="" className="wc-img" style={{ width: '14px', height: '14px', }} />
+                            <img src={r.image} alt={r.name} className="wc-img rounded-circle" style={{ width: '14px', height: '14px', }} />
                             <span className="ms-2 me-auto fw-500">{`${r.name} position:`}</span>
                             <span className="text-muted">{`${pos.right} ${r.symbol}`}</span>
                         </li>

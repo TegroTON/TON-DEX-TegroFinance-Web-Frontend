@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { Address, BOC, Coins } from 'ton3-core';
 import { DexContext, DexContextType } from '../../context';
 import { DexBetaPairContract } from '../../ton/dex/contracts/DexBetaPairContract';
@@ -6,7 +6,7 @@ import { tonClient } from '../../ton';
 import { Token } from '../../ton/dex/api/types';
 import { TON_ADDRESS } from '../../ton/dex/constants';
 import { Modal, Button } from 'react-bootstrap';
-import {getOutAmount} from "../../ton/dex/utils";
+import {CoinsToDecimals, getOutAmount} from "../../ton/dex/utils";
 
 export function ConfirmSwapModal() {
     const {
@@ -14,21 +14,22 @@ export function ConfirmSwapModal() {
         swapLeft,
         swapRight,
         swapPairs,
-        swapParams,
         slippage,
         tokens,
+        extract
     } = useContext(DexContext) as DexContextType;
-    const {
-        inAmount,
-        outAmount,
-    } = swapParams;
+    const { amount: inAmount, token: from } = swapLeft;
+    const { amount: outAmount, token: to } = swapRight;
+
     const tonBalance = walletInfo ? walletInfo.balance : new Coins(0);
-    const minReceived = new Coins(outAmount).mul(1 - slippage / 100);
-
-    const from = swapLeft.token;
-
-    const to = swapRight.token;
-
+    let minReceived = new Coins(0, {decimals: swapRight.token.decimals});
+    let maxSold = new Coins(0, {decimals: swapLeft.token.decimals});
+    try {
+        minReceived = new Coins(swapRight.amount, {decimals: swapRight.token.decimals}).mul(1 - slippage / 100);
+        maxSold = new Coins(swapLeft.amount, {decimals: swapLeft.token.decimals}).mul(1 + slippage / 100);
+    } catch {
+        // pass
+    }
     const isRoute = swapPairs.length === 2;
 
     const handleConfirm = async () => {
@@ -37,8 +38,10 @@ export function ConfirmSwapModal() {
         // console.log(left, address.toString());
         if (swapPairs[0].rightToken.address.eq(TON_ADDRESS)) {
             if (isRoute) {
-                const minReserved0 = getOutAmount(inAmount, swapPairs[0].leftReserved, swapPairs[0].rightReserved);
-                const payload = dexPair.createRouteSwapRequest(inAmount, minReserved0, minReceived, walletInfo?.address as Address, swapPairs[1].address);
+                const minReceived0 = getOutAmount(inAmount, swapPairs[0].leftReserved, swapPairs[0].rightReserved);
+                const minReceived0D = CoinsToDecimals(minReceived0, swapPairs[0].rightToken.decimals);
+                console.log('min out', minReceived, minReceived.toNano());
+                const payload = dexPair.createRouteSwapRequest(inAmount, minReceived0D, minReceived, walletInfo?.address as Address, swapPairs[1].address);
                 await walletInfo?.sendTransaction({
                     to: swapLeft.userWallet.toString("base64", {bounceable: true}),
                     value: new Coins(0.6).toNano(),
@@ -47,7 +50,11 @@ export function ConfirmSwapModal() {
                     // .replaceAll('/', '_'),
                 });
             } else {
-                const payload = dexPair.createJettonSwapRequest(inAmount, minReceived, walletInfo?.address as Address);
+                const payload = dexPair.createJettonSwapRequest(
+                    extract,
+                    extract ? maxSold : inAmount,
+                    extract ? outAmount : minReceived,
+                    walletInfo?.address as Address);
                 await walletInfo?.sendTransaction({
                     to: swapLeft.userWallet.toString("base64", {bounceable: true}),
                     value: new Coins(0.3).toNano(),
@@ -58,10 +65,14 @@ export function ConfirmSwapModal() {
             }
 
         } else {
-            const payload = DexBetaPairContract.createTonSwapRequest(inAmount, minReceived, walletInfo?.address as Address);
+            const payload = DexBetaPairContract.createTonSwapRequest(
+                    extract,
+                    extract ? maxSold : inAmount,
+                    extract ? outAmount : minReceived,
+                    walletInfo?.address as Address);
             await walletInfo?.sendTransaction({
                 to: dexPair.address.toString(),
-                value: new Coins(inAmount).add(new Coins(0.3))
+                value: new Coins(extract ? maxSold : inAmount).add(new Coins(0.3))
                     .toNano(),
                 payload: BOC.toBase64Standard(payload),
                 // .replaceAll('+', '-')
@@ -115,12 +126,17 @@ export function ConfirmSwapModal() {
                         </p>
                         <ul className="list-unstyled card-alert p-3 bg-light rounded-8 mb-4">
                             <li className="list-item d-flex mb-0">
-                                <span className="me-auto fw-500">Min Received:</span>
-                                <span
-                                    className="text-muted"
-                                >
-                                    {`${minReceived.toString()} ${to.symbol}`}
-                                </span>
+                                {extract ? (<>
+                                        <span className="me-auto fw-500">Maximum sold:</span>
+                                        <span className="text-muted">
+                                            {`${(maxSold ?? '0').toString()} ${swapLeft.token.symbol}`}
+                                        </span>
+                                    </>) : (<>
+                                        <span className="me-auto fw-500">Minimum received:</span>
+                                        <span className="text-muted">
+                                            {`${(minReceived ?? '0').toString()} ${swapRight.token.symbol}`}
+                                        </span>
+                                </>)}
                             </li>
                         </ul>
                         <div className="d-flex">

@@ -52,7 +52,7 @@ export function DefaultHeader() {
                                             Copy address
                                             <div className="text-truncate text-muted small" style={{ maxWidth: '150px' }}>
                                                 {`${walletInfo.address.toString()
-                                                    .slice(1, 8)}...${walletInfo.address.toString()
+                                                    .slice(0, 6)} . . . ${walletInfo.address.toString()
                                                         .slice(-6)}`}
                                             </div>
                                         </div>
@@ -418,7 +418,7 @@ export function DefaultHeader() {
                                                     Copy address
                                                     <div className="text-truncate text-muted small" style={{ maxWidth: '150px' }}>
                                                         {`${walletInfo.address.toString()
-                                                            .slice(1, 8)}...${walletInfo.address.toString()
+                                                            .slice(0, 6)} . . . ${walletInfo.address.toString()
                                                                 .slice(-6)}`}
                                                     </div>
                                                 </div>

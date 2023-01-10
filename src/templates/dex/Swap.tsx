@@ -1,15 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Coins } from 'ton3-core';
 import { useForm } from 'react-hook-form';
-import usePrefersColorScheme from 'use-prefers-color-scheme';
 import { DexContext, DexContextType } from '../../context';
 import { NavComponent } from './components/Nav';
-import { calcOutAmountAndPriceImpact } from '../../ton/dex/utils';
-import { Pair, Token } from '../../ton/dex/api/types';
-import { PairData } from '../../types';
-import { DeLabButtonLabel, DeLabConnector } from '../../deLabContext';
+import { DeLabConnector } from '../../deLabContext';
 import { fieldNormalizer } from '../../utils';
-import { Container, Row, Col, Card, Button, Form, InputGroup, ListGroup, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Form, InputGroup, ListGroup } from 'react-bootstrap';
 import { UseFormatPriceImpact } from "../../hooks/useFormatPriceImpact";
 import { UsePrintRoute } from "../../hooks/usePrintRoute";
 import { useCalcPrice } from "../../hooks/useCalcPrice";
@@ -19,30 +15,31 @@ export default function SwapPage() {
         swapLeft,
         swapRight,
         slippage,
-        swapParams,
-        updateSwapParams,
+        setLeftSwapAmount,
+        setRightSwapAmount,
+        extract,
+        setExtract,
+        priceImpact,
         walletInfo,
         tokens,
         swapPairs,
-        switchSwap
+        switchSwap,
     } = useContext(DexContext) as DexContextType;
-    let {
-        inAmount,
-        outAmount,
-    } = swapParams;
 
-
-    // console.log(leftReserved)
     const price = useCalcPrice(swapPairs);
 
-    // console.log("PRICE: ", price.toString());
+    const realPrice = swapLeft.amount.isZero() || swapRight.amount.isZero()
+        ? price.isZero() ? new Coins(0) : new Coins(1).div(price.toString())
+        : new Coins(swapLeft.amount).div(swapRight.amount.toString());
 
-    const [priceImpact, setPriceImpact] = useState(0);
-
-    const realPrice = inAmount.isZero()
-        ? new Coins(1).div(price.toString())
-        : new Coins(inAmount).div(outAmount.toString());
-    const minReceived = new Coins(outAmount).mul(1 - slippage / 100);
+    let minReceived = new Coins(0, {decimals: swapRight.token.decimals});
+    let maxSold = new Coins(0, {decimals: swapLeft.token.decimals});
+    try {
+        minReceived = new Coins(swapRight.amount, {decimals: swapRight.token.decimals}).mul(1 - slippage / 100);
+        maxSold = new Coins(swapLeft.amount, {decimals: swapLeft.token.decimals}).mul(1 + slippage / 100);
+    } catch {
+        // pass
+    }
 
     const {
         register,
@@ -53,50 +50,40 @@ export default function SwapPage() {
 
     const updateAmount = (side: ('left' | 'right')) => {
         const value = getValues(side);
-        if (value) {
-            inAmount = new Coins(value);
-            const [outAmount, priceImpact] = calcOutAmountAndPriceImpact(inAmount, swapPairs);
-            setPriceImpact(priceImpact); // price_impact_trade_cake = amountInCAKE / (reserve_a_initial + amountInCAKE);
-            if (side === 'left') {
-                updateSwapParams({
-                    ...swapParams,
-                    inAmount,
-                    outAmount,
-                });
-            } else {
-                updateSwapParams({
-                    ...swapParams,
-                    inAmount: outAmount,
-                    outAmount: inAmount,
-                });
-            }
+        if (side === 'left') {
+            setLeftSwapAmount(new Coins(value || "0", {decimals: swapLeft.token.decimals}));
+            setExtract(false);
         } else {
-            updateSwapParams({
-                ...swapParams,
-                inAmount: new Coins(0),
-                outAmount: new Coins(0),
-            });
-            setPriceImpact(0);
+            const pair = swapPairs[swapPairs.length - 1];
+            const maxValue = Number(new Coins(pair.rightReserved, {decimals: pair.rightToken.decimals}).mul(0.999).toString())
+            setRightSwapAmount(new Coins(Math.min(Number(value || "0"), Number(maxValue)), {decimals: pair.rightToken.decimals}));
+            setExtract(true);
         }
     };
 
-    // const updater = async () => {
-    //     // await updateDexInfo()
-    //     // await updateAmount('left')
-    // };
-
     useEffect(() => {
-        // const interval = setInterval(() => updater(), 5000);
-        //
-        // return () => clearInterval(interval)
-    }, []);
+        const curLeft: string = getValues('left');
+        const left = swapLeft.amount.toString();
+        const curRight: string = getValues('right');
+        const right = swapRight.amount.toString();
+        if (left && curLeft !== left && (extract || curLeft.substring(curLeft.length - 1) !== '.')) {
+            setValue('left', left || "0");
+        }
+        if (right && curRight !== right && (!extract || curRight.substring(curRight.length - 1) !== '.')) {
+            setValue('right', right || "0");
+        }
+    }, [swapLeft.amount, swapRight.amount])
 
-    // useEffect(() => {
-    // }, [outAmount]);
 
-    setValue('left', inAmount.toString());
-    setValue('right', outAmount.toString());
+    const isRoute = swapPairs.length === 2;
 
+    let sufficient = 0;
+    try {
+        const inAmount = extract ? maxSold : swapLeft.amount;
+        sufficient = inAmount.isZero() ? 0 : swapLeft.userBalance.gte(inAmount) ? 1 : -1;
+    } catch {
+        // pass
+    }
     return (
         <Container>
             <Row className="justify-content-md-center">
@@ -168,13 +155,19 @@ export default function SwapPage() {
                                     ) : ('')}
                                 </div>
                                 <InputGroup className="mb-3">
-                                    <Form.Control className="bg-light"
+                                    <Form.Control
                                         placeholder="0"
-                                        defaultValue={outAmount.toString()}
-                                        disabled
+                                        type="text"
+                                        inputMode="decimal"
+                                        aria-invalid="false"
+                                        autoComplete="off"
+                                        disabled={isRoute}
                                         {...register('right', {
-                                            onChange: (event) => fieldNormalizer('right', event.target.value, setValue),
-                                            validate: (value) => value && parseFloat(value) > 0,
+                                            onChange: (event) => {
+                                                fieldNormalizer('right', event.target.value, setValue);
+                                                updateAmount('right');
+                                            },
+                                            validate: (value) => !extract || (value && parseFloat(value) > 0),
                                         })}
                                     />
                                     <InputGroup.Text className="p-1 bg-light">
@@ -212,10 +205,17 @@ export default function SwapPage() {
                                     </span>
                                 </ListGroup.Item>
                                 <ListGroup.Item className="d-flex mb-3">
-                                    <span className="me-auto fw-500">Minimum received:</span>
-                                    <span className="text-muted">
-                                        {`${(minReceived ?? '0').toString()} ${swapRight.token.symbol}`}
-                                    </span>
+                                    {extract ? (<>
+                                        <span className="me-auto fw-500">Maximum sold:</span>
+                                        <span className="text-muted">
+                                            {`${(maxSold ?? '0').toString()} ${swapLeft.token.symbol}`}
+                                        </span>
+                                    </>) : (<>
+                                        <span className="me-auto fw-500">Minimum received:</span>
+                                        <span className="text-muted">
+                                            {`${(minReceived ?? '0').toString()} ${swapRight.token.symbol}`}
+                                        </span>
+                                    </>)}
                                 </ListGroup.Item>
                                 <ListGroup.Item className="d-flex mb-3">
                                     <span className="me-auto fw-500">Price Impact:</span>
@@ -232,8 +232,8 @@ export default function SwapPage() {
                             </ListGroup>
                             <>
                                 {walletInfo?.isConnected ? (
-                                    isValid && !inAmount.isZero() ? (
-                                        ((swapLeft.userBalance.gte(inAmount))) ? (
+                                    sufficient ? (
+                                        (sufficient > 0) ? (
                                             <Button variant="btn btn-green p-3 w-100"
                                                 type="button"
                                                 data-bs-toggle="modal"

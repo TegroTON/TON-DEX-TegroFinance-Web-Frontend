@@ -31,13 +31,13 @@ export default function LiquidityPage() {
                         <Form>
                             <div className="mb-40">
                                 <h2 className="card-title fs-24 fw-700 me-auto mb-2">Your Liquidity</h2>
-                                {poolPositions && poolPositions.length > 0 ? (
+                                {walletInfo?.isConnected && poolPositions && poolPositions.length > 0 ? (
                                     <p className="mb-0 text-muted">Remove liquidity to receive tokens back</p>
                                 ) : (
                                     <p className="mb-0 text-muted">Add liquidity to earn from commissions</p>
                                 )}
                             </div>
-                            {poolPositions && poolPositions.length > 0 ? (
+                            {walletInfo?.isConnected && poolPositions && poolPositions.length > 0 ? (
                                 poolPositions.map(
                                     (pp, k) => {
                                         const PAIR = pairs.find((p) => p.address.eq(pp.pair));

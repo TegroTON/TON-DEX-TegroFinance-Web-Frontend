@@ -8,10 +8,11 @@ export interface LocationParams {
     data: object;
 }
 
-export type TokenData = {
+export type SwapData = {
     token: Token
     userWallet: Address
     userBalance: Coins
+    amount: Coins
 };
 
 export type PairData = {

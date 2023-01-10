@@ -1,7 +1,7 @@
-import { Address, Coins } from 'ton3-core';
+import {Address, Coins} from 'ton3-core';
 // import { JettonInfo, Pair } from '../../types';
-import { tonClient } from '../index';
-import { Pair, Pairs } from './api/types';
+import {tonClient} from '../index';
+import {Pair, Pairs} from './api/types';
 
 export const getPairByTokens = (pairs: Pairs, token1: Address, token2: Address): Pair => {
     // const pairs = await getPairs(null);
@@ -82,6 +82,13 @@ export const getLPSupply = async (pairAddress: string): Promise<Coins> => {
 //     };
 // };
 
+const round = (x: number, d: number) => {
+    return Math.round(x * 10 ** d) / 10 ** d;
+}
+export const CoinsToDecimals = (x: Coins, d: number): Coins => {
+    return new Coins(round(Number(x.toString()), d), {decimals: d});
+}
+
 export const getOutAmount = (inAmount: Coins, inReserved: Coins, outReserved: Coins): Coins => {
     const inAmountWithFee = new Coins(inAmount).mul(996);
     const numerator = new Coins(inAmountWithFee).mul(outReserved.toString());
@@ -94,17 +101,30 @@ export const calcOutAmountAndPriceImpact = (inAmount: Coins, pairs: Pair[]): [Co
     const isRoute = pairs.length === 2;
     if (isRoute) {
         const out1 = getOutAmount(inAmount, pairs[0].leftReserved, pairs[0].rightReserved);
-        const outAmount = getOutAmount(out1, pairs[1].leftReserved, pairs[1].rightReserved);
+        const out1D = CoinsToDecimals(out1, pairs[0].rightToken.decimals);
+        const outAmount = getOutAmount(out1D, pairs[1].leftReserved, pairs[1].rightReserved);
         const priceImpact1 = new Coins(inAmount).div(new Coins(pairs[0].leftReserved).add(inAmount).toString()).mul(100);
-        const priceImpact2 = new Coins(out1).div(new Coins(pairs[1].leftReserved).add(out1).toString()).mul(100);
+        const priceImpact2 = new Coins(out1D).div(new Coins(pairs[1].leftReserved).add(out1D).toString()).mul(100);
         const priceImpact = Number(new Coins(priceImpact1).add(priceImpact2).toString());
         // const priceImpact = Number(new Coins(inAmount).mul(out1.toString()).div(new Coins(pairs[0].leftReserved).mul(pairs[1].leftReserved.toString()).add(new Coins(inAmount).mul(out1.toString())).toString()).mul(100).toString());
-        return [outAmount, priceImpact]
+        return [CoinsToDecimals(outAmount, pairs[1].rightToken.decimals), priceImpact]
     } else {
         const outAmount = getOutAmount(inAmount, pairs[0].leftReserved, pairs[0].rightReserved);
-        const priceImpact = Number(new Coins(inAmount).div(new Coins(pairs[0].leftReserved).add(inAmount).toString()).mul(100.4).toString());
-        return [outAmount, priceImpact]
+        const priceImpact = Number(new Coins(inAmount).div(new Coins(pairs[0].leftReserved).add(inAmount).toString()).mul(100).toString());
+        return [CoinsToDecimals(outAmount, pairs[0].rightToken.decimals), priceImpact]
     }
+}
+
+export const getInAmount = (outAmount: Coins, inReserved: Coins, outReserved: Coins): Coins => {
+    const numerator = new Coins(inReserved).mul(outAmount.toString()).mul(1000);
+    const denominator = new Coins(outReserved).sub(outAmount).mul(996)
+    return numerator.div(denominator.toString())
+}
+
+export const calcInAmountAndPriceImpact = (outAmount: Coins, pair: Pair): [Coins, number] => {
+    const inAmount = getInAmount(outAmount, pair.leftReserved, pair.rightReserved);
+    const priceImpact = Number(new Coins(outAmount).div(new Coins(pair.rightReserved).sub(outAmount).toString()).mul(100).toString());
+    return [CoinsToDecimals(inAmount, pair.leftToken.decimals), priceImpact]
 }
 
 export const getStakeAmount = (inAmount: Coins, inReserved: Coins, outReserved: Coins): Coins => {

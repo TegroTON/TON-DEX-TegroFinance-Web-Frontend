@@ -1,6 +1,6 @@
 import { Address, Coins } from 'ton3-core';
 import { tonClient } from './index';
-import { PairData, SwapParams, TokenData } from '../types';
+import { PairData, SwapParams } from '../types';
 import { Pair, Tokens, Token } from './dex/api/types';
 
 export function getDefaultSwapParams(): SwapParams {
@@ -29,22 +29,6 @@ export function getDefaultPair(): PairData {
         rightWallet: null,
         rightBalance: null,
     };
-}
-
-export function getTONTokenData(): TokenData {
-    return {
-        token: getTONToken(),
-        userWallet: Address.NONE,
-        userBalance: new Coins(0),
-    }
-}
-
-export function getTGRTokenData(): TokenData {
-    return {
-        token: getTGRToken(),
-        userWallet: Address.NONE,
-        userBalance: new Coins(0),
-    }
 }
 
 

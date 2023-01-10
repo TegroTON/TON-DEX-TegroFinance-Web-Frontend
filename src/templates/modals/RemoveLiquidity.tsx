@@ -25,6 +25,7 @@ export function RemoveLiquidityModal() {
             .storeBit(0)
             .cell();
 
+
         await walletInfo?.sendTransaction({
             to: wallet.toString(),
             value: new Coins(1.5).toNano(),

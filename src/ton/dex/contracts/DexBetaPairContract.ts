@@ -13,12 +13,12 @@ export class DexBetaPairContract {
         this.address = address;
     }
 
-    static createTonSwapRequest(maxIn: Coins, minReceived: Coins, destination: Address): Cell {
+    static createTonSwapRequest(extract: boolean, maxIn: Coins, minReceived: Coins, destination: Address): Cell {
         const queryId = Math.round(Date.now() / Math.PI / Math.random());
         return new Builder()
             .storeUint(DexOP.swapTon, 32)
             .storeUint(queryId, 64)
-            .storeBit(0) // extract
+            .storeBit(~~extract) // extract
             .storeCoins(maxIn) // max_in
             .storeCoins(minReceived) // min_out
             .storeAddress(destination) // destination
@@ -78,8 +78,8 @@ export class DexBetaPairContract {
             .storeBit(1) // custom payload
             .storeRef(new Builder()
                 .storeBit(0) // extract
-                .storeCoins(new Coins(minReserved0)) // max_in
-                .storeCoins(new Coins(minReceived)) // min_out
+                .storeCoins(minReserved0) // max_in
+                .storeCoins(minReceived) // min_out
                 .storeAddress(myAddress) // destination
                 .storeAddress(this.address) // error_destination
                 .storeBit(0) // custom payload
@@ -96,12 +96,12 @@ export class DexBetaPairContract {
         });
     }
 
-    createJettonSwapRequest(jettonAmount: Coins, minReceived: Coins, myAddress: Address): Cell {
+    createJettonSwapRequest(extract: boolean, jettonAmount: Coins, minReceived: Coins, myAddress: Address): Cell {
         const queryId = Math.round(Date.now() / Math.PI / Math.random());
         const payload = new Builder()
             .storeUint(DexOP.swapJetton, 32) // sub-op
-            .storeBit(0) // extract
-            .storeCoins(new Coins(4999999999)) // max_in
+            .storeBit(~~extract) // extract
+            .storeCoins(jettonAmount) // max_in
             .storeCoins(minReceived) // min_out
             .storeAddress(myAddress) // destination
             .storeAddress(myAddress) // error_destination

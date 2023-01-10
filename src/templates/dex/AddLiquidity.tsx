@@ -8,6 +8,7 @@ import { PairData } from '../../types';
 import { Token } from '../../ton/dex/api/types';
 import { fieldNormalizer } from '../../utils';
 import { Container, Row, Col, Card, Button, Form, InputGroup, ListGroup } from 'react-bootstrap';
+import {CoinsToDecimals} from "../../ton/dex/utils";
 
 export default function AddLiquidityPage() {
     const navigate = useNavigate();
@@ -41,15 +42,15 @@ export default function AddLiquidityPage() {
 
     const [share, setShare] = useState(0);
 
-    const from = tokens?.find((t) => t.address.eq(leftToken.address)) as Token;
+    const from = leftToken
+    const to = rightToken
 
-    const to = tokens?.find((t) => t.address.eq(rightToken.address)) as Token;
     const leftPrice = leftReserved.isZero()
         ? new Coins(0)
-        : new Coins(rightReserved).div(leftReserved.toString());
+        : new Coins(rightReserved, {decimals: rightToken.decimals}).div(leftReserved.toString());
     const rightPrice = rightReserved.isZero()
         ? new Coins(0)
-        : new Coins(leftReserved).div(rightReserved.toString());
+        : new Coins(leftReserved, {decimals: leftToken.decimals}).div(rightReserved.toString());
 
     const {
         register,
@@ -65,12 +66,11 @@ export default function AddLiquidityPage() {
         const value = getValues(side) ?? 0;
         // console.log('val', value);
         if (value) {
-            inAmount = new Coins(value);
-
             // getStakeAmount(inAmount, lReserve, rReserve);
             if (side === 'left') {
-                outAmount = new Coins(inAmount).div(rightPrice.toString());
-                setShare(Number(new Coins(inAmount).div(Number(new Coins(leftReserved).add(inAmount).toString())).toString()))
+                inAmount = new Coins(Number(value).toFixed(leftToken.decimals), {decimals: leftToken.decimals});
+                outAmount = CoinsToDecimals(new Coins(inAmount).div(rightPrice.toString()), rightToken.decimals);
+                setShare(Number(new Coins(inAmount, {decimals: leftToken.decimals}).div(Number(new Coins(leftReserved, {decimals: leftToken.decimals}).add(inAmount).toString())).toString()))
                 updatePoolParams({
                     ...poolParams,
                     inAmount,
@@ -78,18 +78,19 @@ export default function AddLiquidityPage() {
                 });
                 setValue('right', outAmount.toString());
             } else {
-                outAmount = new Coins(inAmount).div(leftPrice.toString());
-                setShare(Number(new Coins(inAmount).div(Number(new Coins(rightReserved).add(inAmount).toString())).toString()))
+                outAmount = new Coins(Number(value).toFixed(rightToken.decimals), {decimals: rightToken.decimals});
+                inAmount = CoinsToDecimals(new Coins(outAmount, {decimals: rightToken.decimals}).div(leftPrice.toString()), leftToken.decimals);
+                setShare(Number(new Coins(outAmount, {decimals: rightToken.decimals}).div(Number(new Coins(rightReserved, {decimals: rightToken.decimals}).add(outAmount).toString())).toString()))
                 updatePoolParams({
                     ...poolParams,
-                    outAmount: inAmount,
-                    inAmount: outAmount
+                    outAmount,
+                    inAmount
                 });
-                setValue('left', outAmount.toString());
+                setValue('left', inAmount.toString());
             }
         } else {
-            inAmount = new Coins(0);
-            outAmount = new Coins(0);
+            inAmount = new Coins(0, {decimals: leftToken.decimals});
+            outAmount = new Coins(0, {decimals: rightToken.decimals});
             setShare(0);
             updatePoolParams({
                 ...poolParams,
@@ -102,6 +103,17 @@ export default function AddLiquidityPage() {
     };
 
     useEffect(() => updateAmount(lastSide), [leftReserved, rightReserved]);
+
+
+    let sufficient = 0;
+    try {
+        sufficient = !isValid ? 0 :
+            (((leftBalance && leftBalance.gte(inAmount)) || (!leftBalance && tonBalance.gte(inAmount)))
+                && ((rightBalance && rightBalance.gte(outAmount)) || (!rightBalance && tonBalance.gte(outAmount)))) ? 1 : -1;
+    } catch {
+        // pass
+    }
+
 
     return (
         <Container>
@@ -232,9 +244,8 @@ export default function AddLiquidityPage() {
                                     </span>
                                 </ListGroup.Item>
                             </ListGroup>
-                            {isValid ? (
-                                (((leftBalance && leftBalance.gte(inAmount)) || (!leftBalance && tonBalance.gte(inAmount)))
-                                    && ((rightBalance && rightBalance.gte(outAmount)) || (!rightBalance && tonBalance.gte(outAmount))))
+                            {sufficient ? (
+                                (sufficient > 0)
                                     ? (
                                         <Button
                                             className="btn btn-primary w-100"
@@ -259,7 +270,7 @@ export default function AddLiquidityPage() {
                         <div className="d-flex">
                             <i className="fa-regular fa-circle-info fa-2x color-red mt-1" />
                             <p className="ms-3 mb-0 pe-3 text-muted">
-                                By adding liquidity you'll earn 0.17% of all trades on this pair proportional to your share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing
+                                By adding liquidity you'll earn 0.25% of all trades on this pair proportional to your share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing
                                 your liquidity.
                             </p>
                         </div>
