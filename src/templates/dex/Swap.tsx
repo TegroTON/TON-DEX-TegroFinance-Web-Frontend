@@ -96,6 +96,7 @@ export default function SwapPage() {
 
     setValue('left', inAmount.toString());
     setValue('right', outAmount.toString());
+    
 
     return (
         <Container>
@@ -133,6 +134,7 @@ export default function SwapPage() {
                                         })}
                                     />
                                     <InputGroup.Text className="p-1">
+                                        <Button variant="outline-green p-2 fs-12 me-3">Max</Button>
                                         <Button variant="btn btn-sm btn-light d-flex align-items-center justify-content-center p-2"
                                             style={{ minWidth: '124px' }}
                                             data-bs-toggle="modal"
@@ -153,8 +155,8 @@ export default function SwapPage() {
                                     </InputGroup.Text>
                                 </InputGroup>
                             </Form.Group>
-                            <Form.Group className="swap-exchange-arrow d-flex justify-content-center" onClick={switchSwap}>
-                                <Button variant="swap-exchange-arrow__button btn-icon">
+                            <Form.Group className="swap-exchange-arrow d-flex justify-content-center">
+                                <Button variant="swap-exchange-arrow__button p-2 border-0" onClick={switchSwap}>
                                     <i className="fa-regular fa-arrow-up-arrow-down"></i>
                                 </Button>
                             </Form.Group>

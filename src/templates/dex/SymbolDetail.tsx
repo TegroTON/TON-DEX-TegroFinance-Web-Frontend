@@ -105,10 +105,10 @@ export function SymbolDetailPage() {
                 <Col lg={5} xl={4} className="order-2 order-lg-1 mt-4 mt-lg-0">
                     <Card className="h-100">
                         <div className="sticky-top" style={{ top: '116px' }}>
-                        <div className="d-flex align-items-center mb-4">
-                            <h2 className="card-title fs-24 fw-700 me-auto">Swap</h2>
-                            <Button variant="btn p-0 border-0" data-bs-toggle="modal" data-bs-target="#SettingsModal"><i className="fa-regular fa-gear fa-lg" /></Button>
-                        </div>
+                            <div className="d-flex align-items-center mb-4">
+                                <h2 className="card-title fs-24 fw-700 me-auto">Swap</h2>
+                                <Button variant="btn p-0 border-0" data-bs-toggle="modal" data-bs-target="#SettingsModal"><i className="fa-regular fa-gear fa-lg" /></Button>
+                            </div>
                             <Form>
                                 <Form.Group className="mb-4">
                                     <div className="d-flex justify-content-between mb-2 px-1">
@@ -135,6 +135,7 @@ export function SymbolDetailPage() {
                                             })}
                                         />
                                         <InputGroup.Text className="p-1">
+                                            <Button variant="outline-green p-2 fs-12 me-3">Max</Button>
                                             <Button variant="btn btn-sm btn-light d-flex align-items-center justify-content-center p-2"
                                                 style={{ minWidth: '124px' }}
                                                 data-bs-toggle="modal"
@@ -155,8 +156,8 @@ export function SymbolDetailPage() {
                                         </InputGroup.Text>
                                     </InputGroup>
                                 </Form.Group>
-                                <Form.Group className="swap-exchange-arrow d-flex justify-content-center" onClick={switchSwap}>
-                                    <Button variant="swap-exchange-arrow__button btn-icon">
+                                <Form.Group className="swap-exchange-arrow d-flex justify-content-center">
+                                    <Button variant="swap-exchange-arrow__button p-2 border-0" onClick={switchSwap}>
                                         <i className="fa-regular fa-arrow-up-arrow-down"></i>
                                     </Button>
                                 </Form.Group>
