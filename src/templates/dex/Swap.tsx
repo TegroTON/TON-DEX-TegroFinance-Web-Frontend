@@ -123,7 +123,7 @@ export default function SwapPage() {
                                         })}
                                     />
                                     <InputGroup.Text className="p-1">
-                                        <Button variant="outline-green p-2 fs-12 me-3">Max</Button>
+                                        <Button variant="outline-light p-2 text-muted fs-11 me-3">Max</Button>
                                         <Button variant="btn btn-sm btn-light d-flex align-items-center justify-content-center p-2"
                                             style={{ minWidth: '124px' }}
                                             data-bs-toggle="modal"
