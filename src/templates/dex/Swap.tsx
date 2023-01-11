@@ -177,7 +177,7 @@ export default function SwapPage() {
                                             validate: (value) => !extract || (value && parseFloat(value) > 0),
                                         })}
                                     />
-                                    <InputGroup.Text className="p-1 bg-light">
+                                    <InputGroup.Text className="p-1">
                                         <Button variant="btn btn-sm btn-light border d-flex align-items-center justify-content-center p-2"
                                             style={{ minWidth: '124px' }}
                                             data-bs-toggle="modal"
