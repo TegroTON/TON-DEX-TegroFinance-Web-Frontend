@@ -418,10 +418,6 @@ label {
     font-weight: 500
 }
 
-.fs-11 {
-    font-size: 11px !important;
-}
-
 .fs-12 {
     font-size: 12px !important;
 }
@@ -1281,65 +1277,6 @@ h3 {
     .modal.fade .modal-dialog.mobile-modal-bottom {
         transform: translate(0, 16px) !important
     }
-}
-
-.accordion-item {
-    cursor: pointer;
-    color: var(--text-primary);
-    border: 0;
-    background: transparent;
-}
-
-.accordion-item .fa-angle-right {
-    transform: rotate(0deg);
-    transition: all .3s;
-    margin-top: 2px;
-}
-
-.accordion-item[aria-expanded="true"]:last-child {
-    border-bottom: 1px solid var(--bg-primary)!important
-}
-
-.accordion-item[aria-expanded="true"] .fa-angle-right {
-    transform: rotate(-90deg)
-}
-
-.accordion-header .accordion-button {
-    background: transparent;
-    box-shadow: none;
-    color: var(--text-primary);
-    padding: 24px;
-    line-height: 1.5;
-    font-weight: 500;
-    font-size: 14px;
-}
-
-.accordion-button[aria-expanded="true"] {
-    color: var(--blue-500);
-}
-
-.accordion-item .accordion-body {
-    padding: 0 24px 24px 24px;
-    margin-top: -6px;
-}
-
-.accordion-item__images {
-    position: relative;
-}
-
-.accordion-item__images img {
-    border-radius: 100%;
-    border: 3px solid var(--bg-second);
-    position: relative;
-}
-
-.accordion-item__images-small {
-    width: 40px;
-    height: 40px;
-    position: relative;
-    margin-left: -20px;
-    top: 1px;
-    object-fit: cover;
 }
 
 .modal-dialog {
@@ -2859,7 +2796,7 @@ h3 {
 .accordion-item__images img {
     border-radius: 100%;
     border: 3px solid var(--bg-second);
-    background: var(--bg-second);
+    background: #e8effb;
     position: relative;
 }
 
