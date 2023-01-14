@@ -33,6 +33,7 @@ export const fieldNormalizer = (
     set: (name: string, x: string) => void,
 ) => {
     let normValue = fieldValue;
+    normValue = normValue.replaceAll(',', '.');
     normValue = normValue.replace(/[^0-9\.]+/g, '');
     normValue = normValue.replace(/^0+/, '0');
     normValue = normValue.replace(/\.+$/, '.');

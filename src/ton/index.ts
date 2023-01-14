@@ -9,7 +9,8 @@ import { TonConnect } from '@tonconnect/sdk';
 
 // mainnet
 // const url = 'https://toncenter.com/api/v2'
-const url = 'https://api.uniton.app/jsonRPC';
+// const url = 'https://api.uniton.app/jsonRPC';
+const url = 'https://mainnet.tonhubapi.com/jsonRPC';
 const apiKey = '1048eba2377df542264d2e25589a36b9608d3c746d82b8e99284bc59845b041b';
 
 export const tonClient = new TonClient({
