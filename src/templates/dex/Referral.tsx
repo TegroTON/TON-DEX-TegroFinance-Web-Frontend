@@ -12,7 +12,7 @@ export function ReferralPage() {
                                 <span className="d-block">Earn cryptocurrency together</span>
                             </h1>
                             <p className="fs-18 mb-4">
-                                Earn up to <span className="fw-500 color-grey">20%</span> from friends swap commission on Biswap
+                                Earn up to <span className="fw-500 color-grey">20%</span> from friends swap commission on Tegro.Finance
                                 <br /> and <span className="fw-500 color-grey">5%</span> from their earnings on Farms &amp; Launchpools
                             </p>
                             <a href="#!" className="btn btn-sm btn-outline-primary" target="__blank">
@@ -29,7 +29,7 @@ export function ReferralPage() {
                                         <Form.Control className="fs-14" defaultValue="https://tegro.finance/?ref=6e02054c95b51f663878" />
                                         <InputGroup.Text className="p-1">
                                             <Button variant="outline-light btn-sm border-0 fs-14"
-                                            onClick={() => navigator.clipboard.writeText(`https://tegro.finance/?ref=6e02054c95b51f663878`)}
+                                                onClick={() => navigator.clipboard.writeText(`https://tegro.finance/?ref=6e02054c95b51f663878`)}
                                             >
                                                 <i className="fa-regular fa-copy fa-lg" />
                                             </Button>
@@ -64,8 +64,10 @@ export function ReferralPage() {
                                             </div>
                                             <ul className="list-unstyled small fw-500 m-0 px-2 px-sm-3 w-100">
                                                 <li className="d-flex mb-1">Swaps <span className="text-muted ms-auto">10%</span></li>
+                                                {/* 
                                                 <li className="d-flex mb-1">Farms <span className="text-muted ms-auto">5%</span></li>
                                                 <li className="d-flex">Launchpools <span className="text-muted ms-auto">5%</span></li>
+                                                */}
                                             </ul>
                                         </Stack>
                                     </Col>
@@ -87,7 +89,8 @@ export function ReferralPage() {
             </section>
             <section className="section hero">
                 <Container>
-                    <Row className="mb-5">
+                    { /* 
+                   <Row className="mb-5">
                         <Col md={6} lg={4} className="mb-3 mb-lg-0">
                             <Card className="p-4">
                                 <Stack direction="horizontal" gap={2} className="mb-4">
@@ -133,17 +136,16 @@ export function ReferralPage() {
                                 </ButtonGroup>
                             </Card>
                         </Col>
-                    </Row>
+                                            </Row>
+                                            */}
                     <Nav variant="pills" className="box-blur border w-100 mb-4" defaultActiveKey="/referral">
                         <Nav.Item>
-                            <Nav.Link href="/referral">Swaps</Nav.Link>
+                            <Nav.Link href="/referral">Referral List</Nav.Link>
                         </Nav.Item>
                         <Nav.Item>
-                            <Nav.Link eventKey="link-1">Farms</Nav.Link>
+                            <Nav.Link href="#!">Swaps</Nav.Link>
                         </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link eventKey="link-2">Launchpools</Nav.Link>
-                        </Nav.Item>
+
                     </Nav>
                     <Card className="p-4 mb-4">
                         <Card.Title className="card-title fs-20 fw-700 mb-4">Dashboard</Card.Title>
@@ -153,8 +155,8 @@ export function ReferralPage() {
                                     <Stack direction="horizontal" gap={2} className="mb-4">
                                         <i className="fa-duotone fa-users dropdown-item-icon rounded-circle fs-20" style={{ width: '48px', height: '48px', lineHeight: '48px' }} />
                                         <div className="ms-3">
-                                            <h4 className="fs-12 fw-500 text-muted mb-1">Active Friends / Total Friends</h4>
-                                            <p className="fs-20 fw-700 mb-0">0 / 0</p>
+                                            <h4 className="fs-12 fw-500 text-muted mb-1">Total Friends</h4>
+                                            <p className="fs-20 fw-700 mb-0">0</p>
                                         </div>
                                     </Stack>
                                     <div className="d-flex align-items-center">
@@ -178,28 +180,19 @@ export function ReferralPage() {
                                     </div>
                                 </Card.Body>
                             </Col>
-                            <Col md={6} xl className="mb-4 mb-xl-0">
+                            <Col md={12} xl className="mb-4 mb-xl-0">
                                 <Card.Body className="border rounded-8 p-4">
-                                    <div className="mb-4">
-                                        <h4 className="fs-12 fw-500 text-muted mb-1">Total Farms friends</h4>
-                                        <p className="fs-20 fw-700 mb-0">0</p>
-                                    </div>
-                                    <div className="mb-0">
-                                        <h4 className="fs-12 fw-500 text-muted mb-1">Total Farms earned</h4>
-                                        <p className="fs-20 fw-700 mb-0">0.0000 TGR</p>
-                                    </div>
-                                </Card.Body>
-                            </Col>
-                            <Col md={6} xl className="mb-4 mb-xl-0">
-                                <Card.Body className="border rounded-8 p-4">
-                                    <div className="mb-4">
-                                        <h4 className="fs-12 fw-500 text-muted mb-1">Total Launchpool friends</h4>
-                                        <p className="fs-20 fw-700 mb-0">0</p>
-                                    </div>
-                                    <div className="mb-0">
-                                        <h4 className="fs-12 fw-500 text-muted mb-1">Total Launchpool earned</h4>
-                                        <p className="fs-20 fw-700 mb-0">0.0000 TGR</p>
-                                    </div>
+                                    <Stack direction="horizontal" gap={2} className="mb-2">
+                                        <div className="me-auto">
+                                            <h4 className="fs-16 fw-500 text-muted mb-2">Swaps Referral</h4>
+                                            <p className="fs-24 fw-700 mb-0">0.0000 TGR</p>
+                                        </div>
+                                        <i className="fa-duotone fa-arrow-up-arrow-down card-item-icon bg-soft-green" />
+                                    </Stack>
+                                    <ButtonGroup className="w-100">
+                                        <Button variant="green btn-sm w-50 me-1">Withdraw</Button>
+                                        <Button variant="outline-green btn-sm w-50 ms-1">History</Button>
+                                    </ButtonGroup>
                                 </Card.Body>
                             </Col>
                         </Row>
@@ -516,56 +509,56 @@ export function ReferralPage() {
                     <Accordion className="row" defaultActiveKey="0">
                         <Col lg={6} className="mb-3">
                             {/* item */}
-                            <Accordion.Item eventKey="0" className="card mb-3 p-0">
+                            <Accordion.Item eventKey="0" className="card bg-second mb-3 p-0">
                                 <Accordion.Header>Where do I get my referral link?</Accordion.Header>
                                 <Accordion.Body>
                                     Connect a wallet and find your referral link in the Referral section.
                                 </Accordion.Body>
                             </Accordion.Item>
                             {/* item */}
-                            <Accordion.Item eventKey="1" className="card mb-3 p-0">
+                            <Accordion.Item eventKey="1" className="card bg-second mb-3 p-0">
                                 <Accordion.Header>How do I invite a referral friend?</Accordion.Header>
                                 <Accordion.Body>
                                     Invite your friends to register via your referral link.
                                 </Accordion.Body>
                             </Accordion.Item>
                             {/* item */}
-                            <Accordion.Item eventKey="2" className="card mb-3 p-0">
+                            <Accordion.Item eventKey="2" className="card bg-second mb-3 p-0">
                                 <Accordion.Header>Are there separate balances for referral rewards from friends' Swaps, Farms, Launchpools?</Accordion.Header>
                                 <Accordion.Body>
                                     Yes, there are three separate balances for the referral rewards.
                                 </Accordion.Body>
                             </Accordion.Item>
                             {/* item */}
-                            <Accordion.Item eventKey="3" className="card mb-3 p-0">
+                            <Accordion.Item eventKey="3" className="card bg-second mb-3 p-0">
                                 <Accordion.Header>How do I generate a new referral link?</Accordion.Header>
                                 <Accordion.Body>
                                     Find 'My Referral Link' block and click on the 'plus' button near the link field. Choose the profit share for your friends and click generate a referral link.
                                 </Accordion.Body>
                             </Accordion.Item>
                             {/* item */}
-                            <Accordion.Item eventKey="4" className="card mb-3 p-0">
+                            <Accordion.Item eventKey="4" className="card bg-second mb-3 p-0">
                                 <Accordion.Header>How does profit sharing work?</Accordion.Header>
                                 <Accordion.Body>
                                     Profit sharing allows you to share a portion of referral rewards with your invited friends. The percentage can be: 0%, 10% 25%, 50%
                                 </Accordion.Body>
                             </Accordion.Item>
                             {/* item */}
-                            <Accordion.Item eventKey="5" className="card mb-3 p-0">
+                            <Accordion.Item eventKey="5" className="card bg-second mb-3 p-0">
                                 <Accordion.Header>Where are all my generated referral links?</Accordion.Header>
                                 <Accordion.Body>
                                     View all of your generated links on the 'Referral Links' section of the Referral page.
                                 </Accordion.Body>
                             </Accordion.Item>
                             {/* item */}
-                            <Accordion.Item eventKey="6" className="card mb-3 p-0">
+                            <Accordion.Item eventKey="6" className="card bg-second mb-3 p-0">
                                 <Accordion.Header>In what crypto currency the referral commission is accounted to my referral balance?</Accordion.Header>
                                 <Accordion.Body>
                                     The referral rewards are accounted in TGR tokens only.
                                 </Accordion.Body>
                             </Accordion.Item>
                             {/* item */}
-                            <Accordion.Item eventKey="7" className="card mb-3 p-0">
+                            <Accordion.Item eventKey="7" className="card bg-second mb-3 p-0">
                                 <Accordion.Header>Are there fees for referral rewards withdrawal from referral balances?</Accordion.Header>
                                 <Accordion.Body>
                                     Once you withdraw from your referral balances, a BSC network fee of approximately 0.5 TGR will be charged.
@@ -574,7 +567,7 @@ export function ReferralPage() {
                         </Col>
                         <Col lg={6} className="mb-3">
                             {/* item */}
-                            <Accordion.Item eventKey="8" className="card mb-3 p-0">
+                            <Accordion.Item eventKey="8" className="card bg-second mb-3 p-0">
                                 <Accordion.Header>How much crypto can I earn via the Swap Referral Program?</Accordion.Header>
                                 <Accordion.Body>
                                     You can earn from 10% to 20% in TGR right after your friends have made a swap. The percentage depends on the amount of staked TGR tokens in TGR Holder Pool:
@@ -589,42 +582,42 @@ export function ReferralPage() {
                                 </Accordion.Body>
                             </Accordion.Item>
                             {/* item */}
-                            <Accordion.Item eventKey="9" className="card mb-3 p-0">
+                            <Accordion.Item eventKey="9" className="card bg-second mb-3 p-0">
                                 <Accordion.Header>What percentage of Swap referral rewards will I earn if I have 0 TGR staked in TGR Holder Pool?</Accordion.Header>
                                 <Accordion.Body>
                                     If you have 0 TGR staked in the TGR Holder pool, you will be getting 10% by default. To earn more in the Swap Referral Program on Biswap, you need to stake TGR in the Holder Pool.
                                 </Accordion.Body>
                             </Accordion.Item>
                             {/* item */}
-                            <Accordion.Item eventKey="10" className="card mb-3 p-0">
+                            <Accordion.Item eventKey="10" className="card bg-second mb-3 p-0">
                                 <Accordion.Header>Is the Swap referral program active for all swap pairs?</Accordion.Header>
                                 <Accordion.Body>
                                     No. Referral Program consider only whitelisted pairs, including but not limited to:ETH - BTCB, BUSD - USDT, BTCB - USDT, ETH - USDT, USDC - USDT, BNB - TGR, ETH - BNB, BNB - USDT, BNB - BUSD, BNB - BTCB, USDT - TGR, LINK - BNB, ADA - BNB, DOGE - BNB, CAKE - BNB, UST - BUSD, DOT - BNB, DAI - USDT, UNI - BNB, FIL - USDT, USDT - LTC, BUSD - VAI, SOL - BNB, BUSD - TUSD, BFG - TGR, XVS - BNB, AVAX - BNB. Find the complete list of whitelisted pairs in Biswap Docs
                                 </Accordion.Body>
                             </Accordion.Item>
                             {/* item */}
-                            <Accordion.Item eventKey="11" className="card mb-3 p-0">
+                            <Accordion.Item eventKey="11" className="card bg-second mb-3 p-0">
                                 <Accordion.Header>How much can I earn from my friends' Farms &amp; Launchpools?</Accordion.Header>
                                 <Accordion.Body>
                                     You can expect a 5% return from your friends' earnings in TGR.
                                 </Accordion.Body>
                             </Accordion.Item>
                             {/* item */}
-                            <Accordion.Item eventKey="12" className="card mb-3 p-0">
+                            <Accordion.Item eventKey="12" className="card bg-second mb-3 p-0">
                                 <Accordion.Header>Is Referral Program Active for all Launchpools?</Accordion.Header>
                                 <Accordion.Body>
                                     No. Referral Program is active only for Stake BSW - Earn BSW Launchpool without auto-compound.
                                 </Accordion.Body>
                             </Accordion.Item>
                             {/* item */}
-                            <Accordion.Item eventKey="13" className="card mb-3 p-0">
+                            <Accordion.Item eventKey="13" className="card bg-second mb-3 p-0">
                                 <Accordion.Header>When will I get my referral reward from Farms &amp; Launchpools?</Accordion.Header>
                                 <Accordion.Body>
                                     You will get your referral reward the moment your friend makes Harvest.
                                 </Accordion.Body>
                             </Accordion.Item>
                             {/* item */}
-                            <Accordion.Item eventKey="14" className="card mb-3 p-0">
+                            <Accordion.Item eventKey="14" className="card bg-second mb-3 p-0">
                                 <Accordion.Header>Can I profit from the Referral Program without any investments from my side?</Accordion.Header>
                                 <Accordion.Body>
                                     Yes, you can earn 10% from the Swap Referral Program and 5% from Farms &amp; Launchpools without any required investments from your side.
