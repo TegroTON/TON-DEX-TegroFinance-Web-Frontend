@@ -7,6 +7,7 @@ import { tonClient } from '../../ton';
 import { Token } from '../../ton/dex/api/types';
 import { TON_ADDRESS } from '../../ton/dex/constants';
 import { Modal, Button } from 'react-bootstrap';
+import {addrToStr} from "../../ton/dex/utils";
 
 export function ConfirmStakeModal() {
     const navigate = useNavigate();
@@ -22,9 +23,9 @@ export function ConfirmStakeModal() {
     } = poolParams;
     const tonBalance = walletInfo ? walletInfo.balance : new Coins(0);
 
-    const from = tokens?.find((t) => t.address.eq(poolPair.leftToken.address)) as Token;
+    const from = tokens?.find((t) => addrToStr(t.address) === addrToStr(poolPair.leftToken.address)) as Token;
 
-    const to = tokens?.find((t) => t.address.eq(poolPair.rightToken.address)) as Token;
+    const to = tokens?.find((t) => addrToStr(t.address) === addrToStr(poolPair.rightToken.address)) as Token;
 
     const handleConfirm = async () => {
         // const adapter = walletService.getWalletAdapter(walletInfo?.adapterId as string);
@@ -33,7 +34,7 @@ export function ConfirmStakeModal() {
         let tonAmount = inAmount;
         let jettonAmount = outAmount;
         let jettonWallet = poolPair.rightWallet;
-        if (poolPair.rightToken.address.eq(TON_ADDRESS)) {
+        if (!poolPair.rightToken.address) {
             [jettonAmount, tonAmount] = [tonAmount, jettonAmount];
             jettonWallet = poolPair.leftWallet;
         }
