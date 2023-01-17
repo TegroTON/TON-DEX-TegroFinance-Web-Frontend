@@ -9,8 +9,16 @@ import { Container, Row, Col, Card, Button, Form, InputGroup, ListGroup } from '
 import { UseFormatPriceImpact } from "../../hooks/useFormatPriceImpact";
 import { UsePrintRoute } from "../../hooks/usePrintRoute";
 import { useCalcPrice } from "../../hooks/useCalcPrice";
+import {useNavigate, useSearchParams} from "react-router-dom";
+import {log} from "util";
 
 export default function SwapPage() {
+    const navigator = useNavigate();
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const from = searchParams.get("from");
+    const to = searchParams.get("to");
+
     const {
         swapLeft,
         swapRight,
@@ -24,6 +32,7 @@ export default function SwapPage() {
         tokens,
         swapPairs,
         switchSwap,
+        updateLock
     } = useContext(DexContext) as DexContextType;
 
     const price = useCalcPrice(swapPairs);
@@ -123,7 +132,7 @@ export default function SwapPage() {
                                         })}
                                     />
                                     <InputGroup.Text className="p-1">
-                                        <Button variant="outline-light p-2 text-muted fs-11 me-3">Max</Button>
+                                        {/*<Button variant="outline-light p-2 text-muted fs-11 me-3">Max</Button>*/}
                                         <Button variant="btn btn-sm btn-light d-flex align-items-center justify-content-center p-2"
                                             style={{ minWidth: '124px' }}
                                             data-bs-toggle="modal"
@@ -136,7 +145,7 @@ export default function SwapPage() {
                                                 height="24"
                                                 alt={swapLeft.token.name}
                                             />
-                                            <span className="mx-3 fw-500 text-uppercase">
+                                            <span className="mx-3 fw-500">
                                                 {swapLeft.token.symbol}
                                             </span>
                                             <i className="fa-solid fa-ellipsis-vertical"></i>
@@ -147,7 +156,7 @@ export default function SwapPage() {
                             <Form.Group className="swap-exchange-arrow d-flex justify-content-center">
                                     <input className="swap-exchange-input-check" type="checkbox" value="" id="swap-exchange-arrow" />
                                     <label
-                                        onClick={switchSwap}
+                                        onClick={async () => {!updateLock ? await switchSwap() : console.log() }}
                                         className="swap-exchange-arrow__button p-2 border-0 form-check-label" htmlFor="swap-exchange-arrow">
                                         <i className="fa-solid fa-arrow-up-arrow-down"></i>
                                     </label>
@@ -190,7 +199,7 @@ export default function SwapPage() {
                                                 height="24"
                                                 alt={swapRight.token.name}
                                             />
-                                            <span className="mx-3 fw-500 text-uppercase">
+                                            <span className="mx-3 fw-500">
                                                 {swapRight.token.symbol}
                                             </span>
                                             <i className="fa-solid fa-ellipsis-vertical"></i>

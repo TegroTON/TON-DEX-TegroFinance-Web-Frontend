@@ -1,7 +1,7 @@
 import { Address, Coins } from 'ton3-core';
 import { tonClient } from './index';
-import { PairData, SwapParams } from '../types';
-import { Pair, Tokens, Token } from './dex/api/types';
+import {PairData, SwapParams} from '../types';
+import { Pair, Token } from './dex/api/types';
 
 export function getDefaultSwapParams(): SwapParams {
     return {
@@ -21,7 +21,7 @@ export function getDefaultPairs(): Pair[] {
     }];
 }
 
-export function getDefaultPair(): PairData {
+export function getDefaultPairData(): PairData {
     return {
         ...getDefaultPairs()[0],
         leftWallet: null,
@@ -36,8 +36,8 @@ export function getTONToken(): Token {
     return {
             name: 'Toncoin',
             symbol: 'TON',
-            address: new Address('Ef8zMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzM0vF'),
-            image: 'https://api.tegro.finance/tokens/TON/image',
+            address: null,
+            image: './public/assets/images/token/TON.png',
             decimals: 9,
         }
 }
@@ -47,12 +47,12 @@ export function getTGRToken(): Token {
             name: 'Tegro',
             symbol: 'TGR',
             address: new Address('EQAvDfWFG0oYX19jwNDNBBL1rKNT9XfaGP9HyTb5nb2Eml6y'),
-            image: 'https://api.tegro.finance/tokens/TGR/image',
+            image: './public/assets/images/token/TGR.png',
             decimals: 9,
         }
 }
 
-export function getDefaultTokens(): Tokens {
+export function getDefaultTokens(): Token[] {
     return [
         getTONToken(),
         getTGRToken(),

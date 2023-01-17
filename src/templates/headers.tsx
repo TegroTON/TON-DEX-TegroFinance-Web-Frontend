@@ -88,11 +88,11 @@ export function DefaultHeader() {
                             <Nav className="d-block d-lg-flex align-items-center order-2 order-lg-1" >
                                 <Nav.Item>
                                     <Link
-                                        className={`nav-link text-nowrap ${location.pathname === '/' ? 'active-link' : ''}`}
-                                        to="/"
+                                        className={`nav-link text-nowrap ${location.pathname === '/swap' ? 'active-link' : ''}`}
+                                        to="/swap"
                                         onClick={() => setExpanded(false)}
                                     >
-                                        Exchange
+                                        Swap
                                     </Link>
                                 </Nav.Item>
                                 <Nav.Item>

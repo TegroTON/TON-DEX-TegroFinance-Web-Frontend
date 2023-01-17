@@ -1,5 +1,5 @@
 import {Address, Coins} from 'ton3-core';
-import {Token} from "./ton/dex/api/types";
+import {Pair, Token} from "./ton/dex/api/types";
 
 export interface LocationParams {
     from: string;
@@ -10,7 +10,7 @@ export interface LocationParams {
 
 export type SwapData = {
     token: Token
-    userWallet: Address
+    userWallet: Address | null
     userBalance: Coins
     amount: Coins
 };
@@ -32,6 +32,18 @@ export type SwapParams = {
     inAmount: Coins
     outAmount: Coins
 };
+
+
+export type SwapWallets = {
+    left: {
+        wallet: Address | null,
+        balance: Coins
+    },
+    right: {
+        wallet: Address | null,
+        balance: Coins
+    }
+}
 
 export type PoolPosition = {
     pair: Address

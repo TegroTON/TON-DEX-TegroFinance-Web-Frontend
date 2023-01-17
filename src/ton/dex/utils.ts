@@ -1,24 +1,43 @@
 import {Address, Coins} from 'ton3-core';
 // import { JettonInfo, Pair } from '../../types';
 import {tonClient} from '../index';
-import {Pair, Pairs} from './api/types';
+import {Pair, Token} from './api/types';
+import {getDefaultPairs} from "../utils";
+export const addrToStr = (addr: Address | null) => (addr ? addr.toString("raw") : '')
 
-export const getPairByTokens = (pairs: Pairs, token1: Address, token2: Address): Pair => {
-    // const pairs = await getPairs(null);
-    const pair = pairs.find((p) => ((p.leftToken.address.eq(token1) && p.rightToken.address.eq(token2)) || (p.leftToken.address.eq(token2) && p.rightToken.address.eq(token1))));
-    // console.log('GGG', pair);
-    if (pair!.leftToken.address.eq(token1)) {
-        return pair!;
+export const getPairByTokens = (pairs: Pair[], token1: Address | null, token2: Address | null): Pair => {
+    const strToken1 = addrToStr(token1);
+    const strToken2 = addrToStr(token2);
+    const pair = pairs.find((p) => (((addrToStr(p.leftToken.address) === strToken1) && (addrToStr(p.rightToken.address) === strToken2)) || ((addrToStr(p.leftToken.address) === strToken2) && (addrToStr(p.rightToken.address) === strToken1))));
+
+    if (!pair) return getDefaultPairs()[0];
+
+    if (addrToStr(pair.leftToken.address) === strToken1) {
+        return pair;
     }
-    return {
-        address: pair!.address,
-        leftToken: pair!.rightToken,
-        leftReserved: pair!.rightReserved,
-        rightToken: pair!.leftToken,
-        rightReserved: pair!.leftReserved,
-        lpSupply: pair!.lpSupply,
+    return {...pair,
+        leftToken: pair.rightToken,
+        leftReserved: pair.rightReserved,
+        rightToken: pair.leftToken,
+        rightReserved: pair.leftReserved,
     };
 };
+
+export const getTokensFromPairs = (pairs: Pair[]) => {
+    let tokens: Token[] = [];
+    for (const pair of pairs) {
+        const {leftToken: t1, rightToken: t2} = pair;
+        if (!tokens.find((t) => (addrToStr(t.address) === addrToStr(t1.address)))) {
+            tokens.push(t1);
+        }
+        if (!tokens.find((t) => (addrToStr(t.address) === addrToStr(t2.address)))) {
+            tokens.push(t2);
+        }
+
+    }
+    return tokens;
+}
+
 export const getLPSupply = async (pairAddress: string): Promise<Coins> => {
     const { totalSupply } = await tonClient.Jetton.getData(new Address(pairAddress));
     return new Coins(totalSupply, { isNano: true });

@@ -167,7 +167,7 @@ export default function AddLiquidityPage() {
                                                 height="24"
                                                 alt={from.name}
                                             />
-                                            <span className="mx-3 fw-500 text-uppercase">
+                                            <span className="mx-3 fw-500">
                                                 {from.symbol}
                                             </span>
                                             <i className="fa-solid fa-ellipsis-vertical"></i>
@@ -215,7 +215,7 @@ export default function AddLiquidityPage() {
                                                 height="24"
                                                 alt={to.name}
                                             />
-                                            <span className="mx-3 fw-500 text-uppercase">
+                                            <span className="mx-3 fw-500">
                                                 {to.symbol}
                                             </span>
                                             <i className="fa-solid fa-ellipsis-vertical"></i>

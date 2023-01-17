@@ -16,7 +16,8 @@ export function ConfirmSwapModal() {
         swapPairs,
         slippage,
         tokens,
-        extract
+        extract,
+        swapWallets
     } = useContext(DexContext) as DexContextType;
     const { amount: inAmount, token: from } = swapLeft;
     const { amount: outAmount, token: to } = swapRight;
@@ -36,14 +37,14 @@ export function ConfirmSwapModal() {
         // const adapter = walletService.getWalletAdapter(walletInfo?.adapterId as string);
         const dexPair = new DexBetaPairContract(new Address(swapPairs[0].address));
         // console.log(left, address.toString());
-        if (swapPairs[0].rightToken.address.eq(TON_ADDRESS)) {
+        if (!swapPairs[0].rightToken.address) {
             if (isRoute) {
                 const minReceived0 = getOutAmount(inAmount, swapPairs[0].leftReserved, swapPairs[0].rightReserved);
                 const minReceived0D = CoinsToDecimals(minReceived0, swapPairs[0].rightToken.decimals);
                 console.log('min out', minReceived, minReceived.toNano());
                 const payload = dexPair.createRouteSwapRequest(inAmount, minReceived0D, minReceived, walletInfo?.address as Address, swapPairs[1].address);
                 await walletInfo?.sendTransaction({
-                    to: swapLeft.userWallet.toString("base64", {bounceable: true}),
+                    to: swapWallets.left.wallet!.toString("base64", {bounceable: true}),
                     value: new Coins(0.6).toNano(),
                     payload: BOC.toBase64Standard(payload),
                     // .replaceAll('+', '-')
@@ -56,7 +57,7 @@ export function ConfirmSwapModal() {
                     extract ? outAmount : minReceived,
                     walletInfo?.address as Address);
                 await walletInfo?.sendTransaction({
-                    to: swapLeft.userWallet.toString("base64", {bounceable: true}),
+                    to: swapWallets.left.wallet!.toString("base64", {bounceable: true}),
                     value: new Coins(0.3).toNano(),
                     payload: BOC.toBase64Standard(payload),
                     // .replaceAll('+', '-')

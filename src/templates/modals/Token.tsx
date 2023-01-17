@@ -1,12 +1,10 @@
 import { useContext, useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { Address } from 'ton3-core';
 import { DexContext, DexContextType } from '../../context';
-import { getPairByTokens } from '../../ton/dex/utils';
 import { Modal, Form, InputGroup, ListGroup } from 'react-bootstrap';
-import {getTokenByAddr} from "../../ton/dex/api/apiClient";
 import {useLocation} from "react-router";
-import {TON_ADDRESS} from "../../ton/dex/constants";
+import {addrToStr, getPairByTokens} from "../../ton/dex/utils";
+import {Address} from "ton3-core";
 
 export function TokenModal(props: { side: 'Left' | 'Right' }) {
     const { side } = props;
@@ -37,15 +35,14 @@ export function TokenModal(props: { side: 'Left' | 'Right' }) {
     search.current = watch('search', 'value');
 
     const changeSelected = async (tokenAddr: string) => {
-        const tokenAddress = new Address(tokenAddr);
-        const token = getTokenByAddr(tokens, tokenAddress);
+        const tokenAddress = tokenAddr !== "TON" ? new Address(tokenAddr) : null;
 
         if (location.pathname === "/liquidity-add") {
-            if (token.symbol !== "TON") {
-                updatePoolPair({newPair: getPairByTokens(pairs, TON_ADDRESS, token.address)});
+            if (tokenAddress) {
+                updatePoolPair({newPair: getPairByTokens(pairs, null, tokenAddress)});
             }
         } else {
-            updateSwap({side: normSide, symbol: token.symbol})
+            updateSwap({side: normSide, address: tokenAddress})
         }
     };
 
@@ -81,7 +78,7 @@ export function TokenModal(props: { side: 'Left' | 'Right' }) {
                                         <input
                                             type="checkbox"
                                             style={{ display: "none" }}
-                                            {...register(token.address.toString(), {
+                                            {...register(addrToStr(token.address) || "TON", {
                                                 onChange: (event) => changeSelected(event.target.name),
                                             })}
                                         />
@@ -89,7 +86,7 @@ export function TokenModal(props: { side: 'Left' | 'Right' }) {
                                             src={token.image} width="24px" height="24px"
                                             alt={token.symbol}
                                         />
-                                        <span className="text-uppercase ms-2 fs-12">{token.symbol}</span>
+                                        <span className="ms-2 fs-12">{token.symbol}</span>
                                     </Form.Label>
                                 ))}
                             </div>
@@ -108,16 +105,16 @@ export function TokenModal(props: { side: 'Left' | 'Right' }) {
                                         <Form.Label
                                             className="d-flex align-items-center hover rounded-8 p-3"
                                             data-bs-dismiss="modal"
-                                            key={token.address.toString()}
+                                            key={token.symbol}
                                         >
                                             <input type="checkbox"
                                                 style={{ display: 'none' }}
-                                                {...register(token.address.toString(), {
+                                                {...register(addrToStr(token.address) || "TON", {
                                                     onChange: (event) => changeSelected(event.target.name),
                                                 })}
                                             />
                                             <img className="token-form__img rounded-circle" src={token.image} width="24px" height="24px" alt={token.symbol} />
-                                            <span className="token-form__symbol text-uppercase fw-500 ms-3">{token.symbol}</span>
+                                            <span className="token-form__symbol fw-500 ms-3">{token.symbol}</span>
                                             <span className="token-form__name text-muted ms-auto">{token.name}</span>
                                         </Form.Label>
                                     );

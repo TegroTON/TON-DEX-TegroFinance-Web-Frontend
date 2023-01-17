@@ -1,25 +1,32 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {Address, Coins} from 'ton3-core';
 import {
-    PairData, PoolPosition, PoolPositions, SwapData, SwapParams,
+    PairData, PoolPosition, PoolPositions, SwapData, SwapParams, SwapWallets,
 } from './types';
 import {
-    getDefaultPair,
+    getDefaultPairData,
     getDefaultPairs,
     getDefaultSwapParams,
     getDefaultTokens,
     getJettonBalance, getTGRToken, getTONToken,
 } from './ton/utils';
 import { tonClient } from './ton';
-import {calcInAmountAndPriceImpact, calcOutAmountAndPriceImpact, getPairByTokens} from './ton/dex/utils';
-import {getPair, getPairs, getTokens} from './ton/dex/api/apiClient';
+import {
+    addrToStr,
+    calcInAmountAndPriceImpact,
+    calcOutAmountAndPriceImpact,
+    getPairByTokens,
+    getTokensFromPairs
+} from './ton/dex/utils';
+import {getPairs} from './ton/dex/api/methods';
 import { DeLabContext, DeLabContextType } from './deLabContext';
-import {Pair, Pairs, Tokens} from './ton/dex/api/types';
-import { TON_ADDRESS } from './ton/dex/constants';
+import {Pair, Token} from './ton/dex/api/types';
+
 
 export type DexContextType = {
-    pairs: Pairs;
-    tokens: Tokens;
+    updateLock: boolean,
+    pairs: Pair[];
+    tokens: Token[];
     swapLeft: SwapData;
     swapRight: SwapData;
     swapPairs: Pair[];
@@ -41,7 +48,7 @@ export type DexContextType = {
         newPair?: Pair
     }) => void
 
-    updateSwap: ({ side, symbol }: {side?: ('left' | 'right'), symbol: string}) => void;
+    updateSwap: ({ side, address }: {side?: ('left' | 'right'), address: Address | null}) => void;
 
     updateSlippage: (newSlippage: number) => void;
     updatePoolPositions: () => void;
@@ -50,6 +57,7 @@ export type DexContextType = {
     switchSwap: () => void;
     setRemovePosition: (x: PoolPosition | null) => void;
     removePosition: PoolPosition | null;
+    swapWallets: SwapWallets;
 };
 
 export const DexContext = React.createContext<DexContextType | null>(null);
@@ -59,33 +67,33 @@ interface Props {
 }
 
 export const DexContextProvider: React.FC<Props> = ({ children }) => {
+    const [updateLock, setUpdateLock] = React.useState<boolean>(true);
     const [poolParams, setPoolParams] = React.useState<SwapParams>(getDefaultSwapParams());
 
     const [slippage, setSlippage] = React.useState(5.0);
 
-    const [pairs, setPairs] = React.useState<Pairs>(getDefaultPairs());
-    const [tokens, setTokens] = React.useState<Tokens>(getDefaultTokens());
+    const [pairs, setPairs] = React.useState<Pair[]>(getDefaultPairs());
+    const [tokens, setTokens] = React.useState<Token[]>(getDefaultTokens());
 
     // ========== SWAP PARAMS ==========
     const [leftSwapToken, setLeftSwapToken] = React.useState(getTONToken());
     const [leftSwapAmount, setLeftSwapAmount] = React.useState(new Coins(0));
-    const [leftUserWallet, setLeftUserWallet] = React.useState(Address.NONE);
-    const [leftUserBalance, setLeftUserBalance] = React.useState(new Coins(0));
+
+    const [swapWallets, setSwapWallets] = React.useState<SwapWallets>({left: {wallet: null, balance: new Coins(0)}, right: {wallet: null, balance: new Coins(0)}});
+
     const swapLeft = {
         token: leftSwapToken,
-        userWallet: leftUserWallet,
-        userBalance: leftUserBalance,
+        userWallet: swapWallets.left.wallet,
+        userBalance: swapWallets.left.balance,
         amount: leftSwapAmount
     }
 
     const [rightSwapToken, setRightSwapToken] = React.useState(getTGRToken());
     const [rightSwapAmount, setRightSwapAmount] = React.useState(new Coins(0));
-    const [rightUserWallet, setRightUserWallet] = React.useState(Address.NONE);
-    const [rightUserBalance, setRightUserBalance] = React.useState(new Coins(0));
     const swapRight = {
         token: rightSwapToken,
-        userWallet: rightUserWallet,
-        userBalance: rightUserBalance,
+        userWallet: swapWallets.right.wallet,
+        userBalance: swapWallets.right.balance,
         amount: rightSwapAmount
     }
 
@@ -93,14 +101,17 @@ export const DexContextProvider: React.FC<Props> = ({ children }) => {
     const [priceImpact, setPriceImpact] = useState(0);
 
     // Route if swapPairs.length === 2
-    const [swapPairs, setSwapPairs] = React.useState<Pairs>([getDefaultPairs()[0]]);
+    const [swapPairs, setSwapPairs] = React.useState<Pair[]>(getDefaultPairs());
     const isRoute = swapPairs.length === 2;
 
-    const [poolPair, setPoolPair] = React.useState<PairData>(getDefaultPair());
+
+    const [poolPair, setPoolPair] = React.useState<PairData>(getDefaultPairData());
 
     const [poolPositions, setPoolPositions] = React.useState<PoolPositions>([]);
 
     const walletInfo = useContext(DeLabContext) as DeLabContextType;
+
+    const [needUpdateSwapPairs, setNeedUpdateSwapPairs] = React.useState<boolean>(false);
 
     const updatePoolPair = async ({ newPair, }: { newPair?: Pair }) => {
         let newXXXPair = poolPair;
@@ -128,8 +139,8 @@ export const DexContextProvider: React.FC<Props> = ({ children }) => {
 
         // надо обновить адрес кошелька, баланс, резерв
         if (walletInfo.isConnected && walletInfo.address) {
-            leftWallet = leftToken.address.eq(TON_ADDRESS) ? null : await tonClient.Jetton.getWalletAddress(leftToken.address, walletInfo.address);
-            rightWallet = rightToken.address.eq(TON_ADDRESS) ? null : await tonClient.Jetton.getWalletAddress(rightToken.address, walletInfo.address);
+            leftWallet = !leftToken.address ? null : await tonClient.Jetton.getWalletAddress(leftToken.address, walletInfo.address);
+            rightWallet = !rightToken.address ? null : await tonClient.Jetton.getWalletAddress(rightToken.address, walletInfo.address);
             leftBalance = leftWallet ? await getJettonBalance(leftWallet) : null;
             rightBalance = rightWallet ? await getJettonBalance(rightWallet) : null;
         } else {
@@ -160,58 +171,90 @@ export const DexContextProvider: React.FC<Props> = ({ children }) => {
     };
 
     const switchSwap = () => {
-        const tempLeft = swapLeft;
-        const tempRight = swapRight;
+        if (updateLock) return;
+        setUpdateLock(true);
+        const tempLeft = leftSwapToken;
+        const tempRight = rightSwapToken;
 
-        // if (!isRoute) {
-        //     setExtract(!extract);
-        // }
+        setSwapWallets({
+            left: {
+                wallet: null,
+                balance: new Coins(0, {decimals: tempRight.decimals}),
+            },
+            right: {
+                wallet: null,
+                balance: new Coins(0, {decimals: tempLeft.decimals}),
+            }
+        });
 
-        setLeftSwapToken(tempRight.token);
-        setRightSwapToken(tempLeft.token);
+        setLeftSwapToken(tempRight);
+        setRightSwapToken(tempLeft);
 
-        // setLeftUserWallet(tempRight.userWallet);
-        // setRightUserWallet(tempLeft.userWallet);
-        //
-        // setLeftUserBalance(tempRight.userBalance);
-        // setRightUserBalance(tempLeft.userBalance);
+        setLeftSwapAmount(new Coins(0, {decimals: tempRight.decimals}));
+        setRightSwapAmount(new Coins(0, {decimals: tempLeft.decimals}));
 
-        setRightSwapAmount(new Coins(0, {decimals: tempLeft.token.decimals}));
-        setLeftSwapAmount(new Coins(0, {decimals: tempRight.token.decimals}));
+        setNeedUpdateSwapPairs(true);
     }
 
-    const updateSwap = async ({ side, symbol }: {side?: ('left' | 'right'), symbol: string}) => {
+    // const tryInstallPair = async (left: string | null, right: string | null) => {
+    //     // pass
+    // }
+
+    const updateSwap = async ({ side, address }: {side?: ('left' | 'right'), address: Address | null}) => {
+        setUpdateLock(true);
         const [leftToken, rightToken] = side && side === 'right' ? [rightSwapToken, leftSwapToken] : [leftSwapToken, rightSwapToken];
 
-        let token = tokens?.find((t) => t.symbol === symbol);
-        if (token && token.address.eq(rightToken.address)) {
+        let token = tokens?.find((t) => addrToStr(t.address) === addrToStr(address));
+        if (token && addrToStr(token.address) === addrToStr(rightToken.address)) {
             switchSwap();
             return;
         }
-        token = token === undefined || token.address.eq(rightToken.address) ? getTONToken() : token;
-        token = token.address.eq(rightToken.address) ? getTGRToken() : token;
-
-        setLeftSwapAmount(new Coins(0, {decimals: leftSwapToken.decimals}));
-        setRightSwapAmount(new Coins(0, {decimals: rightSwapToken.decimals}));
+        token = token === undefined || addrToStr(token.address) === addrToStr(rightToken.address) ? getTONToken() : token;
+        token = addrToStr(token.address) === addrToStr(rightToken.address) ? getTGRToken() : token;
 
         if (side === 'left') {
             setLeftSwapToken(token);
+            setSwapWallets({
+                left: {
+                    wallet: null,
+                    balance: new Coins(0, {decimals: token.decimals}),
+                },
+                right: {
+                    wallet: null,
+                    balance: new Coins(0, {decimals: rightSwapToken.decimals}),
+                }
+            });
+            setLeftSwapAmount(new Coins(0, {decimals: token.decimals}));
+            setRightSwapAmount(new Coins(0, {decimals: rightSwapToken.decimals}));
         } else {
             setRightSwapToken(token);
+            setSwapWallets({
+                left: {
+                    wallet: null,
+                    balance: new Coins(0, {decimals: leftSwapToken.decimals}),
+                },
+                right: {
+                    wallet: null,
+                    balance: new Coins(0, {decimals: token.decimals}),
+                }
+            });
+            setLeftSwapAmount(new Coins(0, {decimals: leftSwapToken.decimals}));
+            setRightSwapAmount(new Coins(0, {decimals: token.decimals}));
         }
+        setNeedUpdateSwapPairs(true);
     }
 
     const updateSwapPairs = async () => {
-        const isSimpleSwap = (leftSwapToken.symbol === "TON" || rightSwapToken.symbol === "TON");
-        if (isSimpleSwap) {
-            setSwapPairs([await getPair(leftSwapToken.symbol, rightSwapToken.symbol, tokens)])
+        if (!leftSwapToken.address || !rightSwapToken.address) {
+            const pair1 = getPairByTokens(pairs, leftSwapToken.address, rightSwapToken.address);
+            setSwapPairs([pair1])
         } else {
-            const pair1 = await getPair(leftSwapToken.symbol, "TON", tokens);
-            const pair2 = await getPair("TON", rightSwapToken.symbol, tokens);
+            const pair1 = getPairByTokens(pairs, leftSwapToken.address, null);
+            const pair2 = getPairByTokens(pairs, null, rightSwapToken.address);
             setExtract(false);
             setSwapPairs([pair1, pair2]);
         }
-        // console.log("reserves updated")
+        setNeedUpdateSwapPairs(false);
     }
 
     const updateSlippage = (newSlippage: number) => {
@@ -239,31 +282,39 @@ export const DexContextProvider: React.FC<Props> = ({ children }) => {
         }
     };
 
-    const updateWallet = async (side: ('left' | 'right')) => {
-        if (side === "left") {
-            const leftUserWallet = leftSwapToken.symbol === "TON" ? walletInfo.address : await tonClient.Jetton.getWalletAddress(leftSwapToken.address, walletInfo.address);
-            setLeftUserWallet(leftUserWallet);
-        } else {
-            const rightUserWallet = rightSwapToken.symbol === "TON" ? walletInfo.address : await tonClient.Jetton.getWalletAddress(rightSwapToken.address, walletInfo.address);
-            setRightUserWallet(rightUserWallet);
-        }
-    }
+    // const updateWallet = async (side: ('left' | 'right')) => {
+    //     if (side === "left") {
+    //         const leftUserWallet = !leftSwapToken.address ? walletInfo.address : await tonClient.Jetton.getWalletAddress(leftSwapToken.address, walletInfo.address);
+    //         setLeftUserWallet(leftUserWallet);
+    //     } else {
+    //         const rightUserWallet = !rightSwapToken.address ? walletInfo.address : await tonClient.Jetton.getWalletAddress(rightSwapToken.address, walletInfo.address);
+    //         setRightUserWallet(rightUserWallet);
+    //     }
+    // }
 
-    const updateBalance = async (side: ('left' | 'right')) => {
-        try {
-            if (side === "left") {
-                const leftUserBalance = leftSwapToken.symbol === "TON" ? walletInfo.balance : leftUserWallet ? getJettonBalance(leftUserWallet) : null;
-                if (!leftUserBalance) throw "unknown balance";
-                setLeftUserBalance(await leftUserBalance);
-            } else {
-                const rightUserBalance = rightSwapToken.symbol === "TON" ? walletInfo.balance : rightUserWallet ? getJettonBalance(rightUserWallet) : null;
-                if (!rightUserBalance) throw "unknown balance";
-                setRightUserBalance(await rightUserBalance);
-            }
-        } catch {
-            await updateWallet(side);
-        }
-    }
+    // const updateWallets = async () => {
+    //     await Promise.all([updateWallet('left'), updateWallet('right'), console.log('hello motherfucker')])
+    // }
+
+    // const updateBalance = async (side: ('left' | 'right')) => {
+    //     try {
+    //         if (side === "left") {
+    //             const leftUserBalance = leftSwapToken.symbol === "TON" ? walletInfo.balance : leftUserWallet ? getJettonBalance(leftUserWallet) : null;
+    //             if (!leftUserBalance) throw "unknown balance";
+    //             setLeftUserBalance(await leftUserBalance);
+    //         } else {
+    //             const rightUserBalance = rightSwapToken.symbol === "TON" ? walletInfo.balance : rightUserWallet ? getJettonBalance(rightUserWallet) : null;
+    //             if (!rightUserBalance) throw "unknown balance";
+    //             setRightUserBalance(await rightUserBalance);
+    //         }
+    //     } catch {
+    //         await updateWallet(side);
+    //     }
+    // }
+
+    // const updateBalances = async () => {
+    //     await Promise.all([updateBalance('left'), updateBalance('right'), console.log('hello brainfucker')]);
+    // }
 
     const updateSwapParams = () => {
         if (extract) {
@@ -284,6 +335,29 @@ export const DexContextProvider: React.FC<Props> = ({ children }) => {
         }
     }
 
+    const updateSwapWallets = async (): Promise<SwapWallets> => {
+        const leftUserWallet = !leftSwapToken.address ? walletInfo.address : tonClient.Jetton.getWalletAddress(leftSwapToken.address, walletInfo.address);
+        const rightUserWallet = !rightSwapToken.address ? walletInfo.address : tonClient.Jetton.getWalletAddress(rightSwapToken.address, walletInfo.address);
+
+        return {...swapWallets,
+            left: {
+                ...swapWallets.left,
+                wallet: await leftUserWallet,
+            },
+            right: {
+                ...swapWallets.right,
+                wallet: await rightUserWallet,
+            }
+        }
+    }
+
+    const updateSwapBalances = async () => {
+        const leftUserBalance = leftSwapToken.symbol === "TON" ? walletInfo.balance : swapWallets.left.wallet ? getJettonBalance(swapWallets.left.wallet) : null;
+        const rightUserBalance = rightSwapToken.symbol === "TON" ? walletInfo.balance : swapWallets.right.wallet ? getJettonBalance(swapWallets.right.wallet) : null;
+        if (!(await leftUserBalance && await rightUserBalance)) return swapWallets;
+        return {...swapWallets, left: {...swapWallets.left, balance: await leftUserBalance}, right: {...swapWallets.right, balance: await rightUserBalance}};
+    }
+
     useEffect(() => {
         updatePoolPair({})
             .then();
@@ -301,44 +375,40 @@ export const DexContextProvider: React.FC<Props> = ({ children }) => {
     }, [walletInfo.balance]);
 
     const updateTokens = async () => {
-        setTokens(await getTokens());
+        setTokens(getTokensFromPairs(pairs));
     };
     const updatePairs = async () => {
-        setPairs(await getPairs(tokens));
+        setPairs(await getPairs());
     };
 
     useEffect(() => {
-        updateWallet('left');
-        return () => {};
-    }, [leftSwapToken, pairs]);
-    useEffect(() => {
-        updateBalance('left');
-        return () => {};
-    }, [leftUserWallet, swapPairs]);
+        let mounted = true;
+        updateSwapBalances().then(x => { if (mounted) { setSwapWallets(x as SwapWallets); setUpdateLock(false); }});
+        return () => { mounted = false };
+    }, [swapWallets.left.wallet, swapWallets.right.wallet]);
 
     useEffect(() => {
-        updateWallet('right');
-        return () => {};
-    }, [rightSwapToken, pairs]);
-    useEffect(() => {
-        updateBalance('right');
-        return () => {};
-    }, [rightUserWallet, swapPairs]);
+        let mounted = true;
+        updateSwapWallets().then(x => { if (mounted) { setSwapWallets(x) }});
+        return () => { mounted = false };
+    }, [swapPairs]);
 
 
     useEffect(() => {
         updateSwapPairs();
         return () => {};
-    }, [leftSwapToken, rightSwapToken, walletInfo.balance]);
+    }, [needUpdateSwapPairs, pairs]);
 
 
-    useEffect(() => {
-        updatePairs();
-        return () => {};
-    }, [tokens]);
     useEffect(() => {
         updateTokens();
         return () => {};
+    }, [pairs]);
+
+    useEffect(() => {
+        updatePairs();
+        const interval = setInterval(updatePairs, 3000);
+        return () => clearInterval(interval);
     }, []);
 
     useEffect(() => {
@@ -355,6 +425,7 @@ export const DexContextProvider: React.FC<Props> = ({ children }) => {
 
     return (
         <DexContext.Provider value={{
+            updateLock,
             pairs,
             tokens,
             swapLeft,
@@ -378,7 +449,8 @@ export const DexContextProvider: React.FC<Props> = ({ children }) => {
             slippage,
             switchSwap,
             removePosition,
-            setRemovePosition
+            setRemovePosition,
+            swapWallets
         }}
         >
             {children}

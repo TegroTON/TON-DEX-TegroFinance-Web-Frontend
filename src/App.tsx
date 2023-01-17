@@ -11,7 +11,8 @@ export default function App() {
         <Routes>
             <Route path="/" element={<DefaultLayout />}>
                 {/* <Route index element={<ComingSoonPage />} /> */}
-                <Route index element={<SwapPage />} />
+                <Route index element={<Navigate to="/swap" replace />} />
+                <Route path="swap" element={<SwapPage />} />
                 <Route path="liquidity" element={<LiquidityPage />} />
                 <Route path="liquidity-add" element={<AddLiquidityPage />} />
                 <Route path="referral" element={<ReferralPage />} />
