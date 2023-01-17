@@ -34,7 +34,7 @@ export function SettingsModal() {
                             </OverlayTrigger>
                         </div>
                         <Row>
-                            <Col lg={3} className="mb-2 mb-lg-0">
+                            <Col className="order-2 order-lg-1 mb-2 mb-lg-0">
                                 <a
                                     style={{ cursor: 'pointer' }}
                                     onClick={() => updateSlippage(0.1)}
@@ -43,7 +43,7 @@ export function SettingsModal() {
                                     0,1%
                                 </a>
                             </Col>
-                            <Col lg={3} className="mb-2 mb-lg-0">
+                            <Col className="order-3 order-lg-2 mb-2 mb-lg-0">
                                 <a
                                     style={{ cursor: 'pointer' }}
                                     onClick={() => updateSlippage(0.5)}
@@ -52,7 +52,7 @@ export function SettingsModal() {
                                     0,5%
                                 </a>
                             </Col>
-                            <Col lg={3} className="mb-2 mb-lg-0">
+                            <Col className="order-4 order-lg-3 mb-2 mb-lg-0">
                                 <a
                                     style={{ cursor: 'pointer' }}
                                     onClick={() => updateSlippage(1)}
@@ -61,7 +61,7 @@ export function SettingsModal() {
                                     1%
                                 </a>
                             </Col>
-                            <Col lg={3} className="mb-2 mb-lg-0">
+                            <Col md={12} lg className="order-1 order-lg-4 mb-2 mb-lg-0">
                                 <InputGroup className="mb-3">
                                     <Form.Control
                                         type="number"

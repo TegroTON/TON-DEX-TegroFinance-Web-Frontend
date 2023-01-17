@@ -418,6 +418,10 @@ label {
     font-weight: 500
 }
 
+.fs-11 {
+    font-size: 11px !important;
+}
+
 .fs-12 {
     font-size: 12px !important;
 }
@@ -603,6 +607,10 @@ h3 {
 
 .rounded-8 {
     border-radius: 8px;
+}
+
+.rounded-2 {
+    border-radius: 2px;
 }
 
 .hover {
