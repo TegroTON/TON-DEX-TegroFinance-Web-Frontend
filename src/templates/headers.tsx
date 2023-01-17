@@ -109,7 +109,7 @@ export function DefaultHeader() {
                                         Wallet <i className="fa-solid fa-angle-down small ms-auto ms-lg-2" />
                                     </Nav.Link>
                                     <div className="dropdown-menu" data-bs-popper="static">
-                                        <NavDropdown.Item className="d-flex" href="https://tegro.io/wallet.php" target="_blank">
+                                        <NavDropdown.Item className="d-flex" href="https://tegro.io/wallet/" target="_blank">
                                             <i className="fa-light fa-wallet dropdown-item-icon" />
                                             <div className="ms-3">
                                                 Web Wallet
@@ -144,7 +144,7 @@ export function DefaultHeader() {
                                         E-Commerce<i className="fa-solid fa-angle-down small ms-auto ms-lg-2" />
                                     </Nav.Link>
                                     <div className="dropdown-menu" data-bs-popper="static">
-                                        <NavDropdown.Item className="d-flex" href="https://tegro.io/commerce.php" target="_blank">
+                                        <NavDropdown.Item className="d-flex" href="https://tegro.io/commerce/" target="_blank">
                                             <i className="fa-light fa-money-check-dollar-pen dropdown-item-icon" />
                                             <div className="ms-3">
                                                 Payment system
