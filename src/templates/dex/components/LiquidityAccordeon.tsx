@@ -42,8 +42,8 @@ export function LiquidityAccordionComponent(
     return (
         <div className="accordion mb-4" id={`accordionLiquidity${k}`}>
             <div className="accordion-item py-4 collapsed" data-bs-toggle="collapse" data-bs-target={`#collapse${k}`} aria-expanded="false" aria-controls={`collapse${k}`}>
-                <div className="d-flex align-items-center">
-                    <div className="accordion-item__images">
+                <div className="d-flex">
+                    <div className="d-flex accordion-item__images">
                         <img src={l.image} alt={l.name} className="wc-img" style={{ width: '40px', height: '40px', }} />
                         <img src={r.image} alt={r.name} className="accordion-item__images-small" />
                     </div>
