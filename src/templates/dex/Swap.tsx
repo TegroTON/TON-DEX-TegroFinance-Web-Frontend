@@ -9,10 +9,10 @@ import { Container, Row, Col, Card, Button, Form, InputGroup, ListGroup } from '
 import { UseFormatPriceImpact } from "../../hooks/useFormatPriceImpact";
 import { UsePrintRoute } from "../../hooks/usePrintRoute";
 import { useCalcPrice } from "../../hooks/useCalcPrice";
-import {useNavigate, useSearchParams} from "react-router-dom";
-import {log} from "util";
-import {StartPair} from "../../types";
-import {useLocation} from "react-router";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { log } from "util";
+import { StartPair } from "../../types";
+import { useLocation } from "react-router";
 
 export default function SwapPage() {
     const navigator = useNavigate();
@@ -42,7 +42,7 @@ export default function SwapPage() {
     } = useContext(DexContext) as DexContextType;
 
     if (firstRender && (from || to)) {
-        setStartPair({from, to});
+        setStartPair({ from, to });
     }
 
     const price = useCalcPrice(swapPairs);
@@ -51,12 +51,12 @@ export default function SwapPage() {
         ? price.isZero() ? new Coins(0) : new Coins(1).div(price.toString())
         : new Coins(swapLeft.amount).div(swapRight.amount.toString());
 
-    let minReceived = new Coins(0, {decimals: swapRight.token.decimals});
-    let maxSold = new Coins(0, {decimals: swapLeft.token.decimals});
+    let minReceived = new Coins(0, { decimals: swapRight.token.decimals });
+    let maxSold = new Coins(0, { decimals: swapLeft.token.decimals });
 
     try {
-        minReceived = new Coins(swapRight.amount, {decimals: swapRight.token.decimals}).mul(1 - slippage / 100);
-        maxSold = new Coins(swapLeft.amount, {decimals: swapLeft.token.decimals}).mul(1 + slippage / 100);
+        minReceived = new Coins(swapRight.amount, { decimals: swapRight.token.decimals }).mul(1 - slippage / 100);
+        maxSold = new Coins(swapLeft.amount, { decimals: swapLeft.token.decimals }).mul(1 + slippage / 100);
     } catch {
         // pass
     }
@@ -71,12 +71,12 @@ export default function SwapPage() {
     const updateAmount = (side: ('left' | 'right'), value?: string) => {
         const _value = value || getValues(side);
         if (side === 'left') {
-            setLeftSwapAmount(new Coins(_value || "0", {decimals: swapLeft.token.decimals}));
+            setLeftSwapAmount(new Coins(_value || "0", { decimals: swapLeft.token.decimals }));
             setExtract(false);
         } else {
             const pair = swapPairs[swapPairs.length - 1];
-            const maxValue = Number(new Coins(pair.rightReserved, {decimals: pair.rightToken.decimals}).mul(0.999).toString())
-            setRightSwapAmount(new Coins(Math.min(Number(_value || "0"), Number(maxValue)), {decimals: pair.rightToken.decimals}));
+            const maxValue = Number(new Coins(pair.rightReserved, { decimals: pair.rightToken.decimals }).mul(0.999).toString())
+            setRightSwapAmount(new Coins(Math.min(Number(_value || "0"), Number(maxValue)), { decimals: pair.rightToken.decimals }));
             setExtract(true);
         }
     };
@@ -97,7 +97,7 @@ export default function SwapPage() {
     useEffect(() => {
         const fromAddr = swapLeft.token.address ? swapLeft.token.address.toString("raw") : null;
         const toAddr = swapRight.token.address ? swapRight.token.address.toString("raw") : null;
-        const path = `/swap?${fromAddr ? "from="+fromAddr : ""}${fromAddr && toAddr ? "&" : ""}${toAddr ? "to="+toAddr : ""}`;
+        const path = `/swap?${fromAddr ? "from=" + fromAddr : ""}${fromAddr && toAddr ? "&" : ""}${toAddr ? "to=" + toAddr : ""}`;
         const currentPath = location.pathname + location.search
         console.log(currentPath, path)
         if (currentPath !== path) {
@@ -114,7 +114,7 @@ export default function SwapPage() {
     let availableBalance = new Coins(0);
     try {
         const inAmount = extract ? maxSold : swapLeft.amount;
-        availableBalance = new Coins(swapLeft.userBalance, {decimals: swapLeft.token.decimals})
+        availableBalance = new Coins(swapLeft.userBalance, { decimals: swapLeft.token.decimals })
         availableBalance = swapLeft.token.address ? availableBalance : availableBalance.sub(new Coins(0.5));
         sufficient = inAmount.isZero() ? 0 : availableBalance.gte(inAmount) ? 1 : -1;
     } catch {
@@ -141,7 +141,11 @@ export default function SwapPage() {
                                     <Form.Label>You pay:</Form.Label>
                                     {walletInfo ? (
                                         <span className="small fw-500 color-grey">
-                                            Balance: {' '} {`${(swapLeft.userBalance).toString()} ${swapLeft.token.symbol}`}
+                                            Balance: {' '}
+                                            <a href="javascript://"
+                                                onClick={() => { updateAmount("left", maxAmount.toString()) }}>
+                                                {`${(swapLeft.userBalance).toString()} ${swapLeft.token.symbol}`}
+                                            </a>
                                         </span>
                                     ) : ('')}
                                 </div>
@@ -161,9 +165,6 @@ export default function SwapPage() {
                                         })}
                                     />
                                     <InputGroup.Text className="p-1">
-                                        <Button variant="outline-primary p-2 fs-11 rounded-2 me-3"
-                                        onClick={() => {updateAmount("left", maxAmount.toString())}}>
-                                            Max</Button>
                                         <Button variant="btn btn-sm btn-light d-flex align-items-center justify-content-center p-2"
                                             style={{ minWidth: '124px' }}
                                             data-bs-toggle="modal"
@@ -185,19 +186,22 @@ export default function SwapPage() {
                                 </InputGroup>
                             </Form.Group>
                             <Form.Group className="swap-exchange-arrow d-flex justify-content-center">
-                                    <input className="swap-exchange-input-check" type="checkbox" value="" id="swap-exchange-arrow" />
-                                    <label
-                                        onClick={async () => {!updateLock ? await switchSwap() : console.log() }}
-                                        className="swap-exchange-arrow__button p-2 border-0 form-check-label" htmlFor="swap-exchange-arrow">
-                                        <i className="fa-solid fa-arrow-up-arrow-down"></i>
-                                    </label>
+                                <input className="swap-exchange-input-check" type="checkbox" value="" id="swap-exchange-arrow" />
+                                <label
+                                    onClick={async () => { !updateLock ? await switchSwap() : console.log() }}
+                                    className="swap-exchange-arrow__button p-2 border-0 form-check-label" htmlFor="swap-exchange-arrow">
+                                    <i className="fa-solid fa-arrow-up-arrow-down"></i>
+                                </label>
                             </Form.Group>
                             <Form.Group className="mb-4">
                                 <div className="d-flex justify-content-between mb-2 px-1">
                                     <Form.Label>You receive:</Form.Label>
                                     {walletInfo ? (
                                         <span className="small fw-500 color-grey">
-                                            {'Balance: '} {`${(swapRight.userBalance).toString()} ${swapRight.token.symbol}`}
+                                            {'Balance: '}
+                                            <a href="javascript://">
+                                                {`${(swapRight.userBalance).toString()} ${swapRight.token.symbol}`}
+                                            </a>
                                         </span>
                                     ) : ('')}
                                 </div>
