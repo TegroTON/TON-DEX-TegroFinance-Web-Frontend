@@ -1,15 +1,28 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import {Link, useLocation, useNavigate, useSearchParams} from 'react-router-dom';
+import {useContext, useEffect, useState} from 'react';
 import { DexContext, DexContextType } from '../context';
 import { DeLabButtonLabel, DeLabConnector } from '../deLabContext';
 import { Container, Row, Col, Nav, Navbar, NavDropdown, Dropdown, Button, Form, InputGroup } from 'react-bootstrap';
 import { log } from "util";
 import { useSwitchTheme } from "../hooks/useSwitchTheme";
+import {decompressAddr} from "./dex/Referral";
 
 export function DefaultHeader() {
     const navigate = useNavigate();
     const location = useLocation();
-    const { walletInfo } = useContext(DexContext) as DexContextType;
+    const { walletInfo, setReferral } = useContext(DexContext) as DexContextType;
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const ref = searchParams.get("ref");
+
+    useEffect(() => {
+        if (ref) {
+            const maybeAddr = decompressAddr(ref);
+            if (maybeAddr) {
+                setReferral(maybeAddr);
+            }
+        }
+    }, []);
 
     const disconnect = async () => {
         localStorage.clear();
@@ -39,7 +52,7 @@ export function DefaultHeader() {
                                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <img src="/assets/images/ton.png" width={18} height={18} alt="Ton Coin" />
                                     <span className="fw-medium ms-2">
-                                        {`${walletInfo.balance ? walletInfo.balance.toString().slice(0, 6) : 'Load...'} TON`}
+                                        {`${walletInfo.balance ? ~~(walletInfo.balance.toString()) : 'Load...'} TON`}
                                     </span>
                                     <i className="fa-solid fa-angle-down ms-3" />
                                 </Nav.Link>
@@ -405,7 +418,7 @@ export function DefaultHeader() {
                                             role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             <img className="rounded-circle" src="/assets/images/ton.png" width={18} height={18} alt="Ton Coin" />
                                             <span className="fw-medium ms-2">
-                                                {`${walletInfo.balance ? walletInfo.balance.toString().slice(0, 6) : 'Load...'} TON`}
+                                                {`${walletInfo.balance ? ~~(walletInfo.balance.toString()) : 'Load...'} TON`}
                                             </span>
                                             <i className="fa-solid fa-angle-down ms-3" />
                                         </Nav.Link>

@@ -5,7 +5,7 @@ const rawTokenTransformer = (token: RawToken): Token => ({
     name: token.name,
     symbol: token.symbol || '',
     address: token.address ? new Address(token.address) : Address.NONE,
-    image: `./public/assets/images/token/${token.symbol}.png`,
+    image: `/assets/images/token/${(token.symbol || '').toLowerCase()}.png`,
     decimals: token.decimals
 });
 

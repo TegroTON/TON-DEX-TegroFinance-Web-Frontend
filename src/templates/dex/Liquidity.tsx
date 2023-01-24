@@ -10,15 +10,15 @@ export default function LiquidityPage() {
     const {
         walletInfo,
         poolPositions,
-        updatePoolPositions,
+        // updatePoolPositions,
         pairs
     } = useContext(DexContext) as DexContextType;
 
-    useEffect(() => {
-        // testFunc().then();
-        updatePoolPositions();
-        return () => {};
-    }, [walletInfo?.balance, walletInfo?.isConnected, pairs]);
+    // useEffect(() => {
+    //     // testFunc().then();
+    //     updatePoolPositions();
+    //     return () => {};
+    // }, [walletInfo?.balance, walletInfo?.isConnected, pairs]);
 
     // console.log(poolPositions)
 

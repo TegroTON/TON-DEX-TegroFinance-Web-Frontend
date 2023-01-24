@@ -17,7 +17,8 @@ export function ConfirmSwapModal() {
         slippage,
         tokens,
         extract,
-        swapWallets
+        swapWallets,
+        referral
     } = useContext(DexContext) as DexContextType;
     const { amount: inAmount, token: from } = swapLeft;
     const { amount: outAmount, token: to } = swapRight;
@@ -41,8 +42,7 @@ export function ConfirmSwapModal() {
             if (isRoute) {
                 const minReceived0 = getOutAmount(inAmount, swapPairs[0].leftReserved, swapPairs[0].rightReserved);
                 const minReceived0D = CoinsToDecimals(minReceived0, swapPairs[0].rightToken.decimals);
-                console.log('min out', minReceived, minReceived.toNano());
-                const payload = dexPair.createRouteSwapRequest(inAmount, minReceived0D, minReceived, walletInfo?.address as Address, swapPairs[1].address);
+                const payload = dexPair.createRouteSwapRequest(inAmount, minReceived0D, minReceived, walletInfo?.address as Address, swapPairs[1].address, referral);
                 await walletInfo?.sendTransaction({
                     to: swapWallets.left.wallet!.toString("base64", {bounceable: true}),
                     value: new Coins(0.6).toNano(),
@@ -55,7 +55,7 @@ export function ConfirmSwapModal() {
                     extract,
                     extract ? maxSold : inAmount,
                     extract ? outAmount : minReceived,
-                    walletInfo?.address as Address);
+                    walletInfo?.address as Address, referral);
                 await walletInfo?.sendTransaction({
                     to: swapWallets.left.wallet!.toString("base64", {bounceable: true}),
                     value: new Coins(0.3).toNano(),
@@ -70,7 +70,7 @@ export function ConfirmSwapModal() {
                     extract,
                     extract ? maxSold : inAmount,
                     extract ? outAmount : minReceived,
-                    walletInfo?.address as Address);
+                    walletInfo?.address as Address, referral);
             await walletInfo?.sendTransaction({
                 to: dexPair.address.toString(),
                 value: new Coins(extract ? maxSold : inAmount).add(new Coins(0.3))

@@ -1,6 +1,43 @@
 import { Container, Row, Col, Card, Button, ButtonGroup, Form, InputGroup, Dropdown, Nav, Stack, Accordion } from 'react-bootstrap';
+import {useContext} from "react";
+import {DexContext, DexContextType} from "../../context";
+import {bytesToHex} from "ton3-core/dist/utils/helpers";
+// @ts-ignore
+import * as encoder from "int-encoder";
+import {Address} from "ton3-core";
+
+// const kr = [...Array(0x11FF + 1).keys()].slice(0x1100).map(x => String.fromCharCode(x));
+
+encoder.alphabet('абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЮЭЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_')
+// дARХKXhGKНгUБв0ВguЛGаQтЫУеЭэШnQDИШгъF
+// ipnROvNU39wb0HVNr3riz56OxMRWH36WuYVA7WhooJZ
+// 83cdae8567bb7f5607486f9d1dd1219e7aa179abc21dfac14caf6bbc0738e8f3
+// g82uhWe7f1YHSG+dHdEhnnqheavCHfrBTK9rvAc46PM=
+
+
+const compressAddr = (addr: Address | null): string => {
+    if (!addr) return "";
+
+    return encoder.encode(`0x${bytesToHex(addr.hash)}`, 16);
+}
+
+export const decompressAddr = (input: string): Address | null => {
+    if (!input) return null;
+    try {
+        return new Address(`0:${encoder.decode(input, 16)}`);
+    } catch {
+        return null;
+    }
+}
 
 export function ReferralPage() {
+    const {walletInfo} = useContext(DexContext) as DexContextType;
+    console.log("raw", bytesToHex(walletInfo && walletInfo.address ? walletInfo.address.hash : new Uint8Array(0)))
+    const compressed = compressAddr(walletInfo?.address || null);
+    console.log("compressed", compressed)
+    console.log("decompressed", decompressAddr(compressed)?.toString("base64", {bounceable: true}))
+    const refUrl = `https://tegro.fi/?ref=${compressed}`
+    // console.log(refUrl)
     return (
         <>
             <section className="section hero py-4 py-md-5 border-bottom">
@@ -12,10 +49,9 @@ export function ReferralPage() {
                                 <span className="d-block">Earn cryptocurrency together</span>
                             </h1>
                             <p className="fs-18 mb-4">
-                                Earn up to <span className="fw-500 color-grey">20%</span> from friends swap commission on Tegro.Finance
-                                <br /> and <span className="fw-500 color-grey">5%</span> from their earnings on Farms &amp; Launchpools
+                                Earn <span className="fw-500 color-grey">12.5%</span> from friends swap commission on Tegro.Finance
                             </p>
-                            <a href="#!" className="btn btn-sm btn-outline-primary" target="__blank">
+                            <a href="https://tegro.gitbook.io/en/dex/referral-program" className="btn btn-sm btn-outline-primary" target="__blank">
                                 Read More <i className="fa-solid fa-angle-right ms-2" />
                             </a>
                         </Col>
@@ -26,10 +62,10 @@ export function ReferralPage() {
                                 </Card.Title>
                                 <Form.Group className="d-flex align-items-center mb-3">
                                     <InputGroup>
-                                        <Form.Control className="fs-14" defaultValue="https://tegro.finance/?ref=6e02054c95b51f663878" />
+                                        <Form.Control className="fs-14" value={refUrl} />
                                         <InputGroup.Text className="p-1">
                                             <Button variant="outline-light btn-sm border-0 fs-14"
-                                                onClick={() => navigator.clipboard.writeText(`https://tegro.finance/?ref=6e02054c95b51f663878`)}
+                                                onClick={() => navigator.clipboard.writeText(refUrl)}
                                             >
                                                 <i className="fa-regular fa-copy fa-lg" />
                                             </Button>
@@ -64,7 +100,7 @@ export function ReferralPage() {
                                             </div>
                                             <ul className="list-unstyled small fw-500 m-0 px-2 px-sm-3 w-100">
                                                 <li className="d-flex mb-1">Swaps <span className="text-muted ms-auto">10%</span></li>
-                                                {/* 
+                                                {/*
                                                 <li className="d-flex mb-1">Farms <span className="text-muted ms-auto">5%</span></li>
                                                 <li className="d-flex">Launchpools <span className="text-muted ms-auto">5%</span></li>
                                                 */}
@@ -89,7 +125,7 @@ export function ReferralPage() {
             </section>
             <section className="section hero">
                 <Container>
-                    { /* 
+                    { /*
                    <Row className="mb-5">
                         <Col md={6} lg={4} className="mb-3 mb-lg-0">
                             <Card className="p-4">
@@ -505,7 +541,7 @@ export function ReferralPage() {
             </section>
             <section className="section py-5">
                 <Container>
-                    <h2 className="fs-24 fw-700 mb-5">FAQ</h2>
+                    <h2 className="fs-24 fw-700 mb-5" id="FAQ">FAQ</h2>
                     <Accordion className="row" defaultActiveKey="0">
                         <Col lg={6} className="mb-3">
                             {/* item */}

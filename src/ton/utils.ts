@@ -37,7 +37,7 @@ export function getTONToken(): Token {
             name: 'Toncoin',
             symbol: 'TON',
             address: null,
-            image: './public/assets/images/token/TON.png',
+            image: '/assets/images/token/TON.png',
             decimals: 9,
         }
 }
@@ -47,7 +47,7 @@ export function getTGRToken(): Token {
             name: 'Tegro',
             symbol: 'TGR',
             address: new Address('EQAvDfWFG0oYX19jwNDNBBL1rKNT9XfaGP9HyTb5nb2Eml6y'),
-            image: './public/assets/images/token/TGR.png',
+            image: '/assets/images/token/TGR.png',
             decimals: 9,
         }
 }

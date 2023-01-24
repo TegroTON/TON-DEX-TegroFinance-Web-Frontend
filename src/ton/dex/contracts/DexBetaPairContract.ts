@@ -13,7 +13,7 @@ export class DexBetaPairContract {
         this.address = address;
     }
 
-    static createTonSwapRequest(extract: boolean, maxIn: Coins, minReceived: Coins, destination: Address): Cell {
+    static createTonSwapRequest(extract: boolean, maxIn: Coins, minReceived: Coins, destination: Address, ref: Address | null): Cell {
         const queryId = Math.round(Date.now() / Math.PI / Math.random());
         return new Builder()
             .storeUint(DexOP.swapTon, 32)
@@ -23,7 +23,8 @@ export class DexBetaPairContract {
             .storeCoins(minReceived) // min_out
             .storeAddress(destination) // destination
             .storeAddress(destination) // error_destination
-            .storeBit(0) // custom payload (Maybe ^Cell)
+            .storeBit(1) // custom payload (Maybe ^Cell)
+            .storeRef(new Builder().storeAddress(ref).cell())
             .cell();
     }
 
@@ -66,7 +67,7 @@ export class DexBetaPairContract {
         return stack.map((item: bigint) => new Coins(item, { isNano: true })) as [Coins, Coins];
     }
 
-    createRouteSwapRequest(inAmount: Coins, minReserved0: Coins, minReceived: Coins, myAddress: Address, nextDexAddress: Address): Cell {
+    createRouteSwapRequest(inAmount: Coins, minReserved0: Coins, minReceived: Coins, myAddress: Address, nextDexAddress: Address, ref: Address | null): Cell {
         const queryId = Math.round(Date.now() / Math.PI / Math.random());
         const payload = new Builder()
             .storeUint(DexOP.swapJetton, 32) // sub-op
@@ -82,7 +83,8 @@ export class DexBetaPairContract {
                 .storeCoins(minReceived) // min_out
                 .storeAddress(myAddress) // destination
                 .storeAddress(this.address) // error_destination
-                .storeBit(0) // custom payload
+                .storeBit(1) // custom payload
+                .storeRef(new Builder().storeAddress(ref).cell())
                 .cell()
             )
             .cell();
@@ -96,7 +98,7 @@ export class DexBetaPairContract {
         });
     }
 
-    createJettonSwapRequest(extract: boolean, jettonAmount: Coins, minReceived: Coins, myAddress: Address): Cell {
+    createJettonSwapRequest(extract: boolean, jettonAmount: Coins, minReceived: Coins, myAddress: Address, ref: Address | null): Cell {
         const queryId = Math.round(Date.now() / Math.PI / Math.random());
         const payload = new Builder()
             .storeUint(DexOP.swapJetton, 32) // sub-op
@@ -105,7 +107,8 @@ export class DexBetaPairContract {
             .storeCoins(minReceived) // min_out
             .storeAddress(myAddress) // destination
             .storeAddress(myAddress) // error_destination
-            .storeBit(0) // custom payload
+            .storeBit(1) // custom payload
+            .storeRef(new Builder().storeAddress(ref).cell())
             .cell();
         return JettonWallet.createTransferRequest({
             queryId,

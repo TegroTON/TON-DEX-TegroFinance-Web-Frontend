@@ -10,6 +10,14 @@ import { fieldNormalizer } from '../../utils';
 import { Container, Row, Col, Card, Button, Form, InputGroup, ListGroup } from 'react-bootstrap';
 import {CoinsToDecimals} from "../../ton/dex/utils";
 
+const calcShare = (amount: Coins, reserved: Coins): number => {
+    if (reserved.isZero()) {
+        return 0
+    } else {
+        return Number(new Coins(amount).div(new Coins(reserved).add(amount).toString()).toString())
+    }
+}
+
 export default function AddLiquidityPage() {
     const navigate = useNavigate();
     const go_back = () => navigate(-1);
@@ -70,13 +78,17 @@ export default function AddLiquidityPage() {
             if (side === 'left') {
                 inAmount = new Coins(Number(value).toFixed(leftToken.decimals), {decimals: leftToken.decimals});
                 outAmount = CoinsToDecimals(new Coins(inAmount).div(rightPrice.toString()), rightToken.decimals);
-                setShare(Number(new Coins(inAmount, {decimals: leftToken.decimals}).div(Number(new Coins(leftReserved, {decimals: leftToken.decimals}).add(inAmount).toString())).toString()))
+                try {
+                    setShare(calcShare(inAmount, leftReserved))
+                } catch (e) {
+                    console.log(e)
+                }
                 updatePoolParams({
                     ...poolParams,
                     inAmount,
                     outAmount
                 });
-                setValue('right', outAmount.toString());
+                setValue('right', outAmount.isPositive() ? outAmount.toString() : 0);
             } else {
                 outAmount = new Coins(Number(value).toFixed(rightToken.decimals), {decimals: rightToken.decimals});
                 inAmount = CoinsToDecimals(new Coins(outAmount, {decimals: rightToken.decimals}).div(leftPrice.toString()), leftToken.decimals);
@@ -114,6 +126,8 @@ export default function AddLiquidityPage() {
         // pass
     }
 
+    console.log('share', share)
+    // console.log("res", leftReserved.toString(), rightReserved.toString())
 
     return (
         <Container>

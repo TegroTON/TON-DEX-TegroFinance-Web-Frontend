@@ -11,15 +11,21 @@ import { UsePrintRoute } from "../../hooks/usePrintRoute";
 import { useCalcPrice } from "../../hooks/useCalcPrice";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import {log} from "util";
+import {StartPair} from "../../types";
+import {useLocation} from "react-router";
 
 export default function SwapPage() {
     const navigator = useNavigate();
+    const location = useLocation();
+    const [firstRender, setFirstRender] = useState(true);
 
     const [searchParams, setSearchParams] = useSearchParams();
     const from = searchParams.get("from");
     const to = searchParams.get("to");
 
     const {
+        startPair,
+        setStartPair,
         swapLeft,
         swapRight,
         slippage,
@@ -35,6 +41,10 @@ export default function SwapPage() {
         updateLock
     } = useContext(DexContext) as DexContextType;
 
+    if (firstRender && (from || to)) {
+        setStartPair({from, to});
+    }
+
     const price = useCalcPrice(swapPairs);
 
     const realPrice = swapLeft.amount.isZero() || swapRight.amount.isZero()
@@ -43,6 +53,7 @@ export default function SwapPage() {
 
     let minReceived = new Coins(0, {decimals: swapRight.token.decimals});
     let maxSold = new Coins(0, {decimals: swapLeft.token.decimals});
+
     try {
         minReceived = new Coins(swapRight.amount, {decimals: swapRight.token.decimals}).mul(1 - slippage / 100);
         maxSold = new Coins(swapLeft.amount, {decimals: swapLeft.token.decimals}).mul(1 + slippage / 100);
@@ -57,15 +68,15 @@ export default function SwapPage() {
         formState: { isValid },
     } = useForm({ mode: 'onChange' });
 
-    const updateAmount = (side: ('left' | 'right')) => {
-        const value = getValues(side);
+    const updateAmount = (side: ('left' | 'right'), value?: string) => {
+        const _value = value || getValues(side);
         if (side === 'left') {
-            setLeftSwapAmount(new Coins(value || "0", {decimals: swapLeft.token.decimals}));
+            setLeftSwapAmount(new Coins(_value || "0", {decimals: swapLeft.token.decimals}));
             setExtract(false);
         } else {
             const pair = swapPairs[swapPairs.length - 1];
             const maxValue = Number(new Coins(pair.rightReserved, {decimals: pair.rightToken.decimals}).mul(0.999).toString())
-            setRightSwapAmount(new Coins(Math.min(Number(value || "0"), Number(maxValue)), {decimals: pair.rightToken.decimals}));
+            setRightSwapAmount(new Coins(Math.min(Number(_value || "0"), Number(maxValue)), {decimals: pair.rightToken.decimals}));
             setExtract(true);
         }
     };
@@ -75,24 +86,42 @@ export default function SwapPage() {
         const left = swapLeft.amount.toString();
         const curRight: string = getValues('right');
         const right = swapRight.amount.toString();
-        if (left && curLeft !== left && (extract || curLeft.substring(curLeft.length - 1) !== '.')) {
+        if (left && Number(curLeft) !== Number(left) && (extract || curLeft.substring(curLeft.length - 1) !== '.')) {
             setValue('left', left || "0");
         }
-        if (right && curRight !== right && (!extract || curRight.substring(curRight.length - 1) !== '.')) {
+        if (right && Number(curRight) !== Number(right) && (!extract || curRight.substring(curRight.length - 1) !== '.')) {
             setValue('right', right || "0");
         }
     }, [swapLeft.amount, swapRight.amount])
+
+    useEffect(() => {
+        const fromAddr = swapLeft.token.address ? swapLeft.token.address.toString("raw") : null;
+        const toAddr = swapRight.token.address ? swapRight.token.address.toString("raw") : null;
+        const path = `/swap?${fromAddr ? "from="+fromAddr : ""}${fromAddr && toAddr ? "&" : ""}${toAddr ? "to="+toAddr : ""}`;
+        const currentPath = location.pathname + location.search
+        console.log(currentPath, path)
+        if (currentPath !== path) {
+            navigator(path)
+        }
+    }, [swapPairs]);
+
+    useEffect(() => { setFirstRender(false) }, []);
 
 
     const isRoute = swapPairs.length === 2;
 
     let sufficient = 0;
+    let availableBalance = new Coins(0);
     try {
         const inAmount = extract ? maxSold : swapLeft.amount;
-        sufficient = inAmount.isZero() ? 0 : swapLeft.userBalance.gte(inAmount) ? 1 : -1;
+        availableBalance = new Coins(swapLeft.userBalance, {decimals: swapLeft.token.decimals})
+        availableBalance = swapLeft.token.address ? availableBalance : availableBalance.sub(new Coins(0.5));
+        sufficient = inAmount.isZero() ? 0 : availableBalance.gte(inAmount) ? 1 : -1;
     } catch {
         // pass
     }
+
+    const maxAmount = availableBalance.isPositive() ? availableBalance : new Coins(0);
 
     const [checked, setChecked] = useState(false);
 
@@ -132,7 +161,9 @@ export default function SwapPage() {
                                         })}
                                     />
                                     <InputGroup.Text className="p-1">
-                                        <Button variant="outline-primary p-2 fs-11 rounded-2 me-3">Max</Button>
+                                        <Button variant="outline-primary p-2 fs-11 rounded-2 me-3"
+                                        onClick={() => {updateAmount("left", maxAmount.toString())}}>
+                                            Max</Button>
                                         <Button variant="btn btn-sm btn-light d-flex align-items-center justify-content-center p-2"
                                             style={{ minWidth: '124px' }}
                                             data-bs-toggle="modal"

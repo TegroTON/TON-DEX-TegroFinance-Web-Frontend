@@ -54,3 +54,7 @@ export type PoolPosition = {
 export type PoolPositions = PoolPosition[]; // key - pairAddress
 
 export type ReferralInfo = {};
+
+
+export type StartPair = {from: string | null, to: string | null} | null;
+

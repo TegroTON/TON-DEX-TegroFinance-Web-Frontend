@@ -3,7 +3,7 @@ import {Address, Coins} from "ton3-core";
 import {RawToken, Token, RawPair, Pair, IPair} from "./types";
 import {rawPairTransformer} from "./utils";
 
-const endpoint = 'https://bbau9qdvvsk12nknl37j.containers.yandexcloud.net/v1';
+const endpoint = 'https://api2.tegro.finance/v1';
 
 const getPairs = async (): Promise<Pair[]> => {
     const url = `${endpoint}/pair`;
@@ -11,7 +11,15 @@ const getPairs = async (): Promise<Pair[]> => {
     if (res.status !== 200) {
         throw Error(`Received error: ${JSON.stringify(res.data || {})}`);
     }
-    return (res.data as RawPair[]).map((rawPair: RawPair) => rawPairTransformer(rawPair));
+    return (res.data as RawPair[]).map((rawPair: RawPair) => rawPairTransformer(rawPair)).sort((a: Pair, b: Pair) => {
+        if (a.leftReserved.lt(b.leftReserved)) {
+            return 1;
+        } else if (a.leftReserved.gt(b.leftReserved)) {
+            return -1;
+        } else {
+            return 0;
+        }
+    });
 }
 
 const getPair = async ({base, quote}: IPair): Promise<Pair> => {
