@@ -429,7 +429,7 @@ export function DefaultHeader() {
                                                 <i className="fa-light fa-copy dropdown-item-icon" />
                                                 <div className="ms-3">
                                                     Copy address
-                                                    <div className="text-truncate text-muted small" style={{ maxWidth: '150px' }}>
+                                                    <div className="text-muted small text-truncate" style={{ minWidth: '150px' }}>
                                                         {`${walletInfo.address.toString()
                                                             .slice(0, 6)} . . . ${walletInfo.address.toString()
                                                                 .slice(-6)}`}

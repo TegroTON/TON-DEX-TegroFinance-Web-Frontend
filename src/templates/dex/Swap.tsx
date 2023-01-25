@@ -164,6 +164,9 @@ export default function SwapPage() {
                                             validate: (value) => value && parseFloat(value) > 0,
                                         })}
                                     />
+                                    <InputGroup.Text className="fs-12 fw-500 text-muted ps-1 pe-4">
+                                        $0
+                                    </InputGroup.Text>
                                     <InputGroup.Text className="p-1">
                                         <Button variant="btn btn-sm btn-light d-flex align-items-center justify-content-center p-2"
                                             style={{ minWidth: '124px' }}
@@ -221,6 +224,9 @@ export default function SwapPage() {
                                             validate: (value) => !extract || (value && parseFloat(value) > 0),
                                         })}
                                     />
+                                    <InputGroup.Text className="fs-12 fw-500 text-muted ps-1 pe-4">
+                                        $0.0067
+                                    </InputGroup.Text>
                                     <InputGroup.Text className="p-1">
                                         <Button variant="btn btn-sm btn-light border d-flex align-items-center justify-content-center p-2"
                                             style={{ minWidth: '124px' }}
