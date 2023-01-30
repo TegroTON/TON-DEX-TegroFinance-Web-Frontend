@@ -2566,6 +2566,7 @@ h3 {
     padding-bottom: 100px;
     min-height: 90vh;
     position: relative;
+    contain: paint;
 }
 
 .hero {
