@@ -3,10 +3,10 @@ import {Address, Coins} from "ton3-core";
 import {RawToken, Token, RawPair, Pair, IPair} from "./types";
 import {rawPairTransformer} from "./utils";
 
-const endpoint = 'https://api2.tegro.finance/v1';
+const endpoint = 'https://api.tegro.finance/v1';
 
 const getPairs = async (): Promise<Pair[]> => {
-    const url = `${endpoint}/pair`;
+    const url = `${endpoint}/pairs`;
     const res = await axios.get(url);
     if (res.status !== 200) {
         throw Error(`Received error: ${JSON.stringify(res.data || {})}`);
