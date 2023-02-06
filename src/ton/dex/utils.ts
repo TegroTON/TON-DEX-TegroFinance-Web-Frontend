@@ -109,9 +109,9 @@ export const CoinsToDecimals = (x: Coins, d: number): Coins => {
 }
 
 export const getOutAmount = (inAmount: Coins, inReserved: Coins, outReserved: Coins): Coins => {
-    const inAmountWithFee = new Coins(inAmount).mul(996);
-    const numerator = new Coins(inAmountWithFee).mul(outReserved.toString());
-    const denominator = new Coins(inReserved).mul(1000)
+    const inAmountWithFee = new Coins(inAmount, {decimals: 18}).mul(996);
+    const numerator = new Coins(inAmountWithFee, {decimals: 18}).mul(outReserved.toString());
+    const denominator = new Coins(inReserved, {decimals: 18}).mul(1000)
         .add(inAmountWithFee);
     return numerator.div(denominator.toString());
 };
@@ -122,27 +122,27 @@ export const calcOutAmountAndPriceImpact = (inAmount: Coins, pairs: Pair[]): [Co
         const out1 = getOutAmount(inAmount, pairs[0].leftReserved, pairs[0].rightReserved);
         const out1D = CoinsToDecimals(out1, pairs[0].rightToken.decimals);
         const outAmount = getOutAmount(out1D, pairs[1].leftReserved, pairs[1].rightReserved);
-        const priceImpact1 = new Coins(inAmount).div(new Coins(pairs[0].leftReserved).add(inAmount).toString()).mul(100);
-        const priceImpact2 = new Coins(out1D).div(new Coins(pairs[1].leftReserved).add(out1D).toString()).mul(100);
-        const priceImpact = Number(new Coins(priceImpact1).add(priceImpact2).toString());
+        const priceImpact1 = new Coins(inAmount, {decimals: 18}).div(new Coins(pairs[0].leftReserved, {decimals: 18}).add(new Coins(inAmount, {decimals: 18})).toString()).mul(100);
+        const priceImpact2 = new Coins(out1D, {decimals: 18}).div(new Coins(pairs[1].leftReserved, {decimals: 18}).add(new Coins(out1D,{decimals: 18})).toString()).mul(100);
+        const priceImpact = Number(new Coins(priceImpact1, {decimals: 18}).add(priceImpact2).toString());
         // const priceImpact = Number(new Coins(inAmount).mul(out1.toString()).div(new Coins(pairs[0].leftReserved).mul(pairs[1].leftReserved.toString()).add(new Coins(inAmount).mul(out1.toString())).toString()).mul(100).toString());
         return [CoinsToDecimals(outAmount, pairs[1].rightToken.decimals), priceImpact]
     } else {
         const outAmount = getOutAmount(inAmount, pairs[0].leftReserved, pairs[0].rightReserved);
-        const priceImpact = Number(new Coins(inAmount).div(new Coins(pairs[0].leftReserved).add(inAmount).toString()).mul(100).toString());
+        const priceImpact = Number(new Coins(inAmount, {decimals: 18}).div(new Coins(pairs[0].leftReserved, {decimals: 18}).add(new Coins(inAmount, {decimals: 18})).toString()).mul(100).toString());
         return [CoinsToDecimals(outAmount, pairs[0].rightToken.decimals), priceImpact]
     }
 }
 
 export const getInAmount = (outAmount: Coins, inReserved: Coins, outReserved: Coins): Coins => {
-    const numerator = new Coins(inReserved).mul(outAmount.toString()).mul(1000);
-    const denominator = new Coins(outReserved).sub(outAmount).mul(996)
+    const numerator = new Coins(inReserved, {decimals: 18}).mul(outAmount.toString()).mul(1000);
+    const denominator = new Coins(outReserved, {decimals: 18}).sub(new Coins(outAmount, {decimals: 18})).mul(996)
     return numerator.div(denominator.toString())
 }
 
 export const calcInAmountAndPriceImpact = (outAmount: Coins, pair: Pair): [Coins, number] => {
     const inAmount = getInAmount(outAmount, pair.leftReserved, pair.rightReserved);
-    const priceImpact = Number(new Coins(outAmount).div(new Coins(pair.rightReserved).sub(outAmount).toString()).mul(100).toString());
+    const priceImpact = Number(new Coins(outAmount, {decimals: 18}).div(new Coins(pair.rightReserved, {decimals: 18}).sub(new Coins(outAmount, {decimals: 18})).toString()).mul(100).toString());
     return [CoinsToDecimals(inAmount, pair.leftToken.decimals), priceImpact]
 }
 

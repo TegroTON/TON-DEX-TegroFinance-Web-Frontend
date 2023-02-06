@@ -66,6 +66,7 @@ export const DeLabContextProvider: React.FC<Props> = ({ children }) => {
     const [balance, setBalance] = React.useState<Coins>(new Coins(0));
 
     async function sendTransaction(transaction: DeLabTransaction) {
+        console.log(transaction)
         const dataTx2 = await DeLabConnector.sendTransaction(transaction);
         setDataTx(dataTx2);
     }

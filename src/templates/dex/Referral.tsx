@@ -4,7 +4,7 @@ import {DexContext, DexContextType} from "../../context";
 import {bytesToHex} from "ton3-core/dist/utils/helpers";
 // @ts-ignore
 import * as encoder from "int-encoder";
-import {Address} from "ton3-core";
+import {Address, Coins} from "ton3-core";
 
 // const kr = [...Array(0x11FF + 1).keys()].slice(0x1100).map(x => String.fromCharCode(x));
 
@@ -18,26 +18,35 @@ encoder.alphabet('абвгдеёжзийклмнопрстуфхцчшщъыьэ
 const compressAddr = (addr: Address | null): string => {
     if (!addr) return "";
 
-    return encoder.encode(`0x${bytesToHex(addr.hash)}`, 16);
+    // return encoder.encode(`0x${bytesToHex(addr.hash)}`, 16);
+    return addr.toString("base64", {bounceable: false, testOnly: true})
 }
 
 export const decompressAddr = (input: string): Address | null => {
     if (!input) return null;
     try {
-        return new Address(`0:${encoder.decode(input, 16)}`);
+        // return new Address(`0:${encoder.decode(input, 16)}`);
+        return new Address(input);
     } catch {
         return null;
     }
 }
 
 export function ReferralPage() {
-    const {walletInfo} = useContext(DexContext) as DexContextType;
-    console.log("raw", bytesToHex(walletInfo && walletInfo.address ? walletInfo.address.hash : new Uint8Array(0)))
+    const {walletInfo, referrals} = useContext(DexContext) as DexContextType;
+    // console.log("raw", bytesToHex(walletInfo && walletInfo.address ? walletInfo.address.hash : new Uint8Array(0)))
     const compressed = compressAddr(walletInfo?.address || null);
-    console.log("compressed", compressed)
-    console.log("decompressed", decompressAddr(compressed)?.toString("base64", {bounceable: true}))
+    // console.log("compressed", compressed)
+    // console.log("decompressed", decompressAddr(compressed)?.toString("base64", {bounceable: true}))
     const refUrl = `https://tegro.fi/?ref=${compressed}`
-    // console.log(refUrl)
+    // const referrals = [{address: new Address("EQCDza6FZ7t_VgdIb50d0SGeeqF5q8Id-sFMr2u8Bzjo8_mZ"),volume_tgr: new Coins("164.137052029"),invited:1673975745},
+    //                    {address: new Address("EQCDza6FZ7t_VgdIb50d0SGeeqF5q8Id-sFMr2u8Bzjo8_mZ"),volume_tgr: new Coins("164.137052029"),invited:1673975745},
+    //                    {address: new Address("EQCDza6FZ7t_VgdIb50d0SGeeqF5q8Id-sFMr2u8Bzjo8_mZ"),volume_tgr: new Coins("164.137052029"),invited:1673975745}]
+
+    const friends = referrals.length;
+    const swapVolume = referrals.reduce((acc, item) => acc + Number(item.volumeTGR.toString()), 0);
+    const swapEarn = swapVolume * 0.0005;
+    // console.log(referrals)
     return (
         <>
             <section className="section hero py-4 py-md-5 border-bottom">
@@ -99,7 +108,7 @@ export function ReferralPage() {
                                                 <div className="fs-24 fw-700 color-blue">100%</div>
                                             </div>
                                             <ul className="list-unstyled small fw-500 m-0 px-2 px-sm-3 w-100">
-                                                <li className="d-flex mb-1">Swaps <span className="text-muted ms-auto">10%</span></li>
+                                                <li className="d-flex mb-1">Swaps <span className="text-muted ms-auto">12.5%</span></li>
                                                 {/*
                                                 <li className="d-flex mb-1">Farms <span className="text-muted ms-auto">5%</span></li>
                                                 <li className="d-flex">Launchpools <span className="text-muted ms-auto">5%</span></li>
@@ -174,15 +183,15 @@ export function ReferralPage() {
                         </Col>
                                             </Row>
                                             */}
-                    <Nav variant="pills" className="box-blur border w-100 mb-4" defaultActiveKey="/referral">
-                        <Nav.Item>
-                            <Nav.Link href="/referral">Referral List</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link href="#!">Swaps</Nav.Link>
-                        </Nav.Item>
+                    {/*<Nav variant="pills" className="box-blur border w-100 mb-4" defaultActiveKey="/referral">*/}
+                    {/*    <Nav.Item>*/}
+                    {/*        <Nav.Link href="/referral">Referral List</Nav.Link>*/}
+                    {/*    </Nav.Item>*/}
+                    {/*    <Nav.Item>*/}
+                    {/*        <Nav.Link href="#!">Swaps</Nav.Link>*/}
+                    {/*    </Nav.Item>*/}
 
-                    </Nav>
+                    {/*</Nav>*/}
                     <Card className="p-4 mb-4">
                         <Card.Title className="card-title fs-20 fw-700 mb-4">Dashboard</Card.Title>
                         <Row>
@@ -192,14 +201,14 @@ export function ReferralPage() {
                                         <i className="fa-duotone fa-users dropdown-item-icon rounded-circle fs-20" style={{ width: '48px', height: '48px', lineHeight: '48px' }} />
                                         <div className="ms-3">
                                             <h4 className="fs-12 fw-500 text-muted mb-1">Total Friends</h4>
-                                            <p className="fs-20 fw-700 mb-0">0</p>
+                                            <p className="fs-20 fw-700 mb-0">{friends}</p>
                                         </div>
                                     </Stack>
                                     <div className="d-flex align-items-center">
-                                        <img src="/assets/images/favicon.svg" alt="" width={48} height={48} />
+                                        <img src="/assets/images/token/tgr.png" alt="" width={48} height={48} />
                                         <div className="ms-3">
-                                            <h4 className="fs-12 fw-500 text-muted mb-1">Total earned</h4>
-                                            <p className="fs-20 fw-700 mb-0">0.0000 TGR</p>
+                                            <h4 className="fs-12 fw-500 text-muted mb-1">Total earn</h4>
+                                            <p className="fs-20 fw-700 mb-0">{`${swapEarn.toFixed(9)} TGR`}</p>
                                         </div>
                                     </div>
                                 </Card.Body>
@@ -207,12 +216,12 @@ export function ReferralPage() {
                             <Col md={6} xl className="mb-4 mb-xl-0">
                                 <Card.Body className="border rounded-8 p-4">
                                     <div className="mb-4">
-                                        <h4 className="fs-12 fw-500 text-muted mb-1">Total Swap friends</h4>
-                                        <p className="fs-20 fw-700 mb-0">0</p>
+                                        <h4 className="fs-12 fw-500 text-muted mb-1">Friends swap volume</h4>
+                                        <p className="fs-20 fw-700 mb-0">{`${swapVolume} TGR`}</p>
                                     </div>
                                     <div className="mb-0">
-                                        <h4 className="fs-12 fw-500 text-muted mb-1">Total Swap earned</h4>
-                                        <p className="fs-20 fw-700 mb-0">0.0000 TGR</p>
+                                        <h4 className="fs-12 fw-500 text-muted mb-1">Total Swap earn</h4>
+                                        <p className="fs-20 fw-700 mb-0">{`${swapEarn.toFixed(9)} TGR`}</p>
                                     </div>
                                 </Card.Body>
                             </Col>
@@ -220,14 +229,14 @@ export function ReferralPage() {
                                 <Card.Body className="border rounded-8 p-4">
                                     <Stack direction="horizontal" gap={2} className="mb-2">
                                         <div className="me-auto">
-                                            <h4 className="fs-16 fw-500 text-muted mb-2">Swaps Referral</h4>
-                                            <p className="fs-24 fw-700 mb-0">0.0000 TGR</p>
+                                            <h4 className="fs-16 fw-500 text-muted mb-2">Unpaid Referral Earn</h4>
+                                            <p className="fs-24 fw-700 mb-0">{`${swapEarn.toFixed(9)} TGR`}</p>
                                         </div>
                                         <i className="fa-duotone fa-arrow-up-arrow-down card-item-icon bg-soft-green" />
                                     </Stack>
                                     <ButtonGroup className="w-100">
-                                        <Button variant="green btn-sm w-50 me-1">Withdraw</Button>
-                                        <Button variant="outline-green btn-sm w-50 ms-1">History</Button>
+                                        <Button variant="green btn-sm w-50 me-1" disabled>Min withdraw 100 TGR</Button>
+                                        {/*<Button variant="outline-green btn-sm w-50 ms-1">History</Button>*/}
                                     </ButtonGroup>
                                 </Card.Body>
                             </Col>
@@ -236,313 +245,71 @@ export function ReferralPage() {
                     <Card className="p-0" style={{ contain: 'paint' }}>
                         <div className="d-block d-md-flex align-items-center box-blur px-4 py-3 border-bottom">
                             <h1 className="fs-20 me-auto m-0">Referral List</h1>
-                            <Form className="ms-auto mt-3 mt-md-0">
-                                <InputGroup>
-                                    <Form.Control
-                                        placeholder="Search wallet / ref.link..."
-                                        aria-label="Search wallet / ref.link..."
-                                        style={{ minHeight: '46px' }}
-                                    />
-                                    <InputGroup.Text id="basic-addon1">
-                                        <i className="fa-regular fa-magnifying-glass" />
-                                    </InputGroup.Text>
-                                </InputGroup>
-                            </Form>
+                            {/*<Form className="ms-auto mt-3 mt-md-0">*/}
+                            {/*    <InputGroup>*/}
+                            {/*        <Form.Control*/}
+                            {/*            placeholder="Search wallet / ref.link..."*/}
+                            {/*            aria-label="Search wallet / ref.link..."*/}
+                            {/*            style={{ minHeight: '46px' }}*/}
+                            {/*        />*/}
+                            {/*        <InputGroup.Text id="basic-addon1">*/}
+                            {/*            <i className="fa-regular fa-magnifying-glass" />*/}
+                            {/*        </InputGroup.Text>*/}
+                            {/*    </InputGroup>*/}
+                            {/*</Form>*/}
                         </div>
                         <table className="table table-tokens">
                             <thead className="sticky-top" style={{ top: '79px' }}>
                                 <tr className="text-end">
-                                    <th scope="col" className="text-start">Wallet Address</th>
-                                    <th scope="col">Farms Liquidity</th>
-                                    <th scope="col">Stacked in Launchpools</th>
-                                    <th scope="col">Total Earned</th>
+                                    {referrals.length ? (
+                                        <>
+                                        <th scope="col" className="text-start">Wallet Address</th>
+                                        <th scope="col">Swap Volume</th>
+                                        <th scope="col">Total Earn</th>
+                                        </>
+                                    ) : (
+                                        <th scope="col" className="text-center">You have no referrals.</th>
+                                        )}
                                 </tr>
                             </thead>
                             <tbody>
+                            {referrals.map(r => (
                                 <tr className="text-end">
                                     <th scope="row" className="text-start">
                                         <div className="d-flex align-items-center">
                                             <i className="fa-regular fa-wallet dropdown-item-icon" />
                                             <div className="ms-3">
-                                                <div className="fw-500 text-truncate" style={{ maxWidth: '150px' }}>mtTCazo8VEyTZLqAbD7q9D1U8zwhsouyV5</div>
-                                                <div className="small text-muted fw-500 mt-1">Date: 07/03/22, 5:24:08 PM</div>
+                                                <div className="fw-500 text-truncate" style={{ maxWidth: '150px' }}>{r.address.toString("base64", {bounceable: true})}</div>
+                                                <div className="small text-muted fw-500 mt-1">{new Date(r.invited * 1000).toLocaleString() }</div>
                                             </div>
                                         </div>
                                     </th>
                                     <td>
-                                        <div className="fw-500">$0.00</div>
-                                        <div className="color-grey fw-500 small mt-1">USD</div>
+                                        <div className="fw-500">
+                                            {`${r.volumeTGR.toString()} TGR`}
+                                        </div>
                                     </td>
                                     <td>
                                         <div className="fw-500">
-                                            0.0000 TGR
+                                            {`${new Coins(r.volumeTGR).mul(0.0005).toString()} TGR`}
                                         </div>
-                                        <div className="color-grey fw-500 small mt-1">$0.00</div>
-                                    </td>
-                                    <td>
-                                        <div className="fw-500">
-                                            0.0000 TGR
-                                        </div>
-                                        <div className="color-grey fw-500 small mt-1">$0.00</div>
                                     </td>
                                 </tr>
-                                <tr className="text-end">
-                                    <th scope="row" className="text-start">
-                                        <div className="d-flex align-items-center">
-                                            <i className="fa-regular fa-wallet dropdown-item-icon" />
-                                            <div className="ms-3">
-                                                <div className="fw-500 text-truncate" style={{ maxWidth: '150px' }}>mtTCazo8VEyTZLqAbD7q9D1U8zwhsouyV5</div>
-                                                <div className="small text-muted fw-500 mt-1">Date: 07/03/22, 5:24:08 PM</div>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <td>
-                                        <div className="fw-500">$0.00</div>
-                                        <div className="color-grey fw-500 small mt-1">USD</div>
-                                    </td>
-                                    <td>
-                                        <div className="fw-500">
-                                            0.0000 TGR
-                                        </div>
-                                        <div className="color-grey fw-500 small mt-1">$0.00</div>
-                                    </td>
-                                    <td>
-                                        <div className="fw-500">
-                                            0.0000 TGR
-                                        </div>
-                                        <div className="color-grey fw-500 small mt-1">$0.00</div>
-                                    </td>
-                                </tr>
-                                <tr className="text-end">
-                                    <th scope="row" className="text-start">
-                                        <div className="d-flex align-items-center">
-                                            <i className="fa-regular fa-wallet dropdown-item-icon" />
-                                            <div className="ms-3">
-                                                <div className="fw-500 text-truncate" style={{ maxWidth: '150px' }}>mtTCazo8VEyTZLqAbD7q9D1U8zwhsouyV5</div>
-                                                <div className="small text-muted fw-500 mt-1">Date: 07/03/22, 5:24:08 PM</div>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <td>
-                                        <div className="fw-500">$0.00</div>
-                                        <div className="color-grey fw-500 small mt-1">USD</div>
-                                    </td>
-                                    <td>
-                                        <div className="fw-500">
-                                            0.0000 TGR
-                                        </div>
-                                        <div className="color-grey fw-500 small mt-1">$0.00</div>
-                                    </td>
-                                    <td>
-                                        <div className="fw-500">
-                                            0.0000 TGR
-                                        </div>
-                                        <div className="color-grey fw-500 small mt-1">$0.00</div>
-                                    </td>
-                                </tr>
-                                <tr className="text-end">
-                                    <th scope="row" className="text-start">
-                                        <div className="d-flex align-items-center">
-                                            <i className="fa-regular fa-wallet dropdown-item-icon" />
-                                            <div className="ms-3">
-                                                <div className="fw-500 text-truncate" style={{ maxWidth: '150px' }}>mtTCazo8VEyTZLqAbD7q9D1U8zwhsouyV5</div>
-                                                <div className="small text-muted fw-500 mt-1">Date: 07/03/22, 5:24:08 PM</div>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <td>
-                                        <div className="fw-500">$0.00</div>
-                                        <div className="color-grey fw-500 small mt-1">USD</div>
-                                    </td>
-                                    <td>
-                                        <div className="fw-500">
-                                            0.0000 TGR
-                                        </div>
-                                        <div className="color-grey fw-500 small mt-1">$0.00</div>
-                                    </td>
-                                    <td>
-                                        <div className="fw-500">
-                                            0.0000 TGR
-                                        </div>
-                                        <div className="color-grey fw-500 small mt-1">$0.00</div>
-                                    </td>
-                                </tr>
-                                <tr className="text-end">
-                                    <th scope="row" className="text-start">
-                                        <div className="d-flex align-items-center">
-                                            <i className="fa-regular fa-wallet dropdown-item-icon" />
-                                            <div className="ms-3">
-                                                <div className="fw-500 text-truncate" style={{ maxWidth: '150px' }}>mtTCazo8VEyTZLqAbD7q9D1U8zwhsouyV5</div>
-                                                <div className="small text-muted fw-500 mt-1">Date: 07/03/22, 5:24:08 PM</div>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <td>
-                                        <div className="fw-500">$0.00</div>
-                                        <div className="color-grey fw-500 small mt-1">USD</div>
-                                    </td>
-                                    <td>
-                                        <div className="fw-500">
-                                            0.0000 TGR
-                                        </div>
-                                        <div className="color-grey fw-500 small mt-1">$0.00</div>
-                                    </td>
-                                    <td>
-                                        <div className="fw-500">
-                                            0.0000 TGR
-                                        </div>
-                                        <div className="color-grey fw-500 small mt-1">$0.00</div>
-                                    </td>
-                                </tr>
-                                <tr className="text-end">
-                                    <th scope="row" className="text-start">
-                                        <div className="d-flex align-items-center">
-                                            <i className="fa-regular fa-wallet dropdown-item-icon" />
-                                            <div className="ms-3">
-                                                <div className="fw-500 text-truncate" style={{ maxWidth: '150px' }}>mtTCazo8VEyTZLqAbD7q9D1U8zwhsouyV5</div>
-                                                <div className="small text-muted fw-500 mt-1">Date: 07/03/22, 5:24:08 PM</div>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <td>
-                                        <div className="fw-500">$0.00</div>
-                                        <div className="color-grey fw-500 small mt-1">USD</div>
-                                    </td>
-                                    <td>
-                                        <div className="fw-500">
-                                            0.0000 TGR
-                                        </div>
-                                        <div className="color-grey fw-500 small mt-1">$0.00</div>
-                                    </td>
-                                    <td>
-                                        <div className="fw-500">
-                                            0.0000 TGR
-                                        </div>
-                                        <div className="color-grey fw-500 small mt-1">$0.00</div>
-                                    </td>
-                                </tr>
-                                <tr className="text-end">
-                                    <th scope="row" className="text-start">
-                                        <div className="d-flex align-items-center">
-                                            <i className="fa-regular fa-wallet dropdown-item-icon" />
-                                            <div className="ms-3">
-                                                <div className="fw-500 text-truncate" style={{ maxWidth: '150px' }}>mtTCazo8VEyTZLqAbD7q9D1U8zwhsouyV5</div>
-                                                <div className="small text-muted fw-500 mt-1">Date: 07/03/22, 5:24:08 PM</div>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <td>
-                                        <div className="fw-500">$0.00</div>
-                                        <div className="color-grey fw-500 small mt-1">USD</div>
-                                    </td>
-                                    <td>
-                                        <div className="fw-500">
-                                            0.0000 TGR
-                                        </div>
-                                        <div className="color-grey fw-500 small mt-1">$0.00</div>
-                                    </td>
-                                    <td>
-                                        <div className="fw-500">
-                                            0.0000 TGR
-                                        </div>
-                                        <div className="color-grey fw-500 small mt-1">$0.00</div>
-                                    </td>
-                                </tr>
-                                <tr className="text-end">
-                                    <th scope="row" className="text-start">
-                                        <div className="d-flex align-items-center">
-                                            <i className="fa-regular fa-wallet dropdown-item-icon" />
-                                            <div className="ms-3">
-                                                <div className="fw-500 text-truncate" style={{ maxWidth: '150px' }}>mtTCazo8VEyTZLqAbD7q9D1U8zwhsouyV5</div>
-                                                <div className="small text-muted fw-500 mt-1">Date: 07/03/22, 5:24:08 PM</div>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <td>
-                                        <div className="fw-500">$0.00</div>
-                                        <div className="color-grey fw-500 small mt-1">USD</div>
-                                    </td>
-                                    <td>
-                                        <div className="fw-500">
-                                            0.0000 TGR
-                                        </div>
-                                        <div className="color-grey fw-500 small mt-1">$0.00</div>
-                                    </td>
-                                    <td>
-                                        <div className="fw-500">
-                                            0.0000 TGR
-                                        </div>
-                                        <div className="color-grey fw-500 small mt-1">$0.00</div>
-                                    </td>
-                                </tr>
-                                <tr className="text-end">
-                                    <th scope="row" className="text-start">
-                                        <div className="d-flex align-items-center">
-                                            <i className="fa-regular fa-wallet dropdown-item-icon" />
-                                            <div className="ms-3">
-                                                <div className="fw-500 text-truncate" style={{ maxWidth: '150px' }}>mtTCazo8VEyTZLqAbD7q9D1U8zwhsouyV5</div>
-                                                <div className="small text-muted fw-500 mt-1">Date: 07/03/22, 5:24:08 PM</div>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <td>
-                                        <div className="fw-500">$0.00</div>
-                                        <div className="color-grey fw-500 small mt-1">USD</div>
-                                    </td>
-                                    <td>
-                                        <div className="fw-500">
-                                            0.0000 TGR
-                                        </div>
-                                        <div className="color-grey fw-500 small mt-1">$0.00</div>
-                                    </td>
-                                    <td>
-                                        <div className="fw-500">
-                                            0.0000 TGR
-                                        </div>
-                                        <div className="color-grey fw-500 small mt-1">$0.00</div>
-                                    </td>
-                                </tr>
-                                <tr className="text-end">
-                                    <th scope="row" className="text-start">
-                                        <div className="d-flex align-items-center">
-                                            <i className="fa-regular fa-wallet dropdown-item-icon" />
-                                            <div className="ms-3">
-                                                <div className="fw-500 text-truncate" style={{ maxWidth: '150px' }}>mtTCazo8VEyTZLqAbD7q9D1U8zwhsouyV5</div>
-                                                <div className="small text-muted fw-500 mt-1">Date: 07/03/22, 5:24:08 PM</div>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <td>
-                                        <div className="fw-500">$0.00</div>
-                                        <div className="color-grey fw-500 small mt-1">USD</div>
-                                    </td>
-                                    <td>
-                                        <div className="fw-500">
-                                            0.0000 TGR
-                                        </div>
-                                        <div className="color-grey fw-500 small mt-1">$0.00</div>
-                                    </td>
-                                    <td>
-                                        <div className="fw-500">
-                                            0.0000 TGR
-                                        </div>
-                                        <div className="color-grey fw-500 small mt-1">$0.00</div>
-                                    </td>
-                                </tr>
+                            ))}
                             </tbody>
                         </table>
-                        <div className="text-center p-5">
-                            <div className="d-inline bg-light px-4 py-3 rounded-8">
-                                <i className="fa-solid fa-circle-notch fa-spin me-2" /> Loading
-                            </div>
-                        </div>
+                        {/*<div className="text-center p-5">*/}
+                        {/*    <div className="d-inline bg-light px-4 py-3 rounded-8">*/}
+                        {/*        <i className="fa-solid fa-circle-notch fa-spin me-2" /> Loading*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
                     </Card>
                 </Container>
             </section>
             <section className="section py-5">
                 <Container>
                     <h2 className="fs-24 fw-700 mb-5" id="FAQ">FAQ</h2>
-                    <Accordion className="row" defaultActiveKey="0">
+                    <Accordion className="row">
                         <Col lg={6} className="mb-3">
                             {/* item */}
                             <Accordion.Item eventKey="0" className="card bg-second mb-3 p-0">
@@ -560,103 +327,33 @@ export function ReferralPage() {
                             </Accordion.Item>
                             {/* item */}
                             <Accordion.Item eventKey="2" className="card bg-second mb-3 p-0">
-                                <Accordion.Header>Are there separate balances for referral rewards from friends' Swaps, Farms, Launchpools?</Accordion.Header>
-                                <Accordion.Body>
-                                    Yes, there are three separate balances for the referral rewards.
-                                </Accordion.Body>
-                            </Accordion.Item>
-                            {/* item */}
-                            <Accordion.Item eventKey="3" className="card bg-second mb-3 p-0">
-                                <Accordion.Header>How do I generate a new referral link?</Accordion.Header>
-                                <Accordion.Body>
-                                    Find 'My Referral Link' block and click on the 'plus' button near the link field. Choose the profit share for your friends and click generate a referral link.
-                                </Accordion.Body>
-                            </Accordion.Item>
-                            {/* item */}
-                            <Accordion.Item eventKey="4" className="card bg-second mb-3 p-0">
-                                <Accordion.Header>How does profit sharing work?</Accordion.Header>
-                                <Accordion.Body>
-                                    Profit sharing allows you to share a portion of referral rewards with your invited friends. The percentage can be: 0%, 10% 25%, 50%
-                                </Accordion.Body>
-                            </Accordion.Item>
-                            {/* item */}
-                            <Accordion.Item eventKey="5" className="card bg-second mb-3 p-0">
                                 <Accordion.Header>Where are all my generated referral links?</Accordion.Header>
                                 <Accordion.Body>
                                     View all of your generated links on the 'Referral Links' section of the Referral page.
                                 </Accordion.Body>
                             </Accordion.Item>
+                        </Col>
+                        <Col lg={6} className="mb-3">
+
                             {/* item */}
-                            <Accordion.Item eventKey="6" className="card bg-second mb-3 p-0">
+                            <Accordion.Item eventKey="3" className="card bg-second mb-3 p-0">
                                 <Accordion.Header>In what crypto currency the referral commission is accounted to my referral balance?</Accordion.Header>
                                 <Accordion.Body>
                                     The referral rewards are accounted in TGR tokens only.
                                 </Accordion.Body>
                             </Accordion.Item>
                             {/* item */}
-                            <Accordion.Item eventKey="7" className="card bg-second mb-3 p-0">
-                                <Accordion.Header>Are there fees for referral rewards withdrawal from referral balances?</Accordion.Header>
-                                <Accordion.Body>
-                                    Once you withdraw from your referral balances, a BSC network fee of approximately 0.5 TGR will be charged.
-                                </Accordion.Body>
-                            </Accordion.Item>
-                        </Col>
-                        <Col lg={6} className="mb-3">
-                            {/* item */}
-                            <Accordion.Item eventKey="8" className="card bg-second mb-3 p-0">
+                            <Accordion.Item eventKey="4" className="card bg-second mb-3 p-0">
                                 <Accordion.Header>How much crypto can I earn via the Swap Referral Program?</Accordion.Header>
                                 <Accordion.Body>
-                                    You can earn from 10% to 20% in TGR right after your friends have made a swap. The percentage depends on the amount of staked TGR tokens in TGR Holder Pool:
-                                    <ul className="list-unstyled mt-3">
-                                        <li className="mb-2">0 TGR Staked = 10% Reff Bonus</li>
-                                        <li className="mb-2">200 TGR Staked = 12% Reff Bonus</li>
-                                        <li className="mb-2">1 000 TGR Staked = 14% Reff Bonus</li>
-                                        <li className="mb-2">3 000 TGR Staked = 16% Reff Bonus</li>
-                                        <li className="mb-2">7 000 TGR Staked = 18% Reff Bonus</li>
-                                        <li>10 000 TGR Staked = 20% Reff Bonus</li>
-                                    </ul>
+                                    You can earn from 12.5% in TGR right after your friends have made a swap.
                                 </Accordion.Body>
                             </Accordion.Item>
                             {/* item */}
-                            <Accordion.Item eventKey="9" className="card bg-second mb-3 p-0">
-                                <Accordion.Header>What percentage of Swap referral rewards will I earn if I have 0 TGR staked in TGR Holder Pool?</Accordion.Header>
-                                <Accordion.Body>
-                                    If you have 0 TGR staked in the TGR Holder pool, you will be getting 10% by default. To earn more in the Swap Referral Program on Biswap, you need to stake TGR in the Holder Pool.
-                                </Accordion.Body>
-                            </Accordion.Item>
-                            {/* item */}
-                            <Accordion.Item eventKey="10" className="card bg-second mb-3 p-0">
+                            <Accordion.Item eventKey="5" className="card bg-second mb-3 p-0">
                                 <Accordion.Header>Is the Swap referral program active for all swap pairs?</Accordion.Header>
                                 <Accordion.Body>
-                                    No. Referral Program consider only whitelisted pairs, including but not limited to:ETH - BTCB, BUSD - USDT, BTCB - USDT, ETH - USDT, USDC - USDT, BNB - TGR, ETH - BNB, BNB - USDT, BNB - BUSD, BNB - BTCB, USDT - TGR, LINK - BNB, ADA - BNB, DOGE - BNB, CAKE - BNB, UST - BUSD, DOT - BNB, DAI - USDT, UNI - BNB, FIL - USDT, USDT - LTC, BUSD - VAI, SOL - BNB, BUSD - TUSD, BFG - TGR, XVS - BNB, AVAX - BNB. Find the complete list of whitelisted pairs in Biswap Docs
-                                </Accordion.Body>
-                            </Accordion.Item>
-                            {/* item */}
-                            <Accordion.Item eventKey="11" className="card bg-second mb-3 p-0">
-                                <Accordion.Header>How much can I earn from my friends' Farms &amp; Launchpools?</Accordion.Header>
-                                <Accordion.Body>
-                                    You can expect a 5% return from your friends' earnings in TGR.
-                                </Accordion.Body>
-                            </Accordion.Item>
-                            {/* item */}
-                            <Accordion.Item eventKey="12" className="card bg-second mb-3 p-0">
-                                <Accordion.Header>Is Referral Program Active for all Launchpools?</Accordion.Header>
-                                <Accordion.Body>
-                                    No. Referral Program is active only for Stake BSW - Earn BSW Launchpool without auto-compound.
-                                </Accordion.Body>
-                            </Accordion.Item>
-                            {/* item */}
-                            <Accordion.Item eventKey="13" className="card bg-second mb-3 p-0">
-                                <Accordion.Header>When will I get my referral reward from Farms &amp; Launchpools?</Accordion.Header>
-                                <Accordion.Body>
-                                    You will get your referral reward the moment your friend makes Harvest.
-                                </Accordion.Body>
-                            </Accordion.Item>
-                            {/* item */}
-                            <Accordion.Item eventKey="14" className="card bg-second mb-3 p-0">
-                                <Accordion.Header>Can I profit from the Referral Program without any investments from my side?</Accordion.Header>
-                                <Accordion.Body>
-                                    Yes, you can earn 10% from the Swap Referral Program and 5% from Farms &amp; Launchpools without any required investments from your side.
+                                    Yes.
                                 </Accordion.Body>
                             </Accordion.Item>
                         </Col>

@@ -45,7 +45,7 @@ export function ConfirmStakeModal() {
         //     : dexPair.createAddLiquidityRequest(inAmount, outAmount, walletInfo!.address);
 
         await walletInfo?.sendTransaction({
-            to: jettonWallet!.toString(),
+            to: jettonWallet!.toString("base64", {bounceable: true}),
             value: new Coins(0.5).add(tonAmount)
                 .toNano(),
             payload: BOC.toBase64Standard(payload)

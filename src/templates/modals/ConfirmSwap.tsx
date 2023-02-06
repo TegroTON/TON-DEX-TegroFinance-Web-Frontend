@@ -72,7 +72,7 @@ export function ConfirmSwapModal() {
                     extract ? outAmount : minReceived,
                     walletInfo?.address as Address, referral);
             await walletInfo?.sendTransaction({
-                to: dexPair.address.toString(),
+                to: dexPair.address.toString("base64", {bounceable: true}),
                 value: new Coins(extract ? maxSold : inAmount).add(new Coins(0.3))
                     .toNano(),
                 payload: BOC.toBase64Standard(payload),

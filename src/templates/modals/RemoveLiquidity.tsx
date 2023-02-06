@@ -27,7 +27,7 @@ export function RemoveLiquidityModal() {
 
 
         await walletInfo?.sendTransaction({
-            to: wallet.toString(),
+            to: wallet.toString("base64", {bounceable: true}),
             value: new Coins(1.5).toNano(),
             payload: BOC.toBase64Standard(payload),
         });

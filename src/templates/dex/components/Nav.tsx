@@ -13,9 +13,9 @@ export function NavComponent() {
                 <Nav.Item>
                     <Link className={`nav-link btn ${location.pathname.slice(0, 10) === '/liquidity' ? 'active' : ''}`} to="/liquidity">Liquidity</Link>
                 </Nav.Item>
-                {/*<Nav.Item>*/}
-                {/*    <Link className={`nav-link btn ${location.pathname.slice(0, 10) === '/referral' ? 'active' : ''}`} to="/referral">Referral</Link>*/}
-                {/*</Nav.Item>*/}
+                <Nav.Item>
+                    <Link className={`nav-link btn ${location.pathname.slice(0, 10) === '/referral' ? 'active' : ''}`} to="/referral">Referral</Link>
+                </Nav.Item>
             </Nav>
         </>
     );

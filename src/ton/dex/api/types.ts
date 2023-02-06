@@ -1,13 +1,11 @@
 // import { Pair, JettonMeta } from '../../../types';
 
 import { Address, Coins } from 'ton3-core';
+import * as t from "io-ts";
 
 type strOrNone = (null | string);
+const strOrNone = t.union([t.null, t.string]);
 
-export interface IPair {
-    base: Address | null,
-    quote: Address | null
-}
 
 export type RawToken = {
     address: strOrNone;
@@ -56,3 +54,66 @@ export type Pair = {
     rightReserved: Coins,
     lpSupply: Coins,
 };
+
+export type Reserve = {
+    pair: Address,
+    base: Coins,
+    quote: Coins,
+}
+
+export type Referral = {
+    address: Address,
+    volumeTGR: Coins,
+    invited: number
+}
+
+export const rawToken = t.type({
+    address: strOrNone,
+    timestamp: t.number,
+    total_supply: t.string,
+    mintable: t.boolean,
+    admin: strOrNone,
+    contract_timestamp: t.number,
+    name: t.string,
+    description: strOrNone,
+    symbol: strOrNone,
+    decimals: t.number,
+    metadata_timestamp: t.number
+})
+
+export const rawReserve = t.type({
+    address: t.string,
+    base: t.string,
+    quote: t.string,
+    timestamp: t.number
+})
+
+export const rawPair = t.type({
+    address: t.string,
+    timestamp: t.number,
+    token_timestamp: t.number,
+    liquidity: rawToken,
+    base: rawToken,
+    quote: rawToken,
+    reserve: rawReserve
+})
+
+export const v1Pairs = t.array(rawPair);
+
+export const v1Referral = t.array(t.type({
+    address: t.string,
+    volume_tgr: t.string,
+    invited: t.number
+}));
+
+export const v2Pairs = t.array(t.type({
+    liquidity: t.string,
+    base: strOrNone,
+    quote: strOrNone
+}))
+
+export const v2Reserves = t.array(t.type({
+    liquidity: t.string,
+    base: t.string,
+    quote: t.string,
+}))

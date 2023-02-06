@@ -18,9 +18,9 @@ import {
     getPairByTokens,
     getTokensFromPairs
 } from './ton/dex/utils';
-import {getPairs} from './ton/dex/api/methods';
+import {getPairs, getReferrals} from './ton/dex/api/methods';
 import { DeLabContext, DeLabContextType } from './deLabContext';
-import {Pair, Token} from './ton/dex/api/types';
+import {Pair, Referral, Token} from './ton/dex/api/types';
 import storage from "./storage";
 
 
@@ -63,6 +63,7 @@ export type DexContextType = {
     setStartPair: (x: StartPair) => void;
     referral: Address | null;
     setReferral: (x: Address | null) => void;
+    referrals: Referral[];
 };
 
 export const DexContext = React.createContext<DexContextType | null>(null);
@@ -81,6 +82,7 @@ export const DexContextProvider: React.FC<Props> = ({ children }) => {
     const [tokens, setTokens] = React.useState<Token[]>(getDefaultTokens());
 
     const [referral, setReferral] = React.useState<Address | null>(storage.referral.get());
+    const [referrals, setReferrals] = React.useState<Referral[]>([]);
 
     useEffect(() => { storage.referral.set(referral) }, [referral])
     useEffect(() => { storage.slippage.set(slippage) }, [slippage])
@@ -369,7 +371,7 @@ export const DexContextProvider: React.FC<Props> = ({ children }) => {
 
     const updateSwapParams = () => {
         if (extract) {
-            const outAmount = new Coins(rightSwapAmount)
+            const outAmount = new Coins(rightSwapAmount, {decimals: 18})
             const [inAmount, priceImpact] = calcInAmountAndPriceImpact(outAmount, swapPairs[0]);
             setPriceImpact(priceImpact);
             setLeftSwapAmount(inAmount);
@@ -433,11 +435,27 @@ export const DexContextProvider: React.FC<Props> = ({ children }) => {
     }, [walletInfo.balance]);
 
     const updateTokens = async () => {
-        setTokens(getTokensFromPairs(pairs));
+        let tokens = getTokensFromPairs(pairs);
+        // const gagarin = new Address("EQDetcmWrfHLPRPVh3LoFvwso0zsjFnpmmXTKWj7s1ycNgu2");
+        // const gagarinAdmin = new Address("EQDetcmWrfHLPRPVh3LoFvwso0zsjFnpmmXTKWj7s1ycNgu2");
+        // if (!walletInfo.isConnected || !walletInfo.address.eq(gagarinAdmin)) {
+        //     tokens = tokens.filter((t: Token) => (!t.address || !t.address.eq(gagarin)));
+        // }
+        setTokens(tokens);
     };
     const updatePairs = async () => {
         setPairs(await getPairs());
     };
+
+    useEffect(() => {
+        let mounted = true;
+        if (walletInfo.isConnected) {
+            getReferrals(walletInfo.address).then(x => { if (mounted) setReferrals(x as Referral[]) })
+        } else {
+            setReferrals([]);
+        }
+        return () => { mounted = false };
+    }, [walletInfo.address])
 
     useEffect(() => {
         let mounted = true;
@@ -518,7 +536,8 @@ export const DexContextProvider: React.FC<Props> = ({ children }) => {
             setStartPair,
             startPair,
             referral,
-            setReferral
+            setReferral,
+            referrals
         }}
         >
             {children}

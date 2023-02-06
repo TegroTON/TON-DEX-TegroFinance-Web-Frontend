@@ -1,43 +1,41 @@
-import axios from "axios";
-import {Address, Coins} from "ton3-core";
-import {RawToken, Token, RawPair, Pair, IPair} from "./types";
-import {rawPairTransformer} from "./utils";
+import {Pair, v1Pairs, v2Reserves, v1Referral, Referral} from "./types";
+import {pairsSorter, referralsSorter, v1PairsTransformer, v1ReferralTransformer} from "./utils";
+import {Endpoint} from "./endpoint";
+import {Address} from "ton3-core";
 
-const endpoint = 'https://api.tegro.finance/v1';
 
-const getPairs = async (): Promise<Pair[]> => {
-    const url = `${endpoint}/pairs`;
-    const res = await axios.get(url);
-    if (res.status !== 200) {
-        throw Error(`Received error: ${JSON.stringify(res.data || {})}`);
+class DexApi {
+    private readonly host = "https://api.tegro.finance";
+
+    public v1 = {
+        pairs: new Endpoint(`${this.host}/v1/pairs`, {
+            schema: v1Pairs,
+            transformer: v1PairsTransformer
+        }),
+        referral: new Endpoint(`${this.host}/v1/referral`, {
+            schema: v1Referral,
+            transformer: v1ReferralTransformer
+        }),
     }
-    return (res.data as RawPair[]).map((rawPair: RawPair) => rawPairTransformer(rawPair)).sort((a: Pair, b: Pair) => {
-        if (a.leftReserved.lt(b.leftReserved)) {
-            return 1;
-        } else if (a.leftReserved.gt(b.leftReserved)) {
-            return -1;
-        } else {
-            return 0;
-        }
-    });
+
+    // public v2 = {
+    //     reserves: new Endpoint(`${this.host}/v2/reserves`, {
+    //         schema: v2Reserves,
+    //         transformer: v2ReservesTransformer
+    //     })
+    // }
+
 }
 
-const getPair = async ({base, quote}: IPair): Promise<Pair> => {
-    const url = `${endpoint}/pair/token/${base ? base.toString("raw") : base}/${quote ? quote.toString("raw") : quote}`;
-    const res = await axios.get(url);
-    if (res.status !== 200) {
-        throw Error(`Received error: ${JSON.stringify(res.data || {})}`);
-    }
-    return rawPairTransformer(res.data as RawPair);
+const api = new DexApi()
+
+
+export const getPairs = async (): Promise<Pair[]> => {
+    const pairs = await api.v1.pairs.get();
+    return pairs.sort(pairsSorter);
 }
 
-// const test = async () => {
-//     console.log(await getPairs());
-// }
-//
-// test();
-
-export {
-    getPair,
-    getPairs,
+export const getReferrals = async (user: Address): Promise<Referral[]> => {
+    const referrals = await api.v1.referral.get([user.toString("raw")]);
+    return referrals.sort(referralsSorter);
 }

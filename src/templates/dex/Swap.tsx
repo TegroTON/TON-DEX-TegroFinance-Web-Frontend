@@ -13,6 +13,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { log } from "util";
 import { StartPair } from "../../types";
 import { useLocation } from "react-router";
+import {CoinsToDecimals} from "../../ton/dex/utils";
 
 export default function SwapPage() {
     const navigator = useNavigate();
@@ -49,7 +50,7 @@ export default function SwapPage() {
 
     const realPrice = swapLeft.amount.isZero() || swapRight.amount.isZero()
         ? price.isZero() ? new Coins(0) : new Coins(1).div(price.toString())
-        : new Coins(swapLeft.amount).div(swapRight.amount.toString());
+        : CoinsToDecimals(new Coins(swapLeft.amount, {decimals: 18}).div(swapRight.amount.toString()), swapLeft.token.decimals);
 
     let minReceived = new Coins(0, { decimals: swapRight.token.decimals });
     let maxSold = new Coins(0, { decimals: swapLeft.token.decimals });
@@ -164,9 +165,9 @@ export default function SwapPage() {
                                             validate: (value) => value && parseFloat(value) > 0,
                                         })}
                                     />
-                                    <InputGroup.Text className="fs-12 fw-500 text-muted ps-1 pe-4">
-                                        $0
-                                    </InputGroup.Text>
+                                    {/*<InputGroup.Text className="fs-12 fw-500 text-muted ps-1 pe-4">*/}
+                                    {/*    $0*/}
+                                    {/*</InputGroup.Text>*/}
                                     <InputGroup.Text className="p-1">
                                         <Button variant="btn btn-sm btn-light d-flex align-items-center justify-content-center p-2"
                                             style={{ minWidth: '124px' }}
@@ -224,9 +225,9 @@ export default function SwapPage() {
                                             validate: (value) => !extract || (value && parseFloat(value) > 0),
                                         })}
                                     />
-                                    <InputGroup.Text className="fs-12 fw-500 text-muted ps-1 pe-4">
-                                        $0.0067
-                                    </InputGroup.Text>
+                                    {/*<InputGroup.Text className="fs-12 fw-500 text-muted ps-1 pe-4">*/}
+                                    {/*    $0.0067*/}
+                                    {/*</InputGroup.Text>*/}
                                     <InputGroup.Text className="p-1">
                                         <Button variant="btn btn-sm btn-light border d-flex align-items-center justify-content-center p-2"
                                             style={{ minWidth: '124px' }}
