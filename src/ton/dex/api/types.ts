@@ -14,7 +14,7 @@ export type RawToken = {
     mintable: boolean;
     admin: strOrNone;
     contract_timestamp: number;
-    name: string;
+    name: strOrNone;
     description: strOrNone;
     symbol: strOrNone;
     decimals: number;
@@ -74,7 +74,7 @@ export const rawToken = t.type({
     mintable: t.boolean,
     admin: strOrNone,
     contract_timestamp: t.number,
-    name: t.string,
+    name: strOrNone,
     description: strOrNone,
     symbol: strOrNone,
     decimals: t.number,

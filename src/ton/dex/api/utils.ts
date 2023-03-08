@@ -3,7 +3,7 @@ import {Address, Coins} from "ton3-core";
 import * as t from 'io-ts';
 
 const rawTokenTransformer = (token: t.TypeOf<typeof rawToken>): Token => ({
-    name: token.name,
+    name: token.name || '',
     symbol: token.symbol || '',
     address: token.address ? new Address(token.address) : Address.NONE,
     image: `/assets/images/token/${(token.symbol || '').toLowerCase()}.png`,
