@@ -2,21 +2,22 @@ body {
   --bg-primary: #f6faff;
   --bg-second: #ffffff;
   --bg-third: #f5f8fb;
-  --bg-four: #EFF4FC;
+  --bg-four: #eff4fc;
   --bg-hover: #fafcfe;
   --bg-form: #fcfdfe;
-  --bg-card-header: #FDFEFF;
+  --bg-card-header: #fdfeff;
+  --bg-liner: linear-gradient(180deg, #E1EAF6 0%, rgba(225, 234, 246, 0) 100%);
   --text-primary: #020e21;
   --text-second: #515c6b;
-  --border-color: #E8EFFB;
-  --bs-border-color: #E8EFFB;
+  --border-color: #e8effb;
+  --bs-border-color: #e8effb;
   --border-color-focus: #ccd8e4;
   --btn-light: #e8eff6;
   --btn-light-hover: #dee5ed;
   --card-shadow: 0px 4px 24px -12px rgba(180, 191, 208, 0.63);
   --shdow-box-blur: 0px 0px 24px -12px #d0d8f0,
     inset 4px 4px 8px rgba(255, 255, 255, 0.3);
-  --shadow-button: 0px 1px 2px #DBE2EB;
+  --shadow-button: 0px 1px 2px #dbe2eb;
   --header-rgba: rgba(246, 250, 255, 0.8);
   --table-head-rgba: rgba(255, 255, 255, 0.8);
   --blue-700: #0052cc;
@@ -86,21 +87,21 @@ body.dark-mode {
     --bg-primary: #f6faff;
     --bg-second: #ffffff;
     --bg-third: #f5f8fb;
-    --bg-four: #EFF4FC;
+    --bg-four: #eff4fc;
     --bg-hover: #fafcfe;
     --bg-form: #fcfdfe;
-    --bg-card-header: #FDFEFF;
+    --bg-card-header: #fdfeff;
     --text-primary: #020e21;
     --text-second: #515c6b;
-    --border-color: #E8EFFB;
-    --bs-border-color: #E8EFFB;
+    --border-color: #e8effb;
+    --bs-border-color: #e8effb;
     --border-color-focus: #ccd8e4;
     --btn-light: #e8eff6;
     --btn-light-hover: #dee5ed;
     --card-shadow: 0px 8px 24px -12px rgba(180, 191, 208, 0.63);
     --shdow-box-blur: 0px 0px 24px -12px #d0d8f0,
       inset 4px 4px 8px rgba(255, 255, 255, 0.3);
-    --shadow-button: 0px 1px 2px #DBE2EB;
+    --shadow-button: 0px 1px 2px #dbe2eb;
     --header-rgba: rgba(246, 250, 255, 0.8);
     --table-head-rgba: rgba(255, 255, 255, 0.8);
   }
@@ -330,6 +331,20 @@ button.btn.btn-icon {
   font-size: 15px;
   padding: 0;
   border-radius: 4px;
+}
+
+.btn[aria-expanded="true"] .fa-angle-down {
+  transition: transform 0.3s;
+  transform: rotate(180deg);
+}
+
+.btn[aria-expanded="true"] {
+  opacity: 0.75;
+}
+
+.btn[aria-expanded="false"] .fa-angle-down {
+  transition: transform 0.3s;
+  transform: rotate(0deg);
 }
 
 .btn-sm {
@@ -634,6 +649,10 @@ h3 {
   background-color: var(--bg-four);
 }
 
+.bg-liner {
+  background: var(--bg-liner);
+}
+
 .alert-success {
   background: var(--green-100);
   border: 0;
@@ -783,9 +802,10 @@ h3 {
 }
 
 .form-check-input {
-  height: 18px;
+  height: 20px;
+  min-width: 32px;
   border-color: var(--border-color);
-  background-color: var(--bg-second);
+  background-color: var(--bg-four);
 }
 
 .form-check-label {
