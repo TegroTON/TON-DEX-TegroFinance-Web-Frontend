@@ -71,7 +71,7 @@ export function TokenModal(props: { side: 'Left' | 'Right' }) {
                             <div className="token-form__btns row mb-4" style={{ margin: "0 -4px" }}>
                                 {tokens.slice(0, 3).map((token) => (
                                     <Form.Label
-                                        className="col-4 btn btn-outline-light flex-fill px-3 py-2 m-1"
+                                        className="col-4 btn btn-light flex-fill px-3 py-2 m-1"
                                         style={{ width: "120px" }}
                                         data-bs-dismiss="modal"
                                     >
