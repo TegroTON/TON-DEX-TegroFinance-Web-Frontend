@@ -7,7 +7,7 @@ import { TermsPage } from './templates/dex/Terms';
 import { TokensPage } from './templates/dex/Tokens';
 import { StakingPage } from "./templates/dex/Staking";
 import { IDOPage } from "./templates/dex/IDO";
-import { FarmingPage } from "./templates/dex/Farming";
+import { FarmsPage } from "./templates/dex/Farms";
 
 export default function App() {
     return (
@@ -24,7 +24,7 @@ export default function App() {
                 <Route path="tokens" element={<TokensPage />} />
                 <Route path="staking" element={<StakingPage />} />
                 <Route path="ido" element={<IDOPage />} />
-                <Route path="farming" element={<FarmingPage />} />
+                <Route path="farms" element={<FarmsPage />} />
                 {/*<Route path="symboldetail" element={<SymbolDetailPage />} />*/}
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Route>

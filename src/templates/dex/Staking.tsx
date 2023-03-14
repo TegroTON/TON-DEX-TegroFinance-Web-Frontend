@@ -1,30 +1,122 @@
 import React, { useState, useRef } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Button,
-  ButtonGroup,
-  Form,
-  InputGroup,
-  Dropdown,
-  Nav,
-  Stack,
-  ListGroup,
-  Accordion,
-  ProgressBar,
-  OverlayTrigger,
-  Tooltip,
-  Badge,
-} from "react-bootstrap";
+import StakingCards from "./components/StakingCards";
+import FagItems from "./components/FaqItem";
+import { v4 as uuidv4 } from 'uuid';
+import { Container, Row, Col, Form, InputGroup, Dropdown, Nav, ListGroup, Accordion } from "react-bootstrap";
 
 export function StakingPage() {
+  const [stakingcard] = useState([
+    {
+      DaysBageColor: "soft-blue",
+      DaysText: "30 days",
+      StatusBg: "soft-red",
+      StatusName: "No active",
+      srcImage: "./assets/images/token/TGR.png",
+      TokenName: "TGR",
+      APYPercent: "2.73%",
+      TotalStakeProgess: "547.88",
+      TotalStake: "10 000",
+      ProgressBarPercent: "56",
+      TotalStakePerUser: "250",
+      ContractLink: "https://bscscan.com/address/0xa04adebaf9c96882C6d59281C23Df95AF710003e",
+      HarvestButtonOnClick: "",
+      ApproveButton: "",
+      CommissionFee: "19.9%"
+    },
+    {
+      DaysBageColor: "soft-blue",
+      DaysText: "30 days",
+      StatusBg: "soft-green",
+      StatusName: "Active",
+      srcImage: "./assets/images/token/ggr.png",
+      TokenName: "GGR",
+      APYPercent: "4.20%",
+      TotalStakeProgess: "240",
+      TotalStake: "6 000",
+      ProgressBarPercent: "16",
+      TotalStakePerUser: "30",
+      ContractLink: "https://bscscan.com/address/0xa04adebaf9c96882C6d59281C23Df95AF710003e",
+      HarvestButtonOnClick: "",
+      ApproveButton: "",
+      CommissionFee: "12.9%"
+    },
+    {
+      DaysBageColor: "soft-green",
+      DaysText: "60 days",
+      StatusBg: "soft-red",
+      StatusName: "No active",
+      srcImage: "./assets/images/token/lave.png",
+      TokenName: "LAVE",
+      APYPercent: "2.73%",
+      TotalStakeProgess: "4 768",
+      TotalStake: "15 000",
+      ProgressBarPercent: "24",
+      TotalStakePerUser: "400",
+      ContractLink: "https://bscscan.com/address/0xa04adebaf9c96882C6d59281C23Df95AF710003e",
+      HarvestButtonOnClick: "",
+      ApproveButton: "",
+      CommissionFee: "14.05%"
+    },
+    {
+      DaysBageColor: "soft-green",
+      DaysText: "60 days",
+      StatusBg: "soft-red",
+      StatusName: "No active",
+      srcImage: "./assets/images/token/idu.png",
+      TokenName: "IDU",
+      APYPercent: "8.25%",
+      TotalStakeProgess: "360.20",
+      TotalStake: "2 000",
+      ProgressBarPercent: "44",
+      TotalStakePerUser: "20",
+      ContractLink: "https://bscscan.com/address/0xa04adebaf9c96882C6d59281C23Df95AF710003e",
+      HarvestButtonOnClick: "",
+      ApproveButton: "",
+      CommissionFee: "1.22%"
+    },
+    {
+      DaysBageColor: "soft-red",
+      DaysText: "90 days",
+      StatusBg: "soft-red",
+      StatusName: "No active",
+      srcImage: "./assets/images/token/fnz.png",
+      TokenName: "FNZ",
+      APYPercent: "3.44%",
+      TotalStakeProgess: "2 048",
+      TotalStake: "4 000",
+      ProgressBarPercent: "52",
+      TotalStakePerUser: "24",
+      ContractLink: "https://bscscan.com/address/0xa04adebaf9c96882C6d59281C23Df95AF710003e",
+      HarvestButtonOnClick: "",
+      ApproveButton: "",
+      CommissionFee: "1.18%"
+    },
+    {
+      DaysBageColor: "soft-red",
+      DaysText: "90 days",
+      StatusBg: "soft-red",
+      StatusName: "No active",
+      srcImage: "./assets/images/token/ousdt.png",
+      TokenName: "oUSDT",
+      APYPercent: "1.82%",
+      TotalStakeProgess: "1 702",
+      TotalStake: "3 500",
+      ProgressBarPercent: "30",
+      TotalStakePerUser: "120",
+      ContractLink: "https://bscscan.com/address/0xa04adebaf9c96882C6d59281C23Df95AF710003e",
+      HarvestButtonOnClick: "",
+      ApproveButton: "",
+      CommissionFee: "0.36%"
+    },
+
+  ]);
+  const showStakingCards = true;
+
   return (
     <>
       <section
-        className="section hero bg-liner border-bottom"
-        style={{ paddingTop: "96px", paddingBottom: "148px" }}
+        className="section hero bg-liner pt-5 border-bottom"
+        style={{ paddingBottom: "96px" }}
       >
         <Container>
           <div className="d-flex flex-column align-items-center justify-content-center">
@@ -55,32 +147,31 @@ export function StakingPage() {
         </Container>
       </section>
       <section
-        className="section position-relative pb-5"
+        className="section position-relative mb-3 mb-lg-5"
         style={{ marginTop: "-60px", zIndex: "1" }}
       >
         <Container>
-          <Row className="mb-5">
-            <Col lg={6} className="d-flex align-items-center mb-4 mb-lg-0">
+          <Row className="mb-3 mb-lg-5">
+            <Col lg={3} className="d-flex align-items-center mb-4 mb-lg-0 order-1">
               <Nav
                 justify
                 variant="pills"
-                className="content-nav-pills d-flex align-items-center"
+                className="content-nav-pills d-flex align-items-center flex-nowrap flex-fill overflow-auto"
                 style={{ height: "44px" }}
               >
                 <Nav.Item>
-                  <a href="#!" className="nav-link btn active py-2">
-                    Active
-                  </a>
+                  <a href="#!" className="nav-link btn active py-2 fs-14">Active</a>
                 </Nav.Item>
                 <Nav.Item>
-                  <a href="#!" className="nav-link btn py-2">
-                    Inactive
-                  </a>
+                  <a href="#!" className="nav-link btn py-2 fs-14">inactive</a>
                 </Nav.Item>
               </Nav>
+            </Col>
+            <Col className="col-6 col-lg-5 d-flex align-items-center order-3 order-lg-2">
               <Form.Check
                 type="switch"
                 id="custom-switch"
+                className="mb-0 ms-auto ms-lg-0"
                 label={
                   <div
                     className="ms-1 position-relative"
@@ -89,11 +180,10 @@ export function StakingPage() {
                     Staked only
                   </div>
                 }
-                className="ms-auto ms-lg-3 mb-0"
               />
             </Col>
-            <Col lg={6} className="d-flex align-items-center">
-              <Dropdown className="ms-lg-auto">
+            <Col className="col-6 col-lg-1 d-flex align-items-center order-2 order-lg-3">
+              <Dropdown>
                 <Dropdown.Toggle
                   variant="light btn-sm"
                   style={{ height: "44px" }}
@@ -110,7 +200,9 @@ export function StakingPage() {
                   <Dropdown.Item href="#">Earned</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
-              <Form className="ms-3">
+            </Col>
+            <Col className="col-12 col-lg-3 d-flex align-items-center order-4 order-lg-4 mt-3 mt-lg-0">
+              <Form className="flex-fill ms-lg-3 ms-xl-0">
                 <InputGroup>
                   <InputGroup.Text>
                     <i className="fa-regular fa-magnifying-glass" />
@@ -125,783 +217,38 @@ export function StakingPage() {
               </Form>
             </Col>
           </Row>
+          {/* Staking Cards */}
           <Row>
-            {/* Card Col */}
-            <Col md={6} xl={4}>
-              <Card className="p-0 mb-4">
-                {/* Card Badge */}
-                <div className="position-absolute end-0 top-0 px-3 py-2 rounded m-2 bg-soft-blue fw-500">
-                  <i className="fa-regular fa-clock-eight me-2" />
-                  30 days
-                </div>
-                {/* Card Header */}
-                <Card.Header className="p-4 border-bottom">
-                  <div className="d-flex aligh-items-center mb-4">
-                    <img
-                      className="rounded"
-                      src="./assets/images/token/TGR.png"
-                      width={50}
-                      height={50}
+            {showStakingCards ? (
+              <>
+                {stakingcard.map((stakcard) => {
+                  return (
+                    <StakingCards
+                      key={uuidv4()}
+                      DaysBageColor={stakcard.DaysBageColor}
+                      DaysText={stakcard.DaysText}
+                      TokenName={stakcard.TokenName}
+                      srcImage={stakcard.srcImage}
+                      APYPercent={stakcard.APYPercent}
+                      TotalStakeProgess={stakcard.TotalStakeProgess}
+                      TotalStake={stakcard.TotalStake}
+                      ProgressBarPercent={stakcard.ProgressBarPercent}
+                      TotalStakePerUser={stakcard.TotalStakePerUser}
+                      ContractLink={stakcard.ContractLink}
+                      ApproveButton={stakcard.ApproveButton}
+                      CommissionFee={stakcard.CommissionFee}
                     />
-                    <div className="ms-4">
-                      <Card.Title className="card-title fs-20 fw-700 mb-0">
-                        Earn TGR
-                      </Card.Title>
-                      <OverlayTrigger
-                        overlay={
-                          <Tooltip
-                            id="tooltip-Apy"
-                            style={{
-                              position: "absolute",
-                            }}
-                          >
-                            APY is calculated when Harvest and Stake is made
-                            once in 30 days within a year
-                          </Tooltip>
-                        }
-                      >
-                        <div className="color-grey fs-16 fw-500">
-                          Stake <u>APY</u> <span className="fw-700">2.73%</span>
-                        </div>
-                      </OverlayTrigger>
-                    </div>
-                  </div>
-                  {/* Progress Bar  */}
-                  <div className="d-flex flex-column">
-                    <div className="d-flex align-items-center fw-500 mx-1 mb-2">
-                      <div className="d-flex align-items-center">
-                        Total Stake
-                        <OverlayTrigger
-                          key="right"
-                          placement="right"
-                          overlay={
-                            <Tooltip id="tooltip-commission">
-                              The total stake of tokens for all users in this
-                              pool
-                            </Tooltip>
-                          }
-                        >
-                          <i className="fa-regular fa-circle-question color-grey ms-2" />
-                        </OverlayTrigger>
-                      </div>
-                      <div className="ms-auto">
-                        547.88 <span className="color-grey">/ 1 000</span>
-                      </div>
-                    </div>
-                    <ProgressBar
-                      variant="green"
-                      className="bg-light"
-                      now={52}
-                      style={{ height: "8px" }}
-                    />
-                  </div>
-                </Card.Header>
-                {/* Card Body */}
-                <Card.Body className="p-4">
-                  {/* List Box One */}
-                  <ListGroup className="list-unstyled mb-3 mx-1">
-                    <ListGroup.Item className="d-flex">
-                      <span className="me-auto color-grey">
-                        Total stake per user:
-                      </span>
-                      <span className="fw-500">250 TGR</span>
-                    </ListGroup.Item>
-                  </ListGroup>
-                  {/* List Box Two */}
-                  <ListGroup className="list-unstyled bg-light p-3 rounded-8 mb-4">
-                    <ListGroup.Item className="d-flex align-items-center mb-3">
-                      <div className="d-flex align-items-center me-auto color-grey">
-                        Earned TGR
-                        <Badge bg="soft-red" className="ms-2 p-2">
-                          Not active
-                        </Badge>
-                      </div>
-                      <Button variant="green btn-sm py-2 px-3 disabled">
-                        Harvest
-                      </Button>
-                    </ListGroup.Item>
-                    <ListGroup.Item className="d-flex align-items-center">
-                      <span className="me-auto color-grey">Overview</span>
-                      <a href="#!" className="link" target="_blank">
-                        View contract{" "}
-                        <i className="fa-regular fa-arrow-up-right-from-square ms-2" />
-                      </a>
-                    </ListGroup.Item>
-                  </ListGroup>
-                  {/* Button */}
-                  <Button variant="primary d-flex align-items-center justify-content-center btn-sm w-100">
-                    <img
-                      className="rounded me-3"
-                      src="./assets/images/token/TGR.png"
-                      width={24}
-                      height={24}
-                      style={{ outline: "2px solid var(--bg-primary)" }}
-                    />
-                    <span className="fs-16 fw-500">Approve TGR</span>
-                  </Button>
-                  {/* Commission Box */}
-                  <div className="mt-3">
-                    <OverlayTrigger
-                      key="bottom"
-                      placement="bottom"
-                      overlay={
-                        <Tooltip id={`tooltip-bottom`}>
-                          1.99% commission fee is required for early withdrawal.
-                          No additional fees after 30 days lock term.
-                        </Tooltip>
-                      }
-                    >
-                      <div className="color-grey text-center">
-                        1.99% unstaking fee if withdrawn within 30d
-                      </div>
-                    </OverlayTrigger>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-            {/* Card Col */}
-            <Col md={6} xl={4}>
-              <Card className="p-0 mb-4">
-                {/* Card Badge */}
-                <div className="position-absolute end-0 top-0 px-3 py-2 rounded m-2 bg-soft-blue fw-500">
-                  <i className="fa-regular fa-clock-eight me-2" />
-                  30 days
-                </div>
-                {/* Card Header */}
-                <Card.Header className="p-4 border-bottom">
-                  <div className="d-flex align-items-center mb-4">
-                    <img
-                      className="rounded"
-                      src="./assets/images/token/ggr.png"
-                      width={50}
-                      height={50}
-                    />
-                    <div className="ms-4">
-                      <Card.Title className="card-title fs-20 fw-700 mb-0">
-                        Earn GGR
-                      </Card.Title>
-                      <OverlayTrigger
-                        key="left"
-                        overlay={
-                          <Tooltip id="tooltip-Apy">
-                            APY is calculated when Harvest and Stake is made
-                            once in 30 days within a year
-                          </Tooltip>
-                        }
-                      >
-                        <div className="color-grey fs-16 fw-500">
-                          Stake <u>APY</u> <span className="fw-700">4.20%</span>
-                        </div>
-                      </OverlayTrigger>
-                    </div>
-                  </div>
-                  {/* Progress Bar  */}
-                  <div className="d-flex flex-column">
-                    <div className="d-flex align-items-center fw-500 mx-1 mb-2">
-                      <div className="d-flex align-items-center">
-                        Total Stake
-                        <OverlayTrigger
-                          key="right"
-                          placement="right"
-                          overlay={
-                            <Tooltip id="tooltip-commission">
-                              The total stake of tokens for all users in this
-                              pool
-                            </Tooltip>
-                          }
-                        >
-                          <i className="fa-regular fa-circle-question color-grey ms-2" />
-                        </OverlayTrigger>
-                      </div>
-                      <div className="ms-auto">
-                        240 <span className="color-grey">/ 6000</span>
-                      </div>
-                    </div>
-                    <ProgressBar
-                      variant="green"
-                      className="bg-light"
-                      now={30}
-                      style={{ height: "8px" }}
-                    />
-                  </div>
-                </Card.Header>
-                {/* Card Body */}
-                <Card.Body className="p-4">
-                  {/* List Box One */}
-                  <ListGroup className="list-unstyled mb-3 mx-1">
-                    <ListGroup.Item className="d-flex">
-                      <span className="me-auto color-grey">
-                        Total stake per user:
-                      </span>
-                      <span className="fw-500">30 GGR</span>
-                    </ListGroup.Item>
-                  </ListGroup>
-                  {/* List Box Two */}
-                  <ListGroup className="list-unstyled bg-light p-3 rounded-8 mb-4">
-                    <ListGroup.Item className="d-flex align-items-center mb-3">
-                      <div className="d-flex align-items-center me-auto color-grey">
-                        Earned GGR
-                      </div>
-                      <Button variant="green btn-sm py-2 px-3">Harvest</Button>
-                    </ListGroup.Item>
-                    <ListGroup.Item className="d-flex align-items-center">
-                      <span className="me-auto color-grey">Overview</span>
-                      <a href="#!" className="link" target="_blank">
-                        View contract{" "}
-                        <i className="fa-regular fa-arrow-up-right-from-square ms-2" />
-                      </a>
-                    </ListGroup.Item>
-                  </ListGroup>
-                  {/* Button */}
-                  <Button variant="primary d-flex align-items-center justify-content-center btn-sm w-100">
-                    <img
-                      className="rounded me-3"
-                      src="./assets/images/token/ggr.png"
-                      width={24}
-                      height={24}
-                      style={{ outline: "2px solid var(--bg-primary)" }}
-                    />
-                    <span className="fs-16 fw-500">Approve GGR</span>
-                  </Button>
-                  {/* Commission Box */}
-                  <div className="mt-3">
-                    <OverlayTrigger
-                      key="bottom"
-                      placement="bottom"
-                      overlay={
-                        <Tooltip id={`tooltip-bottom`}>
-                          1.99% commission fee is required for early withdrawal.
-                          No additional fees after 30 days lock term.
-                        </Tooltip>
-                      }
-                    >
-                      <div className="color-grey text-center">
-                        1.99% unstaking fee if withdrawn within 30d
-                      </div>
-                    </OverlayTrigger>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-            {/* Card Col */}
-            <Col md={6} xl={4}>
-              <Card className="p-0 mb-4">
-                {/* Card Badge */}
-                <div className="position-absolute end-0 top-0 px-3 py-2 rounded m-2 bg-soft-green fw-500">
-                  <i className="fa-regular fa-clock-eight me-2" />
-                  60 days
-                </div>
-                {/* Card Header */}
-                <Card.Header className="p-4 border-bottom">
-                  <div className="d-flex align-items-center mb-4">
-                    <img
-                      className="rounded"
-                      src="./assets/images/token/lave.png"
-                      width={50}
-                      height={50}
-                    />
-                    <div className="ms-4">
-                      <Card.Title className="card-title fs-20 fw-700 mb-0">
-                        Earn LAVE
-                      </Card.Title>
-                      <OverlayTrigger
-                        key="left"
-                        overlay={
-                          <Tooltip id="tooltip-Apy">
-                            APY is calculated when Harvest and Stake is made
-                            once in 60 days within a year
-                          </Tooltip>
-                        }
-                      >
-                        <div className="color-grey fs-16 fw-500">
-                          Stake <u>APY</u> <span className="fw-700">2.73%</span>
-                        </div>
-                      </OverlayTrigger>
-                    </div>
-                  </div>
-                  {/* Progress Bar  */}
-                  <div className="d-flex flex-column">
-                    <div className="d-flex align-items-center fw-500 mx-1 mb-2">
-                      <div className="d-flex align-items-center">
-                        Total Stake
-                        <OverlayTrigger
-                          key="right"
-                          placement="right"
-                          overlay={
-                            <Tooltip id="tooltip-commission">
-                              The total stake of tokens for all users in this
-                              pool
-                            </Tooltip>
-                          }
-                        >
-                          <i className="fa-regular fa-circle-question color-grey ms-2" />
-                        </OverlayTrigger>
-                      </div>
-                      <div className="ms-auto">
-                        4768 <span className="color-grey">/ 6000</span>
-                      </div>
-                    </div>
-                    <ProgressBar
-                      variant="green"
-                      className="bg-light"
-                      now={73}
-                      style={{ height: "8px" }}
-                    />
-                  </div>
-                </Card.Header>
-                {/* Card Body */}
-                <Card.Body className="p-4">
-                  {/* List Box One */}
-                  <ListGroup className="list-unstyled mb-3 mx-1">
-                    <ListGroup.Item className="d-flex">
-                      <span className="me-auto color-grey">
-                        Total stake per user:
-                      </span>
-                      <span className="fw-500">400 LAVE</span>
-                    </ListGroup.Item>
-                  </ListGroup>
-                  {/* List Box Two */}
-                  <ListGroup className="list-unstyled bg-light p-3 rounded-8 mb-4">
-                    <ListGroup.Item className="d-flex align-items-center mb-3">
-                      <div className="d-flex align-items-center me-auto color-grey">
-                        Earned LAVE
-                        <Badge bg="soft-red" className="ms-2 p-2">
-                          Not active
-                        </Badge>
-                      </div>
-                      <Button variant="green btn-sm py-2 px-3 disabled">
-                        Harvest
-                      </Button>
-                    </ListGroup.Item>
-                    <ListGroup.Item className="d-flex align-items-center">
-                      <span className="me-auto color-grey">Overview</span>
-                      <a href="#!" className="link" target="_blank">
-                        View contract{" "}
-                        <i className="fa-regular fa-arrow-up-right-from-square ms-2" />
-                      </a>
-                    </ListGroup.Item>
-                  </ListGroup>
-                  {/* Button */}
-                  <Button variant="primary d-flex align-items-center justify-content-center btn-sm w-100">
-                    <img
-                      className="rounded me-3"
-                      src="./assets/images/token/lave.png"
-                      width={24}
-                      height={24}
-                      style={{ outline: "2px solid var(--bg-primary)" }}
-                    />
-                    <span className="fs-16 fw-500">Approve LAVE</span>
-                  </Button>
-                  {/* Commission Box */}
-                  <div className="mt-3">
-                    <OverlayTrigger
-                      key="bottom"
-                      placement="bottom"
-                      overlay={
-                        <Tooltip id={`tooltip-bottom`}>
-                          1.99% commission fee is required for early withdrawal.
-                          No additional fees after 30 days lock term.
-                        </Tooltip>
-                      }
-                    >
-                      <div className="color-grey text-center">
-                        1.99% unstaking fee if withdrawn within 30d
-                      </div>
-                    </OverlayTrigger>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-            {/* Card Col */}
-            <Col md={6} xl={4}>
-              <Card className="p-0 mb-4">
-                {/* Card Badge */}
-                <div className="position-absolute end-0 top-0 px-3 py-2 rounded m-2 bg-soft-green fw-500">
-                  <i className="fa-regular fa-clock-eight me-2" />
-                  60 days
-                </div>
-                {/* Card Header */}
-                <Card.Header className="p-4 border-bottom">
-                  <div className="d-flex align-items-center mb-4">
-                    <img
-                      className="rounded"
-                      src="./assets/images/token/idu.png"
-                      width={50}
-                      height={50}
-                    />
-                    <div className="ms-4">
-                      <Card.Title className="card-title fs-20 fw-700 mb-0">
-                        Earn IDU
-                      </Card.Title>
-                      <OverlayTrigger
-                        key="left"
-                        overlay={
-                          <Tooltip id="tooltip-Apy">
-                            APY is calculated when Harvest and Stake is made
-                            once in 60 days within a year
-                          </Tooltip>
-                        }
-                      >
-                        <div className="color-grey fs-16 fw-500">
-                          Stake <u>APY</u> <span className="fw-700">8.23%</span>
-                        </div>
-                      </OverlayTrigger>
-                    </div>
-                  </div>
-                  {/* Progress Bar  */}
-                  <div className="d-flex flex-column">
-                    <div className="d-flex align-items-center fw-500 mx-1 mb-2">
-                      <div className="d-flex align-items-center">
-                        Total Stake
-                        <OverlayTrigger
-                          key="right"
-                          placement="right"
-                          overlay={
-                            <Tooltip id="tooltip-commission">
-                              The total stake of tokens for all users in this
-                              pool
-                            </Tooltip>
-                          }
-                        >
-                          <i className="fa-regular fa-circle-question color-grey ms-2" />
-                        </OverlayTrigger>
-                      </div>
-                      <div className="ms-auto">
-                        360.20 <span className="color-grey">/ 2 000</span>
-                      </div>
-                    </div>
-                    <ProgressBar
-                      variant="green"
-                      className="bg-light"
-                      now={22}
-                      style={{ height: "8px" }}
-                    />
-                  </div>
-                </Card.Header>
-                {/* Card Body */}
-                <Card.Body className="p-4">
-                  {/* List Box One */}
-                  <ListGroup className="list-unstyled mb-3 mx-1">
-                    <ListGroup.Item className="d-flex">
-                      <span className="me-auto color-grey">
-                        Total stake per user:
-                      </span>
-                      <span className="fw-500">20 IDU</span>
-                    </ListGroup.Item>
-                  </ListGroup>
-                  {/* List Box Two */}
-                  <ListGroup className="list-unstyled bg-light p-3 rounded-8 mb-4">
-                    <ListGroup.Item className="d-flex align-items-center mb-3">
-                      <div className="d-flex align-items-center me-auto color-grey">
-                        Earned IDU
-                        <Badge bg="soft-red" className="ms-2 p-2">
-                          Not active
-                        </Badge>
-                      </div>
-                      <Button variant="green btn-sm py-2 px-3 disabled">
-                        Harvest
-                      </Button>
-                    </ListGroup.Item>
-                    <ListGroup.Item className="d-flex align-items-center">
-                      <span className="me-auto color-grey">Overview</span>
-                      <a href="#!" className="link" target="_blank">
-                        View contract{" "}
-                        <i className="fa-regular fa-arrow-up-right-from-square ms-2" />
-                      </a>
-                    </ListGroup.Item>
-                  </ListGroup>
-                  {/* Button */}
-                  <Button variant="primary d-flex align-items-center justify-content-center btn-sm w-100">
-                    <img
-                      className="rounded me-3"
-                      src="./assets/images/token/IDU.png"
-                      width={24}
-                      height={24}
-                      style={{ outline: "2px solid var(--bg-primary)" }}
-                    />
-                    <span className="fs-16 fw-500">Approve IDU</span>
-                  </Button>
-                  {/* Commission Box */}
-                  <div className="mt-3">
-                    <OverlayTrigger
-                      key="bottom"
-                      placement="bottom"
-                      overlay={
-                        <Tooltip id={`tooltip-bottom`}>
-                          1.99% commission fee is required for early withdrawal.
-                          No additional fees after 30 days lock term.
-                        </Tooltip>
-                      }
-                    >
-                      <div className="color-grey text-center">
-                        1.99% unstaking fee if withdrawn within 30d
-                      </div>
-                    </OverlayTrigger>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-            {/* Card Col */}
-            <Col md={6} xl={4}>
-              <Card className="p-0 mb-4">
-                {/* Card Badge */}
-                <div className="position-absolute end-0 top-0 px-3 py-2 rounded m-2 bg-soft-red fw-500">
-                  <i className="fa-regular fa-clock-eight me-2" />
-                  90 days
-                </div>
-                {/* Card Header */}
-                <Card.Header className="p-4 border-bottom">
-                  <div className="d-flex align-items-center mb-4">
-                    <img
-                      className="rounded"
-                      src="./assets/images/token/fnz.png"
-                      width={50}
-                      height={50}
-                    />
-                    <div className="ms-4">
-                      <Card.Title className="card-title fs-20 fw-700 mb-0">
-                        Earn FNZ
-                      </Card.Title>
-                      <OverlayTrigger
-                        key="left"
-                        overlay={
-                          <Tooltip id="tooltip-Apy">
-                            APY is calculated when Harvest and Stake is made
-                            once in 30 days within a year
-                          </Tooltip>
-                        }
-                      >
-                        <div className="color-grey fs-16 fw-500">
-                          Stake <u>APY</u> <span className="fw-700">3.40%</span>
-                        </div>
-                      </OverlayTrigger>
-                    </div>
-                  </div>
-                  {/* Progress Bar  */}
-                  <div className="d-flex flex-column">
-                    <div className="d-flex align-items-center fw-500 mx-1 mb-2">
-                      <div className="d-flex align-items-center">
-                        Total Stake
-                        <OverlayTrigger
-                          key="right"
-                          placement="right"
-                          overlay={
-                            <Tooltip id="tooltip-commission">
-                              The total stake of tokens for all users in this
-                              pool
-                            </Tooltip>
-                          }
-                        >
-                          <i className="fa-regular fa-circle-question color-grey ms-2" />
-                        </OverlayTrigger>
-                      </div>
-                      <div className="ms-auto">
-                        2048 <span className="color-grey">/ 4000</span>
-                      </div>
-                    </div>
-                    <ProgressBar
-                      variant="green"
-                      className="bg-light"
-                      now={68}
-                      style={{ height: "8px" }}
-                    />
-                  </div>
-                </Card.Header>
-                {/* Card Body */}
-                <Card.Body className="p-4">
-                  {/* List Box One */}
-                  <ListGroup className="list-unstyled mb-3 mx-1">
-                    <ListGroup.Item className="d-flex">
-                      <span className="me-auto color-grey">
-                        Total stake per user:
-                      </span>
-                      <span className="fw-500">24 FNZ</span>
-                    </ListGroup.Item>
-                  </ListGroup>
-                  {/* List Box Two */}
-                  <ListGroup className="list-unstyled bg-light p-3 rounded-8 mb-4">
-                    <ListGroup.Item className="d-flex align-items-center mb-3">
-                      <div className="d-flex align-items-center me-auto color-grey">
-                        Earned FNZ
-                        <Badge bg="soft-red" className="ms-2 p-2">
-                          Not active
-                        </Badge>
-                      </div>
-                      <Button variant="green btn-sm py-2 px-3 disabled">
-                        Harvest
-                      </Button>
-                    </ListGroup.Item>
-                    <ListGroup.Item className="d-flex align-items-center">
-                      <span className="me-auto color-grey">Overview</span>
-                      <a href="#!" className="link" target="_blank">
-                        View contract{" "}
-                        <i className="fa-regular fa-arrow-up-right-from-square ms-2" />
-                      </a>
-                    </ListGroup.Item>
-                  </ListGroup>
-                  {/* Button */}
-                  <Button variant="primary d-flex align-items-center justify-content-center btn-sm w-100">
-                    <img
-                      className="rounded me-3"
-                      src="./assets/images/token/FNZ.png"
-                      width={24}
-                      height={24}
-                      style={{ outline: "2px solid var(--bg-primary)" }}
-                    />
-                    <span className="fs-16 fw-500">Approve TGR</span>
-                  </Button>
-                  {/* Commission Box */}
-                  <div className="mt-3">
-                    <OverlayTrigger
-                      key="bottom"
-                      placement="bottom"
-                      overlay={
-                        <Tooltip id={`tooltip-bottom`}>
-                          1.99% commission fee is required for early withdrawal.
-                          No additional fees after 30 days lock term.
-                        </Tooltip>
-                      }
-                    >
-                      <div className="color-grey text-center">
-                        1.99% unstaking fee if withdrawn within 30d
-                      </div>
-                    </OverlayTrigger>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-            {/* Card Col */}
-            <Col md={6} xl={4}>
-              <Card className="p-0 mb-4">
-                {/* Card Badge */}
-                <div className="position-absolute end-0 top-0 px-3 py-2 rounded m-2 bg-soft-red fw-500">
-                  <i className="fa-regular fa-clock-eight me-2" />
-                  90 days
-                </div>
-                {/* Card Header */}
-                <Card.Header className="p-4 border-bottom">
-                  <div className="d-flex align-items-center mb-4">
-                    <img
-                      className="rounded"
-                      src="./assets/images/token/ousdt.png"
-                      width={50}
-                      height={50}
-                    />
-                    <div className="ms-4">
-                      <Card.Title className="card-title fs-20 fw-700 mb-0">
-                        Earn oUSDT
-                      </Card.Title>
-                      <OverlayTrigger
-                        key="left"
-                        overlay={
-                          <Tooltip id="tooltip-Apy">
-                            APY is calculated when Harvest and Stake is made
-                            once in 30 days within a year
-                          </Tooltip>
-                        }
-                      >
-                        <div className="color-grey fs-16 fw-500">
-                          Stake <u>APY</u> <span className="fw-700">1.82%</span>
-                        </div>
-                      </OverlayTrigger>
-                    </div>
-                  </div>
-                  {/* Progress Bar  */}
-                  <div className="d-flex flex-column">
-                    <div className="d-flex align-items-center fw-500 mx-1 mb-2">
-                      <div className="d-flex align-items-center">
-                        Total Stake
-                        <OverlayTrigger
-                          key="right"
-                          placement="right"
-                          overlay={
-                            <Tooltip id="tooltip-commission">
-                              The total stake of tokens for all users in this
-                              pool
-                            </Tooltip>
-                          }
-                        >
-                          <i className="fa-regular fa-circle-question color-grey ms-2" />
-                        </OverlayTrigger>
-                      </div>
-                      <div className="ms-auto">
-                        1700 <span className="color-grey">/ 3500</span>
-                      </div>
-                    </div>
-                    <ProgressBar
-                      variant="green"
-                      className="bg-light"
-                      now={56}
-                      style={{ height: "8px" }}
-                    />
-                  </div>
-                </Card.Header>
-                {/* Card Body */}
-                <Card.Body className="p-4">
-                  {/* List Box One */}
-                  <ListGroup className="list-unstyled mb-3 mx-1">
-                    <ListGroup.Item className="d-flex">
-                      <span className="me-auto color-grey">
-                        Total stake per user:
-                      </span>
-                      <span className="fw-500">12 oUSDT</span>
-                    </ListGroup.Item>
-                  </ListGroup>
-                  {/* List Box Two */}
-                  <ListGroup className="list-unstyled bg-light p-3 rounded-8 mb-4">
-                    <ListGroup.Item className="d-flex align-items-center mb-3">
-                      <div className="d-flex align-items-center me-auto color-grey">
-                        Earned oUSDT
-                        <Badge bg="soft-red" className="ms-2 p-2">
-                          Not active
-                        </Badge>
-                      </div>
-                      <Button variant="green btn-sm py-2 px-3 disabled">
-                        Harvest
-                      </Button>
-                    </ListGroup.Item>
-                    <ListGroup.Item className="d-flex align-items-center">
-                      <span className="me-auto color-grey">Overview</span>
-                      <a href="#!" className="link" target="_blank">
-                        View contract{" "}
-                        <i className="fa-regular fa-arrow-up-right-from-square ms-2" />
-                      </a>
-                    </ListGroup.Item>
-                  </ListGroup>
-                  {/* Button */}
-                  <Button variant="primary d-flex align-items-center justify-content-center btn-sm w-100">
-                    <img
-                      className="rounded me-3"
-                      src="./assets/images/token/ousdt.png"
-                      width={24}
-                      height={24}
-                      style={{ outline: "2px solid var(--bg-primary)" }}
-                    />
-                    <span className="fs-16 fw-500">Approve oUSDT</span>
-                  </Button>
-                  {/* Commission Box */}
-                  <div className="mt-3">
-                    <OverlayTrigger
-                      key="bottom"
-                      placement="bottom"
-                      overlay={
-                        <Tooltip id={`tooltip-bottom`}>
-                          1.99% commission fee is required for early withdrawal.
-                          No additional fees after 30 days lock term.
-                        </Tooltip>
-                      }
-                    >
-                      <div className="color-grey text-center">
-                        1.99% unstaking fee if withdrawn within 30d
-                      </div>
-                    </OverlayTrigger>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
+                  );
+                })}
+              </>
+            ) : (
+              <p>No data yet</p>
+            )}
           </Row>
         </Container>
       </section>
+
+      {/* FAQ */}
       <section className="section py-5">
         <Container>
           <h2 className="fs-32 fw-700 mb-5" id="FAQ">
@@ -910,139 +257,152 @@ export function StakingPage() {
           <Accordion className="row">
             <Col lg={6}>
               {/* item */}
-              <Accordion.Item eventKey="0" className="card bg-second mb-3 p-0">
-                <Accordion.Header>
-                  Does the lock term period of 30,60, and 90 days restart after
-                  each additional stake?
-                </Accordion.Header>
-                <Accordion.Body>
-                  Yes. For example, today, you have staked 1 TON in the pool
-                  with a 60 days lock term. Right after the stake has been made,
-                  the timer was launched for 60 days, when you can harvest
-                  earnings with no fee. In 10 days, you decided to make an
-                  additional stake of 2 TON in the same pool. During this stake,
-                  the timer restarts and starts counting 60 days again. With
-                  this action, the rewards are not being withdrawn and remain on
-                  the balance.
-                </Accordion.Body>
-              </Accordion.Item>
+              <FagItems
+                eventKey="1"
+                title="Does the lock term period of 30,60, and 90 days restart after
+            each additional stake?"
+                text={
+                  <>
+                    Yes. For example, today, you have staked 1 TON in the pool
+                    with a 60 days lock term. Right after the stake has been made,
+                    the timer was launched for 60 days, when you can harvest
+                    earnings with no fee. In 10 days, you decided to make an
+                    additional stake of 2 TON in the same pool. During this stake,
+                    the timer restarts and starts counting 60 days again. With
+                    this action, the rewards are not being withdrawn and remain on
+                    the balance.
+                  </>
+                }
+              />
               {/* item */}
-              <Accordion.Item eventKey="1" className="card bg-second mb-3 p-0">
-                <Accordion.Header>
-                  Can I unstake the total or partial amount from the pool?
-                </Accordion.Header>
-                <Accordion.Body>
-                  You can only make an unstake of the total amount of staked
-                  tokens. Once you make an unstake as not an early withdrawal,
-                  you receive the total amount of staked tokens + gained
-                  rewards.
-                </Accordion.Body>
-              </Accordion.Item>
+              <FagItems
+                eventKey="2"
+                title="Can I unstake the total or partial amount from the pool?"
+                text={
+                  <>
+                    You can only make an unstake of the total amount of staked
+                    tokens. Once you make an unstake as not an early withdrawal,
+                    you receive the total amount of staked tokens + gained
+                    rewards.
+                  </>
+                }
+              />
               {/* item */}
-              <Accordion.Item eventKey="2" className="card bg-second mb-3 p-0">
-                <Accordion.Header>
-                  How much time does it take to make Harvest or Unstake?
-                </Accordion.Header>
-                <Accordion.Body>
-                  Harvest or unstake are usually immediate, but it might take up
-                  to 48 hours in some cases.
-                </Accordion.Body>
-              </Accordion.Item>
+              <FagItems
+                eventKey="3"
+                title="How much time does it take to make Harvest or Unstake?"
+                text={
+                  <>
+                    Harvest or unstake are usually immediate, but it might take up
+                    to 48 hours in some cases.
+                  </>
+                }
+              />
               {/* item */}
-              <Accordion.Item eventKey="3" className="card bg-second mb-3 p-0">
-                <Accordion.Header>
-                  When can I receive the rewards?
-                </Accordion.Header>
-                <Accordion.Body>
-                  The staking interest is distributed on a daily basis from
-                  12:00 PM (UTC) on the day after the funds are deposited to the
-                  contract to the end of the corresponding product period (given
-                  that the funds are deposited before 12:00 PM (UTC). The first
-                  payout is tied to each stake separately. For example, today,
-                  you have staked 10 TON in the pool with the 90-day lock term
-                  at 11:30 AM UTC. The first rewards will be credited at 12:00
-                  PM UTC on the next day.
-                </Accordion.Body>
-              </Accordion.Item>
-              <Accordion.Item eventKey="4" className="card bg-second mb-3 p-0">
-                <Accordion.Header>
-                  Do Fixed Staking pools continue to function after the 30/60/90
-                  days of lock term?
-                </Accordion.Header>
-                <Accordion.Body>
-                  Yes. Fixed Staking pools are dateless and keep functioning
-                  after the end of the lock term. The lock term identifies the
-                  number of days after which the fee for early withdrawal won’t
-                  be applied.
-                </Accordion.Body>
-              </Accordion.Item>
+              <FagItems
+                eventKey="4"
+                title="When can I receive the rewards?"
+                text={
+                  <>
+                    The staking interest is distributed on a daily basis from
+                    12:00 PM (UTC) on the day after the funds are deposited to the
+                    contract to the end of the corresponding product period (given
+                    that the funds are deposited before 12:00 PM (UTC). The first
+                    payout is tied to each stake separately. For example, today,
+                    you have staked 10 TON in the pool with the 90-day lock term
+                    at 11:30 AM UTC. The first rewards will be credited at 12:00
+                    PM UTC on the next day.
+                  </>
+                }
+              />
+              {/* item */}
+              <FagItems
+                eventKey="5"
+                title="Do Fixed Staking pools continue to function after the 30/60/90
+              days of lock term?"
+                text={
+                  <>
+                    Yes. Fixed Staking pools are dateless and keep functioning
+                    after the end of the lock term. The lock term identifies the
+                    number of days after which the fee for early withdrawal won’t
+                    be applied.
+                  </>
+                }
+              />
             </Col>
             <Col lg={6}>
               {/* item */}
-              <Accordion.Item eventKey="5" className="card bg-second mb-3 p-0">
-                <Accordion.Header>
-                  What is Fixed Staking on Tegro Finance?
-                </Accordion.Header>
-                <Accordion.Body>
-                  Fixed Staking allows you to stake a token and receive profit
-                  with a fixed APR in the same token. For example, Stake TON -
-                  Earn TON.
-                </Accordion.Body>
-              </Accordion.Item>
+              <FagItems
+                eventKey="6"
+                title="What is Fixed Staking on Tegro Finance?"
+                text={
+                  <>
+                    Fixed Staking allows you to stake a token and receive profit
+                    with a fixed APR in the same token. For example, Stake TON -
+                    Earn TON.
+                  </>
+                }
+              />
               {/* item */}
-              <Accordion.Item eventKey="6" className="card bg-second mb-3 p-0">
-                <Accordion.Header>
-                  What Fixed Staking pools are available on Tegro Finance?
-                </Accordion.Header>
-                <Accordion.Body>
-                  Currently, there are pools with the tokens: TON, ADA, DOT.
-                  More pools will be added in the future.
-                </Accordion.Body>
-              </Accordion.Item>
+              <FagItems
+                eventKey="7"
+                title="What Fixed Staking pools are available on Tegro Finance?"
+                text={
+                  <>
+                    Currently, there are pools with the tokens: TON, ADA, DOT.
+                    More pools will be added in the future.
+                  </>
+                }
+              />
               {/* item */}
-              <Accordion.Item eventKey="7" className="card bg-second mb-3 p-0">
-                <Accordion.Header>
-                  Is there any impermanent loss in Fixed Staking?
-                </Accordion.Header>
-                <Accordion.Body>
-                  There is no impermanent loss. You can maximize your crypto
-                  funds safely and simply.
-                </Accordion.Body>
-              </Accordion.Item>
+              <FagItems
+                eventKey="8"
+                title="Is there any impermanent loss in Fixed Staking?"
+                text={
+                  <>
+                    There is no impermanent loss. You can maximize your crypto
+                    funds safely and simply.
+                  </>
+                }
+              />
               {/* item */}
-              <Accordion.Item eventKey="8" className="card bg-second mb-3 p-0">
-                <Accordion.Header>
-                  Is there any fee for early withdrawal from the pools?
-                </Accordion.Header>
-                <Accordion.Body>
-                  Yes. For each token, there will be 3 options of pools with the
-                  lock term at the time when the commission for early withdrawal
-                  is required: 30, 60 and 90 days. If you have staked in a pool
-                  and decide to withdraw earlier, the 1.99% commission will be
-                  required from the amount of the stake + what has already been
-                  credited as rewards.
-                  <p className="mt-3 mb-0">
-                    30/60/90 days - 1.99% fee from the amount of the stake
-                  </p>
-                </Accordion.Body>
-              </Accordion.Item>
+              <FagItems
+                eventKey="9"
+                title="Is there any fee for early withdrawal from the pools?"
+                text={
+                  <>
+                    Yes. For each token, there will be 3 options of pools with the
+                    lock term at the time when the commission for early withdrawal
+                    is required: 30, 60 and 90 days. If you have staked in a pool
+                    and decide to withdraw earlier, the 1.99% commission will be
+                    required from the amount of the stake + what has already been
+                    credited as rewards.
+                    <p className="mt-3 mb-0">
+                      30/60/90 days - 1.99% fee from the amount of the stake
+                    </p>
+                  </>
+                }
+              />
               {/* item */}
-              <Accordion.Item eventKey="9" className="card bg-second mb-3 p-0">
-                <Accordion.Header>
-                  When can I make Harvest from the pool?
-                </Accordion.Header>
-                <Accordion.Body>
-                  You can harvest your earned funds only after 30,60,90 days
-                  after the moment of staking. For example, you have staked 1
-                  TON in the 60-day lock term pool. You can harvest with no fee
-                  on the 61st day when you have earned 0.03 TON during the 60
-                  days period.
-                </Accordion.Body>
-              </Accordion.Item>
+              <FagItems
+                eventKey="10"
+                title="When can I make Harvest from the pool?"
+                text={
+                  <>
+                    You can harvest your earned funds only after 30,60,90 days
+                    after the moment of staking. For example, you have staked 1
+                    TON in the 60-day lock term pool. You can harvest with no fee
+                    on the 61st day when you have earned 0.03 TON during the 60
+                    days period.
+                  </>
+                }
+              />
             </Col>
           </Accordion>
         </Container>
       </section>
+
+      {/* Terms of use */}
       <section className="py-5">
         <Container>
           <div className="mb-4 pb-4 border-bottom">

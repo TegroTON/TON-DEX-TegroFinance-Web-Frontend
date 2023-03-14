@@ -1,10 +1,11 @@
 import { Container, Row, Col, Card, Button, ButtonGroup, Form, InputGroup, Dropdown, Nav, Stack, Accordion } from 'react-bootstrap';
-import {useContext} from "react";
-import {DexContext, DexContextType} from "../../context";
-import {bytesToHex} from "ton3-core/dist/utils/helpers";
+import { useState, useContext } from "react";
+import { DexContext, DexContextType } from "../../context";
+import { bytesToHex } from "ton3-core/dist/utils/helpers";
 // @ts-ignore
 import * as encoder from "int-encoder";
-import {Address, Coins} from "ton3-core";
+import { Address, Coins } from "ton3-core";
+import FagItems from "./components/FaqItem";
 
 // const kr = [...Array(0x11FF + 1).keys()].slice(0x1100).map(x => String.fromCharCode(x));
 
@@ -19,7 +20,7 @@ const compressAddr = (addr: Address | null): string => {
     if (!addr) return "";
 
     // return encoder.encode(`0x${bytesToHex(addr.hash)}`, 16);
-    return addr.toString("base64", {bounceable: false, testOnly: true})
+    return addr.toString("base64", { bounceable: false, testOnly: true })
 }
 
 export const decompressAddr = (input: string): Address | null => {
@@ -33,7 +34,7 @@ export const decompressAddr = (input: string): Address | null => {
 }
 
 export function ReferralPage() {
-    const {walletInfo, referrals} = useContext(DexContext) as DexContextType;
+    const { walletInfo, referrals } = useContext(DexContext) as DexContextType;
     // console.log("raw", bytesToHex(walletInfo && walletInfo.address ? walletInfo.address.hash : new Uint8Array(0)))
     const compressed = compressAddr(walletInfo?.address || null);
     // console.log("compressed", compressed)
@@ -71,7 +72,11 @@ export function ReferralPage() {
                                 </Card.Title>
                                 <Form.Group className="d-flex align-items-center mb-3">
                                     <InputGroup>
+                                    {walletInfo?.isConnected ? (
                                         <Form.Control className="fs-14" value={refUrl} />
+                                        ) : ( 
+                                            <Form.Control className="fs-14 opacity-50 color-grey" value="Connect your wallet to get a link" disabled />
+                                        )}
                                         <InputGroup.Text className="p-1">
                                             <Button variant="outline-light btn-sm border-0 fs-14"
                                                 onClick={() => navigator.clipboard.writeText(refUrl)}
@@ -263,39 +268,43 @@ export function ReferralPage() {
                                 <tr className="text-end">
                                     {referrals.length ? (
                                         <>
-                                        <th scope="col" className="text-start">Wallet Address</th>
-                                        <th scope="col">Swap Volume</th>
-                                        <th scope="col">Total Earn</th>
+                                            <th scope="col" className="text-start">Wallet Address</th>
+                                            <th scope="col">Swap Volume</th>
+                                            <th scope="col">Total Earn</th>
                                         </>
                                     ) : (
-                                        <th scope="col" className="text-center">You have no referrals.</th>
-                                        )}
+                                        <th scope="col" className="text-center">
+                                            <div className="badge bg-soft-red fs-14 fw-500 p-3 rounded-8">
+                                                You don't have any referrals yet
+                                            </div> 
+                                        </th>
+                                    )}
                                 </tr>
                             </thead>
                             <tbody>
-                            {referrals.map(r => (
-                                <tr className="text-end">
-                                    <th scope="row" className="text-start">
-                                        <div className="d-flex align-items-center">
-                                            <i className="fa-regular fa-wallet dropdown-item-icon" />
-                                            <div className="ms-3">
-                                                <div className="fw-500 text-truncate" style={{ maxWidth: '150px' }}>{r.address.toString("base64", {bounceable: true})}</div>
-                                                <div className="small text-muted fw-500 mt-1">{new Date(r.invited * 1000).toLocaleString() }</div>
+                                {referrals.map(r => (
+                                    <tr className="text-end">
+                                        <th scope="row" className="text-start">
+                                            <div className="d-flex align-items-center">
+                                                <i className="fa-regular fa-wallet dropdown-item-icon" />
+                                                <div className="ms-3">
+                                                    <div className="fw-500 text-truncate" style={{ maxWidth: '150px' }}>{r.address.toString("base64", { bounceable: true })}</div>
+                                                    <div className="small text-muted fw-500 mt-1">{new Date(r.invited * 1000).toLocaleString()}</div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </th>
-                                    <td>
-                                        <div className="fw-500">
-                                            {`${r.volumeTGR.toString()} TGR`}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className="fw-500">
-                                            {`${new Coins(r.volumeTGR).mul(0.0005).toString()} TGR`}
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
+                                        </th>
+                                        <td>
+                                            <div className="fw-500">
+                                                {`${r.volumeTGR.toString()} TGR`}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className="fw-500">
+                                                {`${new Coins(r.volumeTGR).mul(0.0005).toString()} TGR`}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                         {/*<div className="text-center p-5">*/}
@@ -310,52 +319,45 @@ export function ReferralPage() {
                 <Container>
                     <h2 className="fs-24 fw-700 mb-5" id="FAQ">FAQ</h2>
                     <Accordion className="row">
-                        <Col lg={6} className="mb-3">
+                        <Col lg={6}>
                             {/* item */}
-                            <Accordion.Item eventKey="0" className="card bg-second mb-3 p-0">
-                                <Accordion.Header>Where do I get my referral link?</Accordion.Header>
-                                <Accordion.Body>
-                                    Connect a wallet and find your referral link in the Referral section.
-                                </Accordion.Body>
-                            </Accordion.Item>
+                            <FagItems
+                                eventKey="1"
+                                title="Where do I get my referral link?"
+                                text="Connect a wallet and find your referral link in the Referral section."
+                            />
                             {/* item */}
-                            <Accordion.Item eventKey="1" className="card bg-second mb-3 p-0">
-                                <Accordion.Header>How do I invite a referral friend?</Accordion.Header>
-                                <Accordion.Body>
-                                    Invite your friends to register via your referral link.
-                                </Accordion.Body>
-                            </Accordion.Item>
+                            <FagItems
+                                eventKey="2"
+                                title="How do I invite a referral friend?"
+                                text="Invite your friends to register via your referral link."
+                            />
                             {/* item */}
-                            <Accordion.Item eventKey="2" className="card bg-second mb-3 p-0">
-                                <Accordion.Header>Where are all my generated referral links?</Accordion.Header>
-                                <Accordion.Body>
-                                    View all of your generated links on the 'Referral Links' section of the Referral page.
-                                </Accordion.Body>
-                            </Accordion.Item>
+                            <FagItems
+                                eventKey="3"
+                                title="Where are all my generated referral links?"
+                                text="View all of your generated links on the 'Referral Links' section of the Referral page."
+                            />
                         </Col>
-                        <Col lg={6} className="mb-3">
-
+                        <Col lg={6}>
                             {/* item */}
-                            <Accordion.Item eventKey="3" className="card bg-second mb-3 p-0">
-                                <Accordion.Header>In what crypto currency the referral commission is accounted to my referral balance?</Accordion.Header>
-                                <Accordion.Body>
-                                    The referral rewards are accounted in TGR tokens only.
-                                </Accordion.Body>
-                            </Accordion.Item>
+                            <FagItems
+                                eventKey="4"
+                                title="In what crypto currency the referral commission is accounted to my referral balance?"
+                                text="The referral rewards are accounted in TGR tokens only."
+                            />
                             {/* item */}
-                            <Accordion.Item eventKey="4" className="card bg-second mb-3 p-0">
-                                <Accordion.Header>How much crypto can I earn via the Swap Referral Program?</Accordion.Header>
-                                <Accordion.Body>
-                                    You can earn from 12.5% in TGR right after your friends have made a swap.
-                                </Accordion.Body>
-                            </Accordion.Item>
+                            <FagItems
+                                eventKey="5"
+                                title="How much crypto can I earn via the Swap Referral Program?"
+                                text="You can earn from 12.5% in TGR right after your friends have made a swap."
+                            />
                             {/* item */}
-                            <Accordion.Item eventKey="5" className="card bg-second mb-3 p-0">
-                                <Accordion.Header>Is the Swap referral program active for all swap pairs?</Accordion.Header>
-                                <Accordion.Body>
-                                    Yes.
-                                </Accordion.Body>
-                            </Accordion.Item>
+                            <FagItems
+                                eventKey="6"
+                                title="Is the Swap referral program active for all swap pairs?"
+                                text="Yes."
+                            />
                         </Col>
                     </Accordion>
                 </Container>
