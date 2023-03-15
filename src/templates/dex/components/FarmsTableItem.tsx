@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Row, Col, Button, Collapse, Badge } from "react-bootstrap";
 import Hints from "./Hints";
+import FarmsCalcModal from "./modals/FarmsCalc";
 
 function FarmsTableItem(props: any) {
     const [open, setOpen] = useState(false);
@@ -8,7 +9,7 @@ function FarmsTableItem(props: any) {
         <>
             <div className="flex-tr flex-row fw-500">
                 <div className="flex-td flex-td__name d-flex align-items-center">
-                    <Badge bg={props.statusColor} className="order-2 order-md-1 rounded-8 fs-11 fw-700 me-0 me-md-3 ms-3 ms-md-0" style={{ width: '52px', padding: "8px" }}>
+                    <Badge bg={props.statusColor} className="order-2 order-md-1 rounded-8 fs-11 fw-700 me-0 me-md-3 ms-2 ms-md-0" style={{ width: '52px', padding: "8px" }}>
                         {props.statusName}
                     </Badge>
                     <div className="order-1 order-md-2 d-flex align-items-center">
@@ -16,7 +17,7 @@ function FarmsTableItem(props: any) {
                             <img className="rounded-circle bg-light border" style={{ width: '32px', height: '32px', zIndex: '1' }} src={props.TokenImageFirst} alt={props.TokenNameFirst} />
                             <img className="rounded-circle bg-light border" style={{ width: '32px', height: '32px', marginLeft: '-10px' }} src={props.TokenImageSecond} alt={props.TokenNameSecond} />
                         </div>
-                        <div className="flex-td__TokenName text-nowrap">{props.TokenNameFirst} - {props.TokenNameSecond}</div>
+                        <div className="flex-td__TokenName text-nowrap">{props.TokenPairName}</div>
                     </div>
                 </div>
                 <div className="flex-td flex-td__APY d-none d-lg-block">
@@ -24,7 +25,7 @@ function FarmsTableItem(props: any) {
                     <span className="fw-500 me-1">{props.APY}</span>
                     <Hints
                         show="top"
-                        text="APY is based on your one-year income if Harvest and Compound are made once a day. Provided APY calculations depend on current APR rates."
+                        text={props.APYHint}
                         content={
                             <i className="fa-regular fa-circle-question color-grey" />
                         }
@@ -35,14 +36,14 @@ function FarmsTableItem(props: any) {
                         <span className="me-1">APR</span>
                         <Hints
                             show="top"
-                            text="APR is calculated by summing up the rewards of the liquidity providers 5.21% and the rewards in TGR 29.10%"
+                            text={props.APRHint}
                             content={
                                 <i className="fa-regular fa-circle-question" />
                             }
                         />
                     </div>
                     <span className="fw-500 me-1">{props.APR}</span>
-                    <i className="fa-regular fa-calculator-simple color-grey" />
+                    <FarmsCalcModal />
                 </div>
                 <div className="flex-td flex-td__Liquidity d-none d-lg-block">
                     <div className="color-grey fs-12">Liquidity</div>
@@ -105,15 +106,16 @@ function FarmsTableItem(props: any) {
                             <div className="flex-td flex-td__APR p-0">
                                 <div className="color-grey fs-12">
                                     <span className="me-1">APR</span>
+                                    <Hints
+                                        show="top"
+                                        text="APR is calculated by summing up the rewards of the liquidity providers 5.21% and the rewards in TGR 29.10%"
+                                        content={
+                                            <i className="fa-regular fa-circle-question" />
+                                        }
+                                    />
                                 </div>
                                 <span className="fw-500 me-1">{props.APR}</span>
-                                <Hints
-                                    show="top"
-                                    text="APR is calculated by summing up the rewards of the liquidity providers 5.21% and the rewards in TGR 29.10%"
-                                    content={
-                                        <i className="fa-regular fa-circle-question color-grey" />
-                                    }
-                                />
+                                <FarmsCalcModal />
                             </div>
                         </Col>
                         <Col className="col-6 col-sm-6 col-md-3">
