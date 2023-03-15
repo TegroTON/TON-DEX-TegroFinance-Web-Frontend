@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Card, Button, Collapse, Form, InputGroup, Dropdown, Nav, Stack, ListGroup, Accordion, ProgressBar, OverlayTrigger, Tooltip, Badge } from "react-bootstrap";
+import { Row, Col, Button, Collapse, Badge } from "react-bootstrap";
+import Hints from "./Hints";
 
 function FarmsTableItem(props: any) {
     const [open, setOpen] = useState(false);
@@ -18,23 +19,41 @@ function FarmsTableItem(props: any) {
                         <div className="flex-td__TokenName text-nowrap">{props.TokenNameFirst} - {props.TokenNameSecond}</div>
                     </div>
                 </div>
+                <div className="flex-td flex-td__APY d-none d-lg-block">
+                    <div className="color-grey fs-12">APY</div>
+                    <span className="fw-500 me-1">{props.APY}</span>
+                    <Hints
+                        show="top"
+                        text="APY is based on your one-year income if Harvest and Compound are made once a day. Provided APY calculations depend on current APR rates."
+                        content={
+                            <i className="fa-regular fa-circle-question color-grey" />
+                        }
+                    />
+                </div>
                 <div className="flex-td flex-td__APR d-none d-lg-block">
                     <div className="color-grey fs-12">
                         <span className="me-1">APR</span>
-                        <i className="fa-regular fa-circle-question" />
+                        <Hints
+                            show="top"
+                            text="APR is calculated by summing up the rewards of the liquidity providers 5.21% and the rewards in TGR 29.10%"
+                            content={
+                                <i className="fa-regular fa-circle-question" />
+                            }
+                        />
                     </div>
                     <span className="fw-500 me-1">{props.APR}</span>
                     <i className="fa-regular fa-calculator-simple color-grey" />
                 </div>
-                <div className="flex-td flex-td__APY d-none d-lg-block">
-                    <div className="color-grey fs-12">APY</div>
-                    <span className="fw-500 me-1">{props.APY}</span>
-                    <i className="fa-regular fa-circle-question color-grey" />
-                </div>
                 <div className="flex-td flex-td__Liquidity d-none d-lg-block">
                     <div className="color-grey fs-12">Liquidity</div>
                     <span className="fw-500 me-1">{props.Liquidity}</span>
-                    <i className="fa-regular fa-circle-question color-grey" />
+                    <Hints
+                        show="top"
+                        text="The total value of the funds in this farm’s liquidity pool."
+                        content={
+                            <i className="fa-regular fa-circle-question color-grey" />
+                        }
+                    />
                 </div>
                 <div className="flex-td flex-td__Erned d-none d-lg-block">
                     <div className="color-grey fs-12">Erned</div>
@@ -50,34 +69,64 @@ function FarmsTableItem(props: any) {
                         <span className="d-none d-md-inline">Details</span>
                         <i className="fa-solid fa-angle-down ms-0 ms-md-2" />
                     </Button>
-                    <i className="fa-regular fa-circle-info fs-16" />
+
+                    <Hints
+                        show="top"
+                        delay={{ hide: 1400 }}
+                        text={
+                            <>
+                                <p className="mb-0">Multiplier5.8X</p>
+                                <a href="#!" className="color-blue" target="_blank">View contract <i className="fa-regular fa-arrow-up-right-from-square ms-1" /></a>
+                            </>
+                        }
+                        content={
+                            <i className="fa-regular fa-circle-info fs-16" />
+                        }
+                    />
                 </div>
             </div>
             <Collapse in={open}>
                 <div id="flex-table__collapse">
                     <Row className="d-flex d-lg-none border-bottom bg-light border-bottom p-3 p-lg-4">
-                        <Col className="col-6 col-sm-6 col-md-3 mb-3 mb-3 mb-md-0">
-                            <div className="flex-td flex-td__APR p-0">
-                                <div className="color-grey fs-12">
-                                    <span className="me-1">APR</span>
-                                    <i className="fa-regular fa-circle-question" />
-                                </div>
-                                <span className="fw-500 me-1">{props.APR}</span>
-                                <i className="fa-regular fa-calculator-simple color-grey" />
-                            </div>
-                        </Col>
-                        <Col className="col-6 col-sm-6 col-md-3 mb-3 mb-md-0 text-end text-md-start">
+                        <Col className="col-6 col-sm-6 col-md-3 mb-3 mb-md-0">
                             <div className="flex-td flex-td__APY p-0">
                                 <div className="color-grey fs-12">APY</div>
                                 <span className="fw-500 me-1">{props.APY}</span>
-                                <i className="fa-regular fa-circle-question color-grey" />
+                                <Hints
+                                    show="top"
+                                    text="APY is based on your one-year income if Harvest and Compound are made once a day. Provided APY calculations depend on current APR rates."
+                                    content={
+                                        <i className="fa-regular fa-circle-question color-grey" />
+                                    }
+                                />
+                            </div>
+                        </Col>
+                        <Col className="col-6 col-sm-6 col-md-3 mb-3 mb-3 mb-md-0 text-end text-md-start">
+                            <div className="flex-td flex-td__APR p-0">
+                                <div className="color-grey fs-12">
+                                    <span className="me-1">APR</span>
+                                </div>
+                                <span className="fw-500 me-1">{props.APR}</span>
+                                <Hints
+                                    show="top"
+                                    text="APR is calculated by summing up the rewards of the liquidity providers 5.21% and the rewards in TGR 29.10%"
+                                    content={
+                                        <i className="fa-regular fa-circle-question color-grey" />
+                                    }
+                                />
                             </div>
                         </Col>
                         <Col className="col-6 col-sm-6 col-md-3">
                             <div className="flex-td flex-td__Liquidity p-0">
                                 <div className="color-grey fs-12">Liquidity</div>
                                 <span className="fw-500 me-1">{props.Liquidity}</span>
-                                <i className="fa-regular fa-circle-question color-grey" />
+                                <Hints
+                                    show="top"
+                                    text="The total value of the funds in this farm’s liquidity pool."
+                                    content={
+                                        <i className="fa-regular fa-circle-question color-grey" />
+                                    }
+                                />
                             </div>
                         </Col>
                         <Col className="col-6 col-sm-6 col-md-3 text-end">
