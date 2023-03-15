@@ -6,7 +6,7 @@ import { tonClient } from '../../ton';
 import { Token } from '../../ton/dex/api/types';
 import { TON_ADDRESS } from '../../ton/dex/constants';
 import { Modal, Button } from 'react-bootstrap';
-import {CoinsToDecimals, getOutAmount} from "../../ton/dex/utils";
+import { CoinsToDecimals, getOutAmount } from "../../ton/dex/utils";
 
 export function ConfirmSwapModal() {
     const {
@@ -24,11 +24,11 @@ export function ConfirmSwapModal() {
     const { amount: outAmount, token: to } = swapRight;
 
     const tonBalance = walletInfo ? walletInfo.balance : new Coins(0);
-    let minReceived = new Coins(0, {decimals: swapRight.token.decimals});
-    let maxSold = new Coins(0, {decimals: swapLeft.token.decimals});
+    let minReceived = new Coins(0, { decimals: swapRight.token.decimals });
+    let maxSold = new Coins(0, { decimals: swapLeft.token.decimals });
     try {
-        minReceived = new Coins(swapRight.amount, {decimals: swapRight.token.decimals}).mul(1 - slippage / 100);
-        maxSold = new Coins(swapLeft.amount, {decimals: swapLeft.token.decimals}).mul(1 + slippage / 100);
+        minReceived = new Coins(swapRight.amount, { decimals: swapRight.token.decimals }).mul(1 - slippage / 100);
+        maxSold = new Coins(swapLeft.amount, { decimals: swapLeft.token.decimals }).mul(1 + slippage / 100);
     } catch {
         // pass
     }
@@ -44,7 +44,7 @@ export function ConfirmSwapModal() {
                 const minReceived0D = CoinsToDecimals(minReceived0, swapPairs[0].rightToken.decimals);
                 const payload = dexPair.createRouteSwapRequest(inAmount, minReceived0D, minReceived, walletInfo?.address as Address, swapPairs[1].address, referral);
                 await walletInfo?.sendTransaction({
-                    to: swapWallets.left.wallet!.toString("base64", {bounceable: true}),
+                    to: swapWallets.left.wallet!.toString("base64", { bounceable: true }),
                     value: new Coins(0.6).toNano(),
                     payload: BOC.toBase64Standard(payload),
                     // .replaceAll('+', '-')
@@ -57,7 +57,7 @@ export function ConfirmSwapModal() {
                     extract ? outAmount : minReceived,
                     walletInfo?.address as Address, referral);
                 await walletInfo?.sendTransaction({
-                    to: swapWallets.left.wallet!.toString("base64", {bounceable: true}),
+                    to: swapWallets.left.wallet!.toString("base64", { bounceable: true }),
                     value: new Coins(0.3).toNano(),
                     payload: BOC.toBase64Standard(payload),
                     // .replaceAll('+', '-')
@@ -67,12 +67,12 @@ export function ConfirmSwapModal() {
 
         } else {
             const payload = DexBetaPairContract.createTonSwapRequest(
-                    extract,
-                    extract ? maxSold : inAmount,
-                    extract ? outAmount : minReceived,
-                    walletInfo?.address as Address, referral);
+                extract,
+                extract ? maxSold : inAmount,
+                extract ? outAmount : minReceived,
+                walletInfo?.address as Address, referral);
             await walletInfo?.sendTransaction({
-                to: dexPair.address.toString("base64", {bounceable: true}),
+                to: dexPair.address.toString("base64", { bounceable: true }),
                 value: new Coins(extract ? maxSold : inAmount).add(new Coins(0.3))
                     .toNano(),
                 payload: BOC.toBase64Standard(payload),
@@ -103,59 +103,51 @@ export function ConfirmSwapModal() {
 
     return (
         <div className="modal fade" id="ConfirmSwap" tabIndex={-1} aria-hidden="true">
-            <div className="modal-dialog modal-dialog-centered mobile-modal-bottom">
-                <div className="modal-content p-4">
-                    <Modal.Header className="border-0 mb-40 p-0">
-                        <Modal.Title>You get</Modal.Title>
-                        <button type="button" className="btn border-0 p-0" data-bs-dismiss="modal" aria-label="Close"><i className="fa-solid fa-xmark fa-lg"></i></button>
-                    </Modal.Header>
-                    <Modal.Body className="p-0">
-                        <div className="d-flex align-items-center mb-4">
-                            <img src={to.image} width="48" height="48" alt={to.name} />
-                            <div className="ms-4">
-                                <h4 className="fs-24 fw-700 mb-0">{`${outAmount} ${to.symbol}`}</h4>
-                                <p className="mb-0 fw-500 text-muted">{`${from.name} / ${to.name}`}</p>
-                            </div>
+            <Modal.Dialog centered className="mobile-modal-bottom">
+                <Modal.Header data-bs-dismiss="modal" aria-label="Close" closeButton>
+                    <Modal.Title>You get</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="d-flex align-items-center mb-4">
+                        <img src={to.image} width="48" height="48" alt={to.name} />
+                        <div className="ms-4">
+                            <h4 className="fs-20 fw-900 mb-0">{`${outAmount} ${to.symbol}`}</h4>
+                            <p className="mb-0 fw-500 color-grey">{`${from.name} / ${to.name}`}</p>
                         </div>
-                        <p className="mb-40 text-muted">
-                        The result is an orienteer. If the price changes by more than <span className="fw-700 color-blue">{`${slippage}%`}</span>,
-                            <span
-                                className="d-inline d-md-block"
-                            >
-                                the transaction will be returned.
-                            </span>
-                        </p>
-                        <ul className="list-unstyled card-alert p-3 bg-light rounded-8 mb-4">
-                            <li className="list-item d-flex mb-0">
-                                {extract ? (<>
-                                        <span className="me-auto fw-500">Maximum sold:</span>
-                                        <span className="text-muted">
-                                            {`${(maxSold ?? '0').toString()} ${swapLeft.token.symbol}`}
-                                        </span>
-                                    </>) : (<>
-                                        <span className="me-auto fw-500">Minimum received:</span>
-                                        <span className="text-muted">
-                                            {`${(minReceived ?? '0').toString()} ${swapRight.token.symbol}`}
-                                        </span>
-                                </>)}
-                            </li>
-                        </ul>
-                        <div className="d-flex">
-                            <Button className="btn btn-light me-auto" data-bs-dismiss="modal" aria-label="Close">
-                                Cancel
-                            </Button>
-                            <Button className="btn btn-red" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#ProcessingModal"
-                                onClick={async () => {
-                                    await handleConfirm();
-                                }}
-                            >
-                                <i className="fa-regular fa-circle-plus me-2" />
-                                Confirm offer
-                            </Button>
-                        </div>
-                    </Modal.Body>
-                </div>
-            </div>
+                    </div>
+                    <p className="mb-3 color-grey">
+                        The result is an orienteer. If the price changes by more than <span className="fw-700 color-blue">{`${slippage}%`}</span>, the transaction will be returned.
+                    </p>
+                    <ul className="list-unstyled card-alert p-3 mb-0 bg-light rounded-8">
+                        <li className="list-item d-flex mb-0">
+                            {extract ? (<>
+                                <span className="me-auto fw-500">Maximum sold:</span>
+                                <span className="color-grey">
+                                    {`${(maxSold ?? '0').toString()} ${swapLeft.token.symbol}`}
+                                </span>
+                            </>) : (<>
+                                <span className="me-auto fw-500">Minimum received:</span>
+                                <span className="color-grey">
+                                    {`${(minReceived ?? '0').toString()} ${swapRight.token.symbol}`}
+                                </span>
+                            </>)}
+                        </li>
+                    </ul>
+                </Modal.Body>
+                <Modal.Footer className="border-0 pt-2">
+                    <Button className="btn btn-light me-auto" data-bs-dismiss="modal" aria-label="Close">
+                        Cancel
+                    </Button>
+                    <Button className="btn btn-red" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#ProcessingModal"
+                        onClick={async () => {
+                            await handleConfirm();
+                        }}
+                    >
+                        <i className="fa-regular fa-circle-plus me-2" />
+                        Confirm offer
+                    </Button>
+                </Modal.Footer>
+            </Modal.Dialog>
         </div>
     );
 }

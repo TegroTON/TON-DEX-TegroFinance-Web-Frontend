@@ -12,7 +12,7 @@ function Hints(props: any) {
         overlay={
           <Tooltip id={`tooltip-${props.show}`}>
             <div className="text-start fs-12 p-1 p-md-2">
-            {props.text}
+              {props.text}
             </div>
           </Tooltip>
         }

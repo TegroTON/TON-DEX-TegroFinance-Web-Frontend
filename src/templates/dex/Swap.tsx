@@ -170,6 +170,7 @@ export default function SwapPage() {
                                     {/*    $0*/}
                                     {/*</InputGroup.Text>*/}
                                     <InputGroup.Text className="p-1">
+                                        <div className="usd color-grey fs-12 fw-500 me-2">$0.00</div>
                                         <Button variant="btn btn-sm btn-light d-flex align-items-center justify-content-center p-2"
                                             style={{ minWidth: '124px' }}
                                             data-bs-toggle="modal"
@@ -231,6 +232,7 @@ export default function SwapPage() {
                                     {/*    $0.0067*/}
                                     {/*</InputGroup.Text>*/}
                                     <InputGroup.Text className="p-1">
+                                        <div className="usd color-grey fs-12 fw-500 me-2">$0.00</div>
                                         <Button variant="btn btn-sm btn-light d-flex align-items-center justify-content-center p-2"
                                             style={{ minWidth: '124px' }}
                                             data-bs-toggle="modal"

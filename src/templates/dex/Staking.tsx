@@ -133,8 +133,6 @@ export function StakingPage() {
             </h1>
             <p
               className="fs-20 color-grey mb-0"
-              data-bs-toggle="tooltip"
-              data-bs-title="Default tooltip"
             >
               1st on TONCOIN DEX. Level up your crypto earn!
             </p>

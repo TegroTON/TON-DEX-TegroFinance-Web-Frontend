@@ -27,7 +27,7 @@ export function RemoveLiquidityModal() {
 
 
         await walletInfo?.sendTransaction({
-            to: wallet.toString("base64", {bounceable: true}),
+            to: wallet.toString("base64", { bounceable: true }),
             value: new Coins(1.5).toNano(),
             payload: BOC.toBase64Standard(payload),
         });
@@ -42,27 +42,28 @@ export function RemoveLiquidityModal() {
     };
     return (
         <div className="modal fade" id="RemoveLiquidity" tabIndex={-1} aria-hidden="true">
-            <div className="modal-dialog modal-dialog-centered mobile-modal-bottom">
-                <div className="modal-content p-4">
-                    <Modal.Body className="text-center py-5">
-                        <p className="fs-24 mb-5 pb-3">Are you sure you want to remove <span className="d-inline d-md-block">liquidity?</span></p>
-                        <div className="d-flex flex-column flex-md-row justify-content-center">
-                            <Button className="btn btn-light me-0 me-md-3" data-bs-dismiss="modal" aria-label="Close">Cancel</Button>
-                            <Button className="btn btn-red mt-3 mt-md-0"
-                             data-bs-dismiss="modal"
-                             data-bs-toggle="modal"
-                             data-bs-target="#ProcessingModal"
-                             onClick={async () => {
-                                 await handleConfirm();
-                             }}
-                            >
-                                <i className="fa-regular fa-trash-can me-2"></i>
-                                Remove Liquidity
-                            </Button>
-                        </div>
-                    </Modal.Body>
-                </div>
-            </div>
+            <Modal.Dialog centered className="mobile-modal-bottom">
+                <Modal.Body className="text-center py-5">
+                    <i className="fa-light fa-trash-list fa-4x mb-4 color-blue" />
+                    <p className="color-grey fs-20 mb-0">
+                        Are you sure you want to remove liquidity? 🤔
+                    </p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button className="btn btn-light" data-bs-dismiss="modal" aria-label="Close">Cancel</Button>
+                    <Button className="btn btn-red ms-auto"
+                        data-bs-dismiss="modal"
+                        data-bs-toggle="modal"
+                        data-bs-target="#ProcessingModal"
+                        onClick={async () => {
+                            await handleConfirm();
+                        }}
+                    >
+                        <i className="fa-regular fa-trash-can me-2"></i>
+                        Remove Liquidity
+                    </Button>
+                </Modal.Footer>
+            </Modal.Dialog>
         </div>
     );
 }

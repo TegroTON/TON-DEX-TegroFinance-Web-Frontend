@@ -25,7 +25,7 @@ function FarmsTableItem(props: any) {
                     <span className="fw-500 me-1">{props.APY}</span>
                     <Hints
                         show="top"
-                        text={props.APYHint}
+                        text="APY is based on your one-year income if Harvest and Compound are made once a day. Provided APY calculations depend on current APR rates."
                         content={
                             <i className="fa-regular fa-circle-question color-grey" />
                         }
@@ -36,7 +36,7 @@ function FarmsTableItem(props: any) {
                         <span className="me-1">APR</span>
                         <Hints
                             show="top"
-                            text={props.APRHint}
+                            text="APR is calculated by summing up the rewards of the liquidity providers 5.37% and the rewards in BSW 28.72%"
                             content={
                                 <i className="fa-regular fa-circle-question" />
                             }

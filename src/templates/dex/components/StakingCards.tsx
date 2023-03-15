@@ -1,11 +1,12 @@
-import { Col, Card, Button, ListGroup, ProgressBar, OverlayTrigger, Tooltip, Badge } from "react-bootstrap";
+import { Col, Card, Button, ListGroup, ProgressBar, Badge } from "react-bootstrap";
+import Hints from "./Hints";
 
 function StakingCards(props: any) {
     return (
         <Col md={6} xl={4}>
             <Card className="p-0 mb-4">
                 {/* Card Badge */}
-                <Badge bg={props.DaysBageColor} className="position-absolute end-0 top-0 rounded m-2 fs-14 fw-500" style={{padding: "12px 16px 12px 16px"}}>
+                <Badge bg={props.DaysBageColor} className="position-absolute end-0 top-0 rounded m-2 fs-14 fw-500" style={{ padding: "12px 16px 12px 16px" }}>
                     <i className="fa-regular fa-clock-eight me-2" />
                     {props.DaysText}
                 </Badge>
@@ -23,23 +24,19 @@ function StakingCards(props: any) {
                             <Card.Title className="card-title fs-20 fw-700 mb-0">
                                 Earn {props.TokenName}
                             </Card.Title>
-                            <OverlayTrigger
-                                overlay={
-                                    <Tooltip
-                                        id="tooltip-Apy"
-                                        style={{
-                                            position: "absolute",
-                                        }}
-                                    >
-                                        APY is calculated when Harvest and Stake is made
-                                        once in {props.days} within a year
-                                    </Tooltip>
-                                }
-                            >
-                                <div className="color-grey fs-16 fw-500">
-                                    Stake <u>APY</u> <span className="fw-700">{props.APYPercent}</span>
-                                </div>
-                            </OverlayTrigger>
+                            <Hints
+                                show="top"
+                                text={(
+                                    <>
+                                        APY is calculated when Harvest and Stake is made once in {props.DaysText} within a year
+                                    </>
+                                )}
+                                content={(
+                                    <div className="color-grey fs-16 fw-500">
+                                        Stake <u>APY</u> <span className="fw-700">{props.APYPercent}</span>
+                                    </div>
+                                )}
+                            />
                         </div>
                     </div>
                     {/* Progress Bar  */}
@@ -47,18 +44,15 @@ function StakingCards(props: any) {
                         <div className="d-flex align-items-center fw-500 mx-1 mb-2">
                             <div className="d-flex align-items-center">
                                 Total Stake
-                                <OverlayTrigger
-                                    key="right"
-                                    placement="right"
-                                    overlay={
-                                        <Tooltip id="tooltip-commission">
-                                            The total stake of tokens for all users in this
-                                            pool
-                                        </Tooltip>
-                                    }
-                                >
-                                    <i className="fa-regular fa-circle-question color-grey ms-2" />
-                                </OverlayTrigger>
+                                <Hints
+                                    show="top"
+                                    text={(
+                                        <>
+                                            The total stake of tokens for all users in this pool
+                                        </>
+                                    )}
+                                    content={(<i className="fa-regular fa-circle-question color-grey ms-2" />)}
+                                />
                             </div>
                             <div className="ms-auto">
                                 {props.TotalStakeProgess} <span className="color-grey">/ {props.TotalStake}</span>
@@ -116,22 +110,20 @@ function StakingCards(props: any) {
                         <span className="fs-16 fw-500">Approve {props.TokenName}</span>
                     </Button>
                     {/* Commission Box */}
-                    <div className="mt-3">
-                        <OverlayTrigger
-                            key="bottom"
-                            placement="bottom"
-                            overlay={
-                                <Tooltip id={`tooltip-bottom`}>
-                                    {props.CommissionFee} commission fee is required for early withdrawal.
-                                    No additional fees after {props.days} lock term.
-                                </Tooltip>
-                            }
-                        >
-                            <div className="color-grey text-center">
+                    <Hints
+                        show="top"
+                        text={(
+                            <>
+                                {props.CommissionFee} commission fee is required for early withdrawal.
+                                No additional fees after {props.days} lock term.
+                            </>
+                        )}
+                        content={(
+                            <div className="color-grey text-center mt-3">
                                 {props.CommissionFee} unstaking fee if withdrawn within {props.days}
                             </div>
-                        </OverlayTrigger>
-                    </div>
+                        )}
+                    />
                 </Card.Body>
             </Card>
         </Col>

@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { DexContext, DexContextType } from '../../context';
-import { Modal, Row, Col, Form, InputGroup, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Modal, Row, Col, Form, InputGroup, Button } from 'react-bootstrap';
+import Hints from '../dex/components/Hints';
 
 export function SettingsModal() {
     const {
@@ -10,59 +11,53 @@ export function SettingsModal() {
 
     return (
         <div className="modal fade" id="SettingsModal" tabIndex={-1} aria-hidden="true">
-            <div className="modal-dialog modal-dialog-centered mobile-modal-bottom">
-                <div className="modal-content p-4">
-                    <Modal.Header className="border-0 mb-40 p-0">
-                        <Modal.Title>Settings</Modal.Title>
-                        <button type="button" className="btn border-0 p-0" data-bs-dismiss="modal" aria-label="Close"><i className="fa-solid fa-xmark fa-lg"></i></button>
+                <Modal.Dialog centered className="mobile-modal-bottom">
+                <Modal.Header data-bs-dismiss="modal" aria-label="Close" closeButton>
+                    <Modal.Title>Settings</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body className="p-0">
-                        <div className="fw-500 fs-18 text-muted mb-4">
+                    <Modal.Body>
+                    <div className="fw-500 fs-18 text-muted mb-4">
                             Slippage tolerance
-                            <OverlayTrigger
-                                key="right"
-                                placement="right"
-                                overlay={
-                                    <Tooltip className="fs-12 ms-4" id={`tooltip-$right`}>
+                            <Hints
+                                show="top"
+                                text={(
+                                    <>
                                         Your transaction will revert it the price changes unfavorably by more than this percentage.
-                                    </Tooltip>
-                                }
-                            >
-                                <a href="#!" className="text-muted ms-2">
-                                    <i className="fa-regular fa-circle-question color-blue"></i>
-                                </a>
-                            </OverlayTrigger>
+                                    </>
+                                )}
+                                content={(<i className="fa-regular fa-circle-question fs-16 ms-2" />)}
+                            />
                         </div>
-                        <Row>
-                            <Col className="order-2 order-lg-1 mb-2 mb-lg-0">
+                        <Row className="align-items-center">
+                            <Col xs={4} lg={3} className="order-2 order-lg-1 mb-2 mb-lg-0">
                                 <a
                                     style={{ cursor: 'pointer' }}
                                     onClick={() => updateSlippage(0.1)}
-                                    className={`btn d-block ${slippage === 0.1 ? 'btn-primary' : 'btn-light'}`}
+                                    className={`btn w-100 px-3 ${slippage === 0.1 ? 'btn-primary' : 'btn-light'}`}
                                 >
                                     0,1%
                                 </a>
                             </Col>
-                            <Col className="order-3 order-lg-2 mb-2 mb-lg-0">
+                            <Col xs={4} lg={3} className="order-3 order-lg-2 mb-2 mb-lg-0">
                                 <a
                                     style={{ cursor: 'pointer' }}
                                     onClick={() => updateSlippage(0.5)}
-                                    className={`btn d-block ${slippage === 0.5 ? 'btn-primary' : 'btn-light'}`}
+                                    className={`btn w-100 px-3 ${slippage === 0.5 ? 'btn-primary' : 'btn-light'}`}
                                 >
                                     0,5%
                                 </a>
                             </Col>
-                            <Col className="order-4 order-lg-3 mb-2 mb-lg-0">
+                            <Col xs={4} lg={3} className="order-4 order-lg-3 mb-2 mb-lg-0">
                                 <a
                                     style={{ cursor: 'pointer' }}
                                     onClick={() => updateSlippage(1)}
-                                    className={`btn d-block ${slippage === 1 ? 'btn-primary' : 'btn-light'}`}
+                                    className={`btn w-100 px-3 ${slippage === 1 ? 'btn-primary' : 'btn-light'}`}
                                 >
                                     1%
                                 </a>
                             </Col>
-                            <Col md={12} lg className="order-1 order-lg-4 mb-2 mb-lg-0">
-                                <InputGroup className="mb-3">
+                            <Col md={12} lg={3} className="order-1 order-lg-4 ">
+                                <InputGroup className="mb-3 mb-sm-0">
                                     <Form.Control
                                         type="number"
                                         className="text-center fw-500"
@@ -74,15 +69,14 @@ export function SettingsModal() {
                                         required={![0.1, 0.5, 1].includes(slippage)}
                                         placeholder={`${slippage}`}
                                     />
-                                    <InputGroup.Text id="basic-addon1">
+                                    <InputGroup.Text className="ps-1 pe-3">
                                         <i className="fa-solid fa-percent"></i>
                                     </InputGroup.Text>
                                 </InputGroup>
                             </Col>
                         </Row>
                     </Modal.Body>
-                </div>
-            </div >
-        </div >
+                </Modal.Dialog>
+        </div>
     );
 }

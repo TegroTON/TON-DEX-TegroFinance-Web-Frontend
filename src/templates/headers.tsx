@@ -35,7 +35,7 @@ export function DefaultHeader() {
     const [expanded, setExpanded] = useState<boolean>(false);
     // console.log(expanded)
     return (
-        <header className="header border-bottom mb-5">
+        <header className="header border-bottom mb-4 mb-lg-5">
             <Navbar expand="lg"
                 collapseOnSelect
                 expanded={expanded}
@@ -56,7 +56,7 @@ export function DefaultHeader() {
                                     </span>
                                     <i className="fa-solid fa-angle-down ms-3" />
                                 </Nav.Link>
-                                <div className="dropdown-menu bg-second border-0 mr-4 mt-2 shadow rounded position-absolute" data-bs-popper="static">
+                                <div className="dropdown-menu bg-second border-0 mr-4 mt-2 shadow rounded position-absolute" data-bs-popper="static" style={{right: '10px'}}>
                                     <NavDropdown.Item className="d-flex align-items-center"
                                         onClick={() => navigator.clipboard.writeText(`${walletInfo.address.toString()}`)}
                                     >
@@ -449,40 +449,38 @@ export function DefaultHeader() {
                                     </Nav.Link>
                                 </Nav.Item>
                                 {walletInfo?.isConnected ? (
-                                    <Nav.Item className="dropdown d-none d-lg-block">
-                                        <Nav.Link className="box-blur border rounded-8 text-nowrap d-flex align-items-center"
-                                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <NavDropdown title={(
+                                        <>
                                             <img className="rounded-circle" src="/assets/images/ton.png" width={18} height={18} alt="Ton Coin" />
                                             <span className="fw-medium ms-2">
                                                 {`${walletInfo.balance ? ~~(walletInfo.balance.toString()) : 'Load...'} TON`}
                                             </span>
                                             <i className="fa-solid fa-angle-down ms-3" />
-                                        </Nav.Link>
-                                        <div className="dropdown-menu" data-bs-popper="static">
-                                            <NavDropdown.Item className="d-flex align-items-center"
-                                                onClick={() => navigator.clipboard.writeText(`${walletInfo.address.toString()}`)}
-                                            >
-                                                <i className="fa-light fa-copy dropdown-item-icon" />
-                                                <div className="ms-3">
-                                                    Copy address
-                                                    <div className="text-muted small text-truncate" style={{ minWidth: '150px' }}>
-                                                        {`${walletInfo.address.toString()
-                                                            .slice(0, 6)} . . . ${walletInfo.address.toString()
-                                                                .slice(-6)}`}
-                                                    </div>
+                                        </>
+                                    )}
+                                        id="wallet-dropdown" className="box-blur border rounded-8 text-nowrap d-none d-lg-flex align-items-center">
+                                        <NavDropdown.Item className="d-flex align-items-center"
+                                            onClick={() => navigator.clipboard.writeText(`${walletInfo.address.toString()}`)}>
+                                            <i className="fa-light fa-copy dropdown-item-icon" />
+                                            <div className="ms-3">
+                                                Copy address
+                                                <div className="text-muted small text-truncate" style={{ minWidth: '150px' }}>
+                                                    {`${walletInfo.address.toString()
+                                                        .slice(0, 6)} . . . ${walletInfo.address.toString()
+                                                            .slice(-6)}`}
                                                 </div>
-                                            </NavDropdown.Item>
-                                            <NavDropdown.Item className="d-flex align-items-center"
-                                                onClick={() => DeLabConnector.disconnect()}
-                                            >
-                                                <i className="fa-light fa-power-off dropdown-item-icon" />
-                                                <div className="ms-3">
-                                                    Disconnect
-                                                    <div className="text-muted small">Disable your wallet</div>
-                                                </div>
-                                            </NavDropdown.Item>
-                                        </div>
-                                    </Nav.Item>
+                                            </div>
+                                        </NavDropdown.Item>
+                                        <NavDropdown.Item className="d-flex align-items-center"
+                                            onClick={() => DeLabConnector.disconnect()}
+                                        >
+                                            <i className="fa-light fa-power-off dropdown-item-icon" />
+                                            <div className="ms-3">
+                                                Disconnect
+                                                <div className="text-muted small">Disable your wallet</div>
+                                            </div>
+                                        </NavDropdown.Item>
+                                    </NavDropdown>
                                 ) : (
                                     <Nav.Item className="btn btn-sm btn-primary text-nowrap w-100 d-none d-lg-block"
                                         onClick={() => DeLabConnector.openModal()}
