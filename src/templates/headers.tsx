@@ -451,11 +451,13 @@ export function DefaultHeader() {
                                 {walletInfo?.isConnected ? (
                                     <NavDropdown title={(
                                         <>
-                                            <img className="rounded-circle" src="/assets/images/ton.png" width={18} height={18} alt="Ton Coin" />
-                                            <span className="fw-medium ms-2">
+                                        <div className="d-flex align-items-center">
+                                            <img className="rounded-circle" src="/assets/images/ton.png" width={20} height={20} alt="Ton Coin" />
+                                            <span className="fw-600 ms-2">
                                                 {`${walletInfo.balance ? ~~(walletInfo.balance.toString()) : 'Load...'} TON`}
                                             </span>
                                             <i className="fa-solid fa-angle-down ms-3" />
+                                            </div>
                                         </>
                                     )}
                                         id="wallet-dropdown" className="box-blur border rounded-8 text-nowrap d-none d-lg-flex align-items-center">

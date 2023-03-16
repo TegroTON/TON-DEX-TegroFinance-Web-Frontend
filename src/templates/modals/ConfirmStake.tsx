@@ -78,14 +78,9 @@ export function ConfirmStakeModal() {
         <>
             <div className="modal fade" id="ConfirmStake" tabIndex={-1} aria-hidden="true">
                 <Modal.Dialog centered className="mobile-modal-bottom">
-                <Button
-              variant="icon btn-close position-absolute end-0 top-0 m-5"
-              data-bs-dismiss="modal" aria-label="Close"
-              style={{zIndex: '999'}}
-            />
                     <Modal.Body className="text-center py-5">
-                        <i className="fa-light fa-meter-bolt fa-4x mb-4 color-blue" />
-                        <p className="color-grey fs-20 mb-0">
+                        <i className="fa-light fa-coins fa-4x mb-4 color-blue" />
+                        <p className="fs-20 mb-0">
                             Do you want to stake? 🙂
                         </p>
                     </Modal.Body>
