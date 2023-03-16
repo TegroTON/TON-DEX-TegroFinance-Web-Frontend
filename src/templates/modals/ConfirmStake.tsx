@@ -7,7 +7,7 @@ import { tonClient } from '../../ton';
 import { Token } from '../../ton/dex/api/types';
 import { TON_ADDRESS } from '../../ton/dex/constants';
 import { Modal, Button } from 'react-bootstrap';
-import {addrToStr} from "../../ton/dex/utils";
+import { addrToStr } from "../../ton/dex/utils";
 
 export function ConfirmStakeModal() {
     const navigate = useNavigate();
@@ -45,7 +45,7 @@ export function ConfirmStakeModal() {
         //     : dexPair.createAddLiquidityRequest(inAmount, outAmount, walletInfo!.address);
 
         await walletInfo?.sendTransaction({
-            to: jettonWallet!.toString("base64", {bounceable: true}),
+            to: jettonWallet!.toString("base64", { bounceable: true }),
             value: new Coins(0.5).add(tonAmount)
                 .toNano(),
             payload: BOC.toBase64Standard(payload)
@@ -75,28 +75,35 @@ export function ConfirmStakeModal() {
     };
 
     return (
-        <div className="modal fade" id="ConfirmStake" tabIndex={-1} aria-hidden="true">
-            <div className="modal-dialog modal-dialog-centered mobile-modal-bottom">
-                <div className="modal-content p-4">
+        <>
+            <div className="modal fade" id="ConfirmStake" tabIndex={-1} aria-hidden="true">
+                <Modal.Dialog centered className="mobile-modal-bottom">
+                <Button
+              variant="icon btn-close position-absolute end-0 top-0 m-5"
+              data-bs-dismiss="modal" aria-label="Close"
+              style={{zIndex: '999'}}
+            />
                     <Modal.Body className="text-center py-5">
-                        <p className="fs-24 mb-5 pb-3">Do you want to stake?</p>
-                        <div className="d-flex flex-column flex-md-row justify-content-center">
-                            <Button className="btn btn-light me-0 me-md-3" data-bs-dismiss="modal" aria-label="Close">Cancel</Button>
-                            <Button className="btn btn-red mt-3 mt-md-0"
-                                data-bs-dismiss="modal"
-                                data-bs-toggle="modal"
-                                data-bs-target="#ProcessingModal"
-                                onClick={async () => {
-                                    await handleConfirm();
-                                }}
-                            >
-                                <i className="fa-regular fa-circle-plus me-2" />
-                                Confirm offer
-                            </Button>
-                        </div>
+                        <i className="fa-light fa-meter-bolt fa-4x mb-4 color-blue" />
+                        <p className="color-grey fs-20 mb-0">
+                            Do you want to stake? 🙂
+                        </p>
                     </Modal.Body>
-                </div>
+                    <Modal.Footer>
+                        <Button variant="light me-auto" data-bs-dismiss="modal" aria-label="Close">Cancel</Button>
+                        <Button variant="red"
+                            data-bs-dismiss="modal"
+                            data-bs-toggle="modal"
+                            data-bs-target="#ProcessingModal"
+                            onClick={async () => {
+                                await handleConfirm();
+                            }}
+                        >
+                            Confirm
+                        </Button>
+                    </Modal.Footer>
+                </Modal.Dialog>
             </div>
-        </div>
+        </>
     );
 }

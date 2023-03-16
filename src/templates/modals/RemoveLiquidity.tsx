@@ -46,7 +46,7 @@ export function RemoveLiquidityModal() {
                 <Modal.Body className="text-center py-5">
                     <i className="fa-light fa-trash-list fa-4x mb-4 color-blue" />
                     <p className="color-grey fs-20 mb-0">
-                        Are you sure you want to remove liquidity? 🤔
+                        Are you sure you want <br /> to remove liquidity? 🤔
                     </p>
                 </Modal.Body>
                 <Modal.Footer>

@@ -28,8 +28,8 @@ export function SettingsModal() {
                                 content={(<i className="fa-regular fa-circle-question fs-16 ms-2" />)}
                             />
                         </div>
-                        <Row className="align-items-center">
-                            <Col xs={4} lg={3} className="order-2 order-lg-1 mb-2 mb-lg-0">
+                        <Row className="align-items-center mx-0">
+                            <Col xs={4} lg={3} className="order-2 order-lg-1 mb-2 mb-lg-0 px-1">
                                 <a
                                     style={{ cursor: 'pointer' }}
                                     onClick={() => updateSlippage(0.1)}
@@ -38,7 +38,7 @@ export function SettingsModal() {
                                     0,1%
                                 </a>
                             </Col>
-                            <Col xs={4} lg={3} className="order-3 order-lg-2 mb-2 mb-lg-0">
+                            <Col xs={4} lg={3} className="order-3 order-lg-2 mb-2 mb-lg-0 px-1">
                                 <a
                                     style={{ cursor: 'pointer' }}
                                     onClick={() => updateSlippage(0.5)}
@@ -47,7 +47,7 @@ export function SettingsModal() {
                                     0,5%
                                 </a>
                             </Col>
-                            <Col xs={4} lg={3} className="order-4 order-lg-3 mb-2 mb-lg-0">
+                            <Col xs={4} lg={3} className="order-4 order-lg-3 mb-2 mb-lg-0 px-1">
                                 <a
                                     style={{ cursor: 'pointer' }}
                                     onClick={() => updateSlippage(1)}
@@ -56,7 +56,7 @@ export function SettingsModal() {
                                     1%
                                 </a>
                             </Col>
-                            <Col md={12} lg={3} className="order-1 order-lg-4 ">
+                            <Col md={12} lg={3} className="order-1 order-lg-4 px-1">
                                 <InputGroup className="mb-3 mb-sm-0">
                                     <Form.Control
                                         type="number"

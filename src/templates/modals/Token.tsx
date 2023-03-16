@@ -55,7 +55,7 @@ export function TokenModal(props: { side: 'Left' | 'Right' }) {
                 <Modal.Body>
                     <Form>
                         <InputGroup className="mb-3">
-                            <InputGroup.Text className="text-muted px-3">
+                            <InputGroup.Text className="text-muted px-2">
                                 <i className="fa-solid fa-magnifying-glass fa-lg" />
                             </InputGroup.Text>
                             <Form.Control
@@ -66,7 +66,7 @@ export function TokenModal(props: { side: 'Left' | 'Right' }) {
                                 {...register('search', {})}
                             />
                         </InputGroup>
-                        <div className="token-form__btns row mb-4" style={{ margin: "0 -4px" }}>
+                        {/* <div className="token-form__btns row mb-3" style={{ margin: "0 -4px" }}>
                             {tokens.slice(0, 3).map((token) => (
                                 <Form.Label
                                     className="col-4 btn btn-light flex-fill px-3 py-2 m-1"
@@ -87,8 +87,7 @@ export function TokenModal(props: { side: 'Left' | 'Right' }) {
                                     <span className="ms-2 fs-12">{token.symbol}</span>
                                 </Form.Label>
                             ))}
-                        </div>
-                        <h4 className="token-form__title fs-16 mb-4">Token Name</h4>
+                        </div> */}
                         <div className="token-form__list overflow-auto"
                             style={{ maxHeight: '408px' }}
                         >
@@ -101,7 +100,7 @@ export function TokenModal(props: { side: 'Left' | 'Right' }) {
                                 }
                                 return (
                                     <Form.Label
-                                        className="d-flex align-items-center hover rounded-8 p-3"
+                                        className="d-flex align-items-center hover rounded-8 px-2 py-3"
                                         data-bs-dismiss="modal"
                                         key={token.symbol}
                                     >
@@ -111,9 +110,13 @@ export function TokenModal(props: { side: 'Left' | 'Right' }) {
                                                 onChange: (event) => changeSelected(event.target.name),
                                             })}
                                         />
-                                        <img className="token-form__img rounded-circle" src={token.image} width="24px" height="24px" alt={token.symbol} />
-                                        <span className="token-form__symbol fw-500 ms-3">{token.symbol}</span>
-                                        <span className="token-form__name text-muted ms-auto">{token.name}</span>
+                                        <img className="token-form__img rounded-circle" src={token.image} width={40} height={40} alt={token.symbol} />
+                                        <div className="ms-3 me-auto">
+                                            <div className="token-form__symbol fw-500">{token.symbol}</div>
+                                            <div className="token-form__name fs-12 color-grey">{token.name}</div>
+                                        </div>
+                                        <i className="fa-solid fa-angle-right me-2 color-grey" />
+                                        {/* <div className="token-form__name fs-12 fw-500 color-grey">0.23 {token.symbol}</div> */}
                                     </Form.Label>
                                 );
                             })}
