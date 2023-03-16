@@ -101,6 +101,7 @@ body.dark-mode {
     --bg-hover: #fafcfe;
     --bg-form: #fcfdfe;
     --bg-card-header: #fcfdfe;
+    --bg-liner: linear-gradient(180deg, #e1eaf6 0%, rgba(225, 234, 246, 0) 100%);
     --text-primary: #020e21;
     --text-second: #515c6b;
     --border-color: #e8effb;
