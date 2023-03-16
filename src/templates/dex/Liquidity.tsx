@@ -96,14 +96,14 @@ export default function LiquidityPage() {
               )}
               {!walletInfo?.isConnected ? (
                 <Button
-                  variant="primary p-3 w-100"
+                  variant="primary fs-16 w-100"
                   type="button"
                   onClick={() => DeLabConnector.openModal()}
                 >
                   Connect Wallet
                 </Button>
               ) : (
-                <Link to="/liquidity-add" className="btn btn-red w-100">
+                <Link to="/liquidity-add" className="btn btn-red fs-16 w-100">
                   Add Liquidity
                 </Link>
               )}

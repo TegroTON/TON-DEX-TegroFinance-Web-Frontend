@@ -342,10 +342,15 @@ button.btn.btn-icon {
   width: 32px;
   border-radius: 50%;
   padding: 0!important;
+  border: 0!important;
 }
 
 .btn.btn-icon:hover {
   background: var(--btn-light)
+}
+
+.btn.btn-icon:active {
+  background: var(--btn-light-hover)
 }
 
 .btn[aria-expanded="true"] .fa-angle-down {

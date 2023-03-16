@@ -77,8 +77,8 @@ export function ReferralPage() {
                                         ) : ( 
                                             <Form.Control className="fs-14 opacity-50 color-grey" value="Connect your wallet to get a link" disabled />
                                         )}
-                                        <InputGroup.Text className="p-1">
-                                            <Button variant="outline-light btn-sm border-0 fs-14"
+                                        <InputGroup.Text className="px-2">
+                                            <Button variant="icon rounded border-0 fs-14"
                                                 onClick={() => navigator.clipboard.writeText(refUrl)}
                                             >
                                                 <i className="fa-regular fa-copy fa-lg" />
@@ -274,8 +274,8 @@ export function ReferralPage() {
                                         </>
                                     ) : (
                                         <th scope="col" className="text-center">
-                                            <div className="badge bg-soft-red fs-14 fw-500 p-3 rounded-8">
-                                                You don't have any referrals yet
+                                            <div className="bg-light fs-14 fw-500 p-3 rounded-8 d-inline">
+                                                You don't have any referrals yet 😕
                                             </div> 
                                         </th>
                                     )}
