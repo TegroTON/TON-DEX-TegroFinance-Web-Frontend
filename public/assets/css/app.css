@@ -292,6 +292,10 @@ body.dark-mode {
   }
 }
 
+html {
+  scrollbar-width: thin;
+}
+
 body {
   font-family: var(--font-primary);
   font-size: 0.875rem;
@@ -1247,7 +1251,7 @@ h3 {
   .navbar-collapse::-webkit-scrollbar {
     width: 4px;
   }
-
+  
   .navbar-collapse .navbar-nav {
     min-width: 100%;
   }
@@ -1735,6 +1739,10 @@ h3 {
 .overflow-auto::-webkit-scrollbar-track {
   background: var(--bg-primary);
   border-radius: 10px;
+}
+
+.overflow-auto {
+  scrollbar-width: thin;
 }
 
 .overflow-auto::-webkit-scrollbar-thumb {
