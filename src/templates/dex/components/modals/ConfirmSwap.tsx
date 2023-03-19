@@ -3,6 +3,7 @@ import { Address, BOC, Coins } from "ton3-core";
 import { DexContext, DexContextType } from "../../../../context";
 import { DexBetaPairContract } from "../../../../ton/dex/contracts/DexBetaPairContract";
 import { tonClient } from "../../../../ton";
+import { QRCode } from "react-qrcode-logo";
 import { Token } from "../../../../ton/dex/api/types";
 import { TON_ADDRESS } from "../../../../ton/dex/constants";
 import { Modal, Button } from "react-bootstrap";
@@ -10,8 +11,8 @@ import { CoinsToDecimals, getOutAmount } from "../../../../ton/dex/utils";
 import { ProcessingModal } from "./Processing";
 
 export function ConfirmSwapModal(props: any) {
+  const { walletInfo } = useContext(DexContext) as DexContextType;
   const {
-    walletInfo,
     swapLeft,
     swapRight,
     swapPairs,
@@ -126,12 +127,24 @@ export function ConfirmSwapModal(props: any) {
     // throw Error('Payment Channel not open')
   };
 
+  const [showConfirmSwap, setShowConfirmSwap] = useState(false);
+  const toggleConfirmModal = () => {
+    setShowConfirmSwap((current) => !current);
+  };
+
+  const [showProcessingModal, setShowProcessingModal] = useState(false);
+
+  const ProcessingModalClose = () => setShowProcessingModal(false);
+  const ProcessingModalShow = () => setShowProcessingModal(true);
 
   return (
     <>
+      <Button variant="primary fs-16 w-100" onClick={toggleConfirmModal}>
+        Exchange
+      </Button>
       <Modal
-        show={props.toggle}
-        onHide={props.toggle}
+        show={showConfirmSwap}
+        onHide={toggleConfirmModal}
         centered
         className="mobile-modal-bottom"
       >
@@ -174,10 +187,15 @@ export function ConfirmSwapModal(props: any) {
           </ul>
         </Modal.Body>
         <Modal.Footer className="border-0 pt-2">
-          <Button className="btn btn-light me-auto" onClick={props.toggle}>
+          <Button className="btn btn-light me-auto" onClick={toggleConfirmModal}>
             Cancel
           </Button>
-          <div onClick={props.processing}>
+          <div
+            onClick={() => {
+              setShowProcessingModal(true);
+              setShowConfirmSwap(false);
+            }}
+          >
             <Button
               className="btn btn-red"
               onClick={async () => {
@@ -190,6 +208,9 @@ export function ConfirmSwapModal(props: any) {
           </div>
         </Modal.Footer>
       </Modal>
+
+      {/* Processing Modal  */}
+     <ProcessingModal  toggleShow={showProcessingModal} toggleClose={ProcessingModalClose} />
     </>
   );
 }

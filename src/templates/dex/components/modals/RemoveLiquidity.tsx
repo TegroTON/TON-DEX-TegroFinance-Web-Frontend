@@ -1,8 +1,9 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Address, BOC, Builder, Coins } from "ton3-core";
 import { tonClient } from "../../../../ton";
 import { DexContext, DexContextType } from "../../../../context";
 import { Modal, Button } from "react-bootstrap";
+import { ProcessingModal } from "./Processing";
 
 export function RemoveLiquidityModal(props: any) {
   const { walletInfo, removePosition, poolPositions } = useContext(
@@ -45,38 +46,62 @@ export function RemoveLiquidityModal(props: any) {
       }
     }, 1000);
   };
+
+  const [showRemoveLiquidityModal, setShowRemoveLiquidityModal] =
+    useState(false);
+  const toggleRemoveLiquidityModal = () => {
+    setShowRemoveLiquidityModal((current) => !current);
+  };
+
+  const [showProcessingModal, setShowProcessingModal] = useState(false);
+
+  const ProcessingModalClose = () => setShowProcessingModal(false);
+  const ProcessingModalShow = () => setShowProcessingModal(true);
+
   return (
-    <Modal
-      show={props.toggle}
-      onHide={props.toggle}
-      centered
-      className="mobile-modal-bottom"
-    >
-      <Modal.Body className="text-center py-5">
-        <i className="fa-light fa-trash-list fa-4x mb-4 color-blue" />
-        <p className="fs-20 mb-0">
-          Are you sure you want <br /> to remove liquidity? 🤔
-        </p>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button
-          variant="light me-auto"
-          onClick={props.toggle}
-        >
-          Cancel
-        </Button> 
-        <div onClick={props.processing}>
-          <Button
-            className="btn btn-red ms-auto"
-            onClick={async () => {
-              await handleConfirm();
+    <>
+      <Button variant="light btn-sm" onClick={toggleRemoveLiquidityModal}>
+        <i className="fa-regular fa-trash-can me-2" /> Remove Liquidity
+      </Button>
+      <Modal
+        show={showRemoveLiquidityModal}
+        onHide={toggleRemoveLiquidityModal}
+        centered
+        className="mobile-modal-bottom"
+      >
+        <Modal.Body className="text-center py-5">
+          <i className="fa-light fa-trash-list fa-4x mb-4 color-blue" />
+          <p className="fs-20 mb-0">
+            Are you sure you want <br /> to remove liquidity? 🤔
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="light me-auto" onClick={toggleRemoveLiquidityModal}>
+            Cancel
+          </Button>
+          <div
+            onClick={() => {
+              setShowProcessingModal(true);
+              setShowRemoveLiquidityModal(false);
             }}
           >
-            <i className="fa-regular fa-trash-can me-2"></i>
-            Remove Liquidity
-          </Button>
-        </div>
-      </Modal.Footer>
-    </Modal>
+            <Button
+              className="btn btn-red ms-auto"
+              onClick={async () => {
+                await handleConfirm();
+              }}
+            >
+              <i className="fa-regular fa-trash-can me-2"></i>
+              Remove Liquidity
+            </Button>
+          </div>
+        </Modal.Footer>
+      </Modal>
+      {/* Processing Modal  */}
+      <ProcessingModal
+        toggleShow={showProcessingModal}
+        toggleClose={ProcessingModalClose}
+      />
+    </>
   );
 }

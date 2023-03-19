@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Address, BOC, Coins } from "ton3-core";
 import { useNavigate } from "react-router-dom";
 import { DexContext, DexContextType } from "../../../../context";
@@ -8,6 +8,7 @@ import { Token } from "../../../../ton/dex/api/types";
 import { TON_ADDRESS } from "../../../../ton/dex/constants";
 import { Modal, Button } from "react-bootstrap";
 import { addrToStr } from "../../../../ton/dex/utils";
+import { ProcessingModal } from "./Processing";
 
 export function ConfirmStakeModal(props: any) {
   const navigate = useNavigate();
@@ -77,11 +78,24 @@ export function ConfirmStakeModal(props: any) {
     // throw Error('Payment Channel not open')
   };
 
+  const [showConfirmStake, setShowConfirmStake] = useState(false);
+  const toggleConfirmStakeModal = () => {
+    setShowConfirmStake((current) => !current);
+  };
+
+  const [showProcessingModal, setShowProcessingModal] = useState(false);
+
+  const ProcessingModalClose = () => setShowProcessingModal(false);
+  const ProcessingModalShow = () => setShowProcessingModal(true);
+
   return (
     <>
+      <Button variant="primary fs-16 w-100" onClick={toggleConfirmStakeModal}>
+        Add Liquidity
+      </Button>
       <Modal
-        show={props.toggle}
-        onHide={props.toggle}
+        show={showConfirmStake}
+        onHide={toggleConfirmStakeModal}
         centered
         className="mobile-modal-bottom"
       >
@@ -93,7 +107,12 @@ export function ConfirmStakeModal(props: any) {
           <Button className="btn btn-light me-auto" onClick={props.toggle}>
             Cancel
           </Button>
-          <div onClick={props.processing}>
+          <div
+            onClick={() => {
+              setShowProcessingModal(true);
+              setShowConfirmStake(false);
+            }}
+          >
             <Button
               variant="red"
               data-bs-dismiss="modal"
@@ -108,6 +127,11 @@ export function ConfirmStakeModal(props: any) {
           </div>
         </Modal.Footer>
       </Modal>
+
+      <ProcessingModal
+        toggleShow={showProcessingModal}
+        toggleClose={ProcessingModalClose}
+      />
     </>
   );
 }

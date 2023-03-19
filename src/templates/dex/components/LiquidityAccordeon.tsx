@@ -37,12 +37,6 @@ export function LiquidityAccordionComponent({
     ),
   };
 
-  const [showRemoveLiquidityModal, setShowRemoveLiquidityModal] = useState(false);
-  const toggleRemoveLiquidityModal = () => {setShowRemoveLiquidityModal((current) => !current)}
-  
-  const [showProcessingModal, setShowProcessingModal] = useState(false);
-  const toggleProcessingModal = () => {setShowProcessingModal((current) => !current)}
-
   return (
     <>
       <div className="accordion mb-4" id={`accordionLiquidity${k}`}>
@@ -117,29 +111,11 @@ export function LiquidityAccordionComponent({
               </li>
             </ul>
             <div className="text-center mt-3">
-              <Button
-                onClick={toggleRemoveLiquidityModal}
-                variant="light btn-sm"
-              >
-                <i className="fa-regular fa-trash-can me-2" />
-                Remove Liquidity
-              </Button>
+              <RemoveLiquidityModal />
             </div>
           </div>
         </div>
       </div>
-
-      {showRemoveLiquidityModal && (
-        <RemoveLiquidityModal toggle={toggleRemoveLiquidityModal}
-        processing={async () => {
-            setShowProcessingModal(true);
-            setShowRemoveLiquidityModal(false);
-          }}
-        />
-      )}
-      {showProcessingModal && (
-        <ProcessingModal toggle={toggleProcessingModal} />
-      )}
     </>
   );
 }

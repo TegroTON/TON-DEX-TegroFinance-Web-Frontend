@@ -173,14 +173,6 @@ export default function AddLiquidityPage() {
   console.log("share", share);
   // console.log("res", leftReserved.toString(), rightReserved.toString())
 
-  const [showConfirmStake, setShowConfirmStake] = useState(false);
-  const toggleConfirmStake = () => {
-    setShowConfirmStake((current) => !current);
-  };
-  const [showProcessingModal, setShowProcessingModal] = useState(false);
-  const toggleProcessingModal = () => {
-    setShowProcessingModal((current) => !current);
-  };
 
   return (
     <Container>
@@ -318,12 +310,7 @@ export default function AddLiquidityPage() {
               </ListGroup>
               {sufficient ? (
                 sufficient > 0 ? (
-                  <Button
-                    className="btn btn-red w-100"
-                    onClick={toggleConfirmStake}
-                  >
-                    Add Liquidity
-                  </Button>
+                   <ConfirmStakeModal />
                 ) : (
                   <div className="btn btn-red text-center fs-16 w-100 rounded-8 disabled">
                     {`Insufficient ${from.symbol} or ${to.symbol} balance`}
@@ -357,18 +344,6 @@ export default function AddLiquidityPage() {
           </div>
         </Col>
       </Row>
-      {showConfirmStake && (
-        <ConfirmStakeModal
-          toggle={toggleConfirmStake}
-          processing={() => {
-            setShowProcessingModal(true);
-            setShowConfirmStake(false);
-          }}
-        />
-      )}
-      {showProcessingModal && (
-        <ProcessingModal toggle={toggleProcessingModal} />
-      )}
     </Container>
   );
 }

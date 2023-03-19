@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { QRCode } from "react-qrcode-logo";
 import { DexContext, DexContextType } from "../../../../context";
 import { Modal } from "react-bootstrap";
@@ -10,8 +10,8 @@ export function ProcessingModal(props: any) {
 
   return (
     <Modal
-      show={props.toggle}
-      onHide={props.toggle}
+      show={props.toggleShow}
+      onHide={props.toggleClose}
       centered
       className="mobile-modal-bottom"
     >

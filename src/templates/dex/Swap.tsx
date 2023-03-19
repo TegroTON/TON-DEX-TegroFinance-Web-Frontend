@@ -185,15 +185,6 @@ export default function SwapPage() {
 
   const [checked, setChecked] = useState(false);
 
-  const [showConfirmSwap, setShowConfirmSwap] = useState(false);
-  const toggleConfirmModal = () => {setShowConfirmSwap((current) => !current)}
-
-  const [showProcessingModal, setShowProcessingModal] = useState(false);
-  const toggleProcessingModal = () => {setShowProcessingModal((current) => !current)}
-
-  const [showSettingsModal, setShowSettingsModal] = useState(false);
-  const toggleSettingsModal = () => {setShowSettingsModal((current) => !current)}
-
 
   return (
     <Container>
@@ -208,12 +199,7 @@ export default function SwapPage() {
               <Card.Title className="card-title fw-600 me-auto">
                 Swap
               </Card.Title>
-              <Button
-                variant="icon p-0 border-0"
-                onClick={toggleSettingsModal}
-              >
-                <i className="fa-regular fa-gear fa-lg" />
-              </Button>
+              <SettingsModal />
             </Card.Header>
             <Form className="p-4">
               <Form.Group className="mb-4">
@@ -410,12 +396,7 @@ export default function SwapPage() {
                   sufficient ? (
                     sufficient > 0 ? (
                       <>
-                        <Button
-                          variant="primary fs-16 w-100"
-                          onClick={toggleConfirmModal}
-                        >
-                          Exchange
-                        </Button>
+                        <ConfirmSwapModal />
                       </>
                     ) : (
                       <div className="btn btn-primary text-center fs-16 w-100 rounded-8 disabled">
@@ -441,21 +422,6 @@ export default function SwapPage() {
           </Card>
         </Col>
       </Row>
-      {showConfirmSwap && (
-        <ConfirmSwapModal
-          toggle={toggleConfirmModal}
-          processing={() => {
-            setShowProcessingModal(true);
-            setShowConfirmSwap(false);
-          }}
-        />
-      )}
-      {showProcessingModal && (
-        <ProcessingModal toggle={toggleProcessingModal} />
-      )}
-      {showSettingsModal && (
-        <SettingsModal toggle={toggleSettingsModal} />
-      )}
     </Container>
   );
 }
