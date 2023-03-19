@@ -4,6 +4,7 @@ import { tonClient } from "../../../../ton";
 import { DexContext, DexContextType } from "../../../../context";
 import { Modal, Button } from "react-bootstrap";
 import { ProcessingModal } from "./Processing";
+import { CheckModal } from "./CheckModal";
 
 export function RemoveLiquidityModal(props: any) {
   const { walletInfo, removePosition, poolPositions } = useContext(
@@ -58,6 +59,11 @@ export function RemoveLiquidityModal(props: any) {
   const ProcessingModalClose = () => setShowProcessingModal(false);
   const ProcessingModalShow = () => setShowProcessingModal(true);
 
+  const [showCheckModal, setShowCheckModal] = useState(false);
+  const CheckModalClose = () => setShowCheckModal(false);
+  const CheckModalShow = () => setShowCheckModal(true);
+
+  
   return (
     <>
       <Button variant="light btn-sm" onClick={toggleRemoveLiquidityModal}>
@@ -86,6 +92,7 @@ export function RemoveLiquidityModal(props: any) {
                 setShowProcessingModal(true);
                 await handleConfirm();
                 await setShowProcessingModal(false);
+                await setShowCheckModal(true);
               }}
             >
               <i className="fa-regular fa-trash-can me-2"></i>
@@ -98,6 +105,7 @@ export function RemoveLiquidityModal(props: any) {
         toggleShow={showProcessingModal}
         toggleClose={ProcessingModalClose}
       />
+      <CheckModal toggleShow={showCheckModal} toggleClose={CheckModalClose} />
     </>
   );
 }

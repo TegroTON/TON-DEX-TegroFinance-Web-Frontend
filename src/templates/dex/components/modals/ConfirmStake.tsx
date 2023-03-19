@@ -9,6 +9,7 @@ import { TON_ADDRESS } from "../../../../ton/dex/constants";
 import { Modal, Button } from "react-bootstrap";
 import { addrToStr } from "../../../../ton/dex/utils";
 import { ProcessingModal } from "./Processing";
+import { CheckModal } from "./CheckModal";
 
 export function ConfirmStakeModal(props: any) {
   const navigate = useNavigate();
@@ -88,6 +89,10 @@ export function ConfirmStakeModal(props: any) {
   const ProcessingModalClose = () => setShowProcessingModal(false);
   const ProcessingModalShow = () => setShowProcessingModal(true);
 
+  const [showCheckModal, setShowCheckModal] = useState(false);
+  const CheckModalClose = () => setShowCheckModal(false);
+  const CheckModalShow = () => setShowCheckModal(true);
+
   return (
     <>
       <Button variant="primary fs-16 w-100" onClick={toggleConfirmStakeModal}>
@@ -114,6 +119,7 @@ export function ConfirmStakeModal(props: any) {
                 setShowProcessingModal(true);
                 await handleConfirm();
                 await setShowProcessingModal(false);
+                await setShowCheckModal(true);
               }}
             >
               Confirm
@@ -125,6 +131,7 @@ export function ConfirmStakeModal(props: any) {
         toggleShow={showProcessingModal}
         toggleClose={ProcessingModalClose}
       />
+      <CheckModal toggleShow={showCheckModal} toggleClose={CheckModalClose} />
     </>
   );
 }
