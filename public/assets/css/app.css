@@ -651,6 +651,10 @@ h3 {
   color: var(--blue-500);
 }
 
+.bg-soft-blue.border {
+  border-color: var(--blue-100)!important;
+}
+
 .bg-soft-purple {
   background-color: var(--purple-100);
   color: var(--purple-500);
@@ -1641,8 +1645,8 @@ h3 {
         min-height: auto;
     }
 
-    .modal.fade .modal-dialog.mobile-modal-bottom {
-        transform: translate(0,16px)!important
+    .mobile-modal-bottom .modal-dialog {
+        transform: translate(0, 16px)!important
     }
 }
 

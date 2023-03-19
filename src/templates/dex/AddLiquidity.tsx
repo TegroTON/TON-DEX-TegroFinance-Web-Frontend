@@ -319,20 +319,18 @@ export default function AddLiquidityPage() {
               {sufficient ? (
                 sufficient > 0 ? (
                   <Button
-                    className="btn btn-primary w-100"
+                    className="btn btn-red w-100"
                     onClick={toggleConfirmStake}
                   >
                     Add Liquidity
                   </Button>
                 ) : (
-                  <div className="bg-soft-red text-center fs-16 fw-500 p-3 w-100 rounded-8">
-                    <i className="fa-regular fa-circle-info me-2" />
+                  <div className="btn btn-red text-center fs-16 w-100 rounded-8 disabled">
                     {`Insufficient ${from.symbol} or ${to.symbol} balance`}
                   </div>
                 )
               ) : (
-                <div className="bg-soft-green text-center fs-16 fw-500 p-3 w-100 rounded-8">
-                  <i className="fa-regular fa-circle-info me-2" />
+                <div className="btn btn-red text-center fs-16 w-100 rounded-8 disabled">
                   Enter an amount
                 </div>
               )}

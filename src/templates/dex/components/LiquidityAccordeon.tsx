@@ -119,7 +119,7 @@ export function LiquidityAccordionComponent({
             <div className="text-center mt-3">
               <Button
                 onClick={toggleRemoveLiquidityModal}
-                variant="outline-red btn-sm"
+                variant="light btn-sm"
               >
                 <i className="fa-regular fa-trash-can me-2" />
                 Remove Liquidity

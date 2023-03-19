@@ -418,14 +418,12 @@ export default function SwapPage() {
                         </Button>
                       </>
                     ) : (
-                      <div className="bg-soft-red text-center fs-16 fw-500 p-3 w-100 rounded-8">
-                        <i className="fa-regular fa-circle-info me-2" />{" "}
+                      <div className="btn btn-primary text-center fs-16 w-100 rounded-8 disabled">
                         {`Insufficient ${swapLeft.token.symbol} balance`}
                       </div>
                     )
                   ) : (
-                    <div className="bg-soft-green text-center fs-16 fw-500 p-3 w-100 rounded-8">
-                      <i className="fa-regular fa-circle-info me-2" /> 
+                    <div className="btn btn-primary text-center fs-16 w-100 rounded-8 disabled">
                       Enter an amount
                     </div>
                   )

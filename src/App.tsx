@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Router, Routes } from "react-router-dom";
 import { DefaultLayout } from "./layouts";
 import { AddLiquidityPage, LiquidityPage, SwapPage } from "./templates/dex";
 import { ReferralPage } from "./templates/dex/Referral";
@@ -10,6 +10,10 @@ import { IDOPage } from "./templates/dex/IDO";
 import { FarmsPage } from "./templates/dex/Farms";
 
 export default function App() {
+
+
+
+
   return (
     <>
       <Routes>
