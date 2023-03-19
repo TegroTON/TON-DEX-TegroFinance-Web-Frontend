@@ -107,22 +107,17 @@ export function ConfirmStakeModal(props: any) {
           <Button className="btn btn-light me-auto" onClick={props.toggle}>
             Cancel
           </Button>
-          <div
-            onClick={() => {
-              setShowProcessingModal(true);
-              setShowConfirmStake(false);
-            }}
-          >
             <Button
               variant="red"
               onClick={async () => {
+                setShowConfirmStake(false);
+                setShowProcessingModal(true);
                 await handleConfirm();
                 await setShowProcessingModal(false);
               }}
             >
               Confirm
             </Button>
-          </div>
         </Modal.Footer>
       </Modal>
 

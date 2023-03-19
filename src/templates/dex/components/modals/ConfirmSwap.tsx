@@ -190,23 +190,19 @@ export function ConfirmSwapModal(props: any) {
           <Button className="btn btn-light me-auto" onClick={toggleConfirmModal}>
             Cancel
           </Button>
-          <div
-            onClick={() => {
-              setShowProcessingModal(true);
-              setShowConfirmSwap(false);
-            }}
-          >
             <Button
               className="btn btn-red"
               onClick={async () => {
+                setShowConfirmSwap(false);
+                setShowProcessingModal(true);
                 await handleConfirm();
                 await setShowProcessingModal(false);
-              }}
+              }
+            }
             >
               <i className="fa-regular fa-circle-plus me-2" />
               Confirm offer
             </Button>
-          </div>
         </Modal.Footer>
       </Modal>
 

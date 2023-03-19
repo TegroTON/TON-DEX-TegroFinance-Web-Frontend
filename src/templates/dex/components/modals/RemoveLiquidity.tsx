@@ -79,15 +79,11 @@ export function RemoveLiquidityModal(props: any) {
           <Button variant="light me-auto" onClick={toggleRemoveLiquidityModal}>
             Cancel
           </Button>
-          <div
-            onClick={() => {
-              setShowProcessingModal(true);
-              setShowRemoveLiquidityModal(false);
-            }}
-          >
             <Button
               className="btn btn-red ms-auto"
               onClick={async () => {
+                setShowRemoveLiquidityModal(false);
+                setShowProcessingModal(true);
                 await handleConfirm();
                 await setShowProcessingModal(false);
               }}
@@ -95,7 +91,6 @@ export function RemoveLiquidityModal(props: any) {
               <i className="fa-regular fa-trash-can me-2"></i>
               Remove Liquidity
             </Button>
-          </div>
         </Modal.Footer>
       </Modal>
       {/* Processing Modal  */}

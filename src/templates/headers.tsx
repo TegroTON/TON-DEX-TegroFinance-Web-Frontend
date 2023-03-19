@@ -84,11 +84,7 @@ export function DefaultHeader() {
                       alt="Ton Coin"
                     />
                     <span className="fw-medium ms-2">
-                      {`${
-                        walletInfo.balance
-                          ? ~~walletInfo.balance.toString()
-                          : "Load..."
-                      } TON`}
+                      {`${walletInfo.balance.toString().slice(0, -7)} TON`}
                     </span>
                     <i className="fa-solid fa-angle-down ms-3" />
                   </Nav.Link>
@@ -744,7 +740,7 @@ export function DefaultHeader() {
                             <span className="fw-600 ms-2">
                               {`${walletInfo.balance
                                 .toString()
-                                .slice(0, 6)} TON`}
+                                .slice(0, -7)} TON`}
                             </span>
                             <i className="fa-solid fa-angle-down ms-3" />
                           </div>
