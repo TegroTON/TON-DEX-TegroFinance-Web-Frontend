@@ -47,8 +47,8 @@ export function TokenModal(props: { side: 'Left' | 'Right' }) {
     };
 
     return (
-        <div className="modal fade" id={`TokenModal${side}`} tabIndex={-1} aria-hidden="true">
-            <Modal.Dialog centered className="mobile-modal-bottom">
+        <div className="modal fade mobile-modal-bottom" id={`TokenModal${side}`} tabIndex={-1} aria-hidden="true">
+            <Modal.Dialog centered>
                 <Modal.Header data-bs-dismiss="modal" aria-label="Close" closeButton>
                     <Modal.Title>Select a token</Modal.Title>
                 </Modal.Header>

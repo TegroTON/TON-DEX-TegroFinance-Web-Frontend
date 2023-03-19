@@ -25,7 +25,7 @@ export function ProcessingModal(props: any) {
             <span className="dot-three">.</span>
           </span>
         </h2>
-        <p>
+        
           {walletInfo?.approveLink !== "" ? (
             <QRCode
               value={walletInfo?.approveLink}
@@ -38,7 +38,6 @@ export function ProcessingModal(props: any) {
               fgColor="#fff"
             />
           ) : null}
-        </p>
         {/* <p className="text-muted mb-0"> */}
         {/*    {`Your ${symbol} will be credited to your account `} */}
         {/*    <br /> */}

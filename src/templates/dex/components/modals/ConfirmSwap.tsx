@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Address, BOC, Coins } from "ton3-core";
 import { DexContext, DexContextType } from "../../../../context";
 import { DexBetaPairContract } from "../../../../ton/dex/contracts/DexBetaPairContract";
@@ -9,6 +9,7 @@ import { TON_ADDRESS } from "../../../../ton/dex/constants";
 import { Modal, Button } from "react-bootstrap";
 import { CoinsToDecimals, getOutAmount } from "../../../../ton/dex/utils";
 import { ProcessingModal } from "./Processing";
+import { CheckModal } from "./CheckModal";
 
 export function ConfirmSwapModal(props: any) {
   const { walletInfo } = useContext(DexContext) as DexContextType;
@@ -137,6 +138,10 @@ export function ConfirmSwapModal(props: any) {
   const ProcessingModalClose = () => setShowProcessingModal(false);
   const ProcessingModalShow = () => setShowProcessingModal(true);
 
+  const [showCheckModal, setShowCheckModal] = useState(false);
+  const CheckModalClose = () => setShowCheckModal(false);
+  const CheckModalShow = () => setShowCheckModal(true);
+ 
   return (
     <>
       <Button variant="primary fs-16 w-100" onClick={toggleConfirmModal}>
@@ -155,7 +160,7 @@ export function ConfirmSwapModal(props: any) {
           <div className="d-flex align-items-center mb-4">
             <img src={to.image} width="48" height="48" alt={to.name} />
             <div className="ms-4">
-              <h4 className="fs-20 fw-900 mb-0">{`${outAmount} ${to.symbol}`}</h4>
+              <h4 className="fs-20 fw-700 mb-0">{`${outAmount} ${to.symbol}`}</h4>
               <p className="mb-0 fw-500 color-grey">{`${from.name} / ${to.name}`}</p>
             </div>
           </div>
@@ -187,27 +192,34 @@ export function ConfirmSwapModal(props: any) {
           </ul>
         </Modal.Body>
         <Modal.Footer className="border-0 pt-2">
-          <Button className="btn btn-light me-auto" onClick={toggleConfirmModal}>
+          <Button
+            className="btn btn-light me-auto"
+            onClick={toggleConfirmModal}
+          >
             Cancel
           </Button>
-            <Button
-              className="btn btn-red"
-              onClick={async () => {
-                setShowConfirmSwap(false);
-                setShowProcessingModal(true);
-                await handleConfirm();
-                await setShowProcessingModal(false);
-              }
-            }
-            >
-              <i className="fa-regular fa-circle-plus me-2" />
-              Confirm offer
-            </Button>
+          <Button
+            className="btn btn-red"
+            onClick={async () => {
+              setShowConfirmSwap(false);
+              setShowProcessingModal(true);
+              await handleConfirm();
+              await setShowProcessingModal(false);
+              await setShowCheckModal(true);
+            }}
+          >
+            <i className="fa-regular fa-circle-plus me-2" />
+            Confirm offer
+          </Button>
         </Modal.Footer>
       </Modal>
 
       {/* Processing Modal  */}
-     <ProcessingModal  toggleShow={showProcessingModal} toggleClose={ProcessingModalClose} />
+      <ProcessingModal
+        toggleShow={showProcessingModal}
+        toggleClose={ProcessingModalClose}
+      />
+      <CheckModal toggleShow={showCheckModal} toggleClose={CheckModalClose} />
     </>
   );
 }
