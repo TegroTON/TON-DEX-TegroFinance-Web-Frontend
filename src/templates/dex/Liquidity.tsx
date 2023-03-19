@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavComponent } from "./components/Nav";
 import { LiquidityAccordionComponent } from "./components/LiquidityAccordeon";
 import { DexContext, DexContextType } from "../../context";
@@ -31,6 +31,7 @@ export default function LiquidityPage() {
   // }, [walletInfo?.balance, walletInfo?.isConnected, pairs]);
 
   // console.log(poolPositions)
+
 
   return (
     <Container>

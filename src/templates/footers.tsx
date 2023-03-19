@@ -1,8 +1,4 @@
-import {
-    ConfirmSwapModal, RemoveLiquidityModal, SettingsModal, TokenModal,
-} from './modals';
-import { ProcessingModal } from './modals/Processing';
-import { ConfirmStakeModal } from './modals/ConfirmStake';
+import { TokenModal } from './modals/Token';
 export function DefaultFooter() {
     return (
         <>
@@ -41,11 +37,6 @@ export function DefaultFooter() {
             </footer>
             <TokenModal side="Left" />
             <TokenModal side="Right" />
-            <RemoveLiquidityModal />
-            <ConfirmSwapModal />
-            <ConfirmStakeModal />
-            <SettingsModal />
-            <ProcessingModal />
         </>
     );
 }

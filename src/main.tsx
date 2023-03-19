@@ -7,6 +7,7 @@ import { ScrollToTop } from './ScrollToTop';
 import { DexContextProvider } from './context';
 import { DeLabContextProvider } from './deLabContext';
 import { RecoilRoot } from 'recoil';
+    // import '../public/assets/css/app.min.css';
 
 // console.log('test');
 // walletService.registerAdapter('ton-wallet', new TonWalletWalletAdapter(tonClient, new TonWalletClient(window)));

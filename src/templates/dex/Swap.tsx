@@ -23,6 +23,9 @@ import { log } from "util";
 import { StartPair } from "../../types";
 import { useLocation } from "react-router";
 import { CoinsToDecimals } from "../../ton/dex/utils";
+import { ConfirmSwapModal } from "./components/modals/ConfirmSwap";
+import { ProcessingModal } from "./components/modals/Processing";
+import { SettingsModal } from "./components/modals/Settings";
 
 export default function SwapPage() {
   const navigator = useNavigate();
@@ -182,31 +185,43 @@ export default function SwapPage() {
 
   const [checked, setChecked] = useState(false);
 
+  const [showConfirmSwap, setShowConfirmSwap] = useState(false);
+  const toggleConfirmModal = () => {setShowConfirmSwap((current) => !current)}
+
+  const [showProcessingModal, setShowProcessingModal] = useState(false);
+  const toggleProcessingModal = () => {setShowProcessingModal((current) => !current)}
+
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const toggleSettingsModal = () => {setShowSettingsModal((current) => !current)}
+
+
   return (
     <Container>
       <Row className="justify-content-md-center">
         <Col lg={7} xl={5}>
           <NavComponent />
           <Card className="p-0">
-            <Card.Header className="d-flex align-items-center border-bottom-light" style={{padding: '20px 24px 20px 24px'}}>
-            <Card.Title className="card-title fw-600 me-auto">
+            <Card.Header
+              className="d-flex align-items-center border-bottom-light"
+              style={{ padding: "20px 24px 20px 24px" }}
+            >
+              <Card.Title className="card-title fw-600 me-auto">
                 Swap
               </Card.Title>
               <Button
                 variant="icon p-0 border-0"
-                data-bs-toggle="modal"
-                data-bs-target="#SettingsModal"
+                onClick={toggleSettingsModal}
               >
                 <i className="fa-regular fa-gear fa-lg" />
               </Button>
             </Card.Header>
             <Form className="p-4">
               <Form.Group className="mb-4">
-                  <Form.Label className="d-flex align-items-end mb-2 px-2">
-                    <span className="fw-500"> From: </span>
-                    <span className="color-grey ms-1">
-                      {swapLeft.token.symbol}
-                    </span>
+                <Form.Label className="d-flex align-items-end mb-2 px-2">
+                  <span className="fw-500"> From: </span>
+                  <span className="color-grey ms-1">
+                    {swapLeft.token.symbol}
+                  </span>
                   {walletInfo ? (
                     <div className="text-end small fw-500 ms-auto">
                       <div className="color-grey">Balance:</div>
@@ -215,7 +230,7 @@ export default function SwapPage() {
                   ) : (
                     <></>
                   )}
-                  </Form.Label>
+                </Form.Label>
                 <InputGroup className="mb-3">
                   <InputGroup.Text className="p-1">
                     <Button
@@ -285,11 +300,11 @@ export default function SwapPage() {
                 </label>
               </Form.Group>
               <Form.Group className="mb-4">
-                  <Form.Label className="d-flex align-items-end mb-2 px-2">
-                    <span className="fw-500"> To: </span>
-                    <span className="color-grey ms-1">
-                      {swapRight.token.symbol}
-                    </span>
+                <Form.Label className="d-flex align-items-end mb-2 px-2">
+                  <span className="fw-500"> To: </span>
+                  <span className="color-grey ms-1">
+                    {swapRight.token.symbol}
+                  </span>
                   {walletInfo ? (
                     <div className="text-end small fw-500 ms-auto">
                       <div className="color-grey">Balance:</div>
@@ -394,14 +409,14 @@ export default function SwapPage() {
                 {walletInfo?.isConnected ? (
                   sufficient ? (
                     sufficient > 0 ? (
-                      <Button
-                        variant="primary fs-16 w-100"
-                        type="button"
-                        data-bs-toggle="modal"
-                        data-bs-target="#ConfirmSwap"
-                      >
-                        Exchange
-                      </Button>
+                      <>
+                        <Button
+                          variant="primary fs-16 w-100"
+                          onClick={toggleConfirmModal}
+                        >
+                          Exchange
+                        </Button>
+                      </>
                     ) : (
                       <div className="bg-soft-red text-center fs-16 fw-500 p-3 w-100 rounded-8">
                         <i className="fa-regular fa-circle-info me-2" />{" "}
@@ -410,7 +425,8 @@ export default function SwapPage() {
                     )
                   ) : (
                     <div className="bg-soft-green text-center fs-16 fw-500 p-3 w-100 rounded-8">
-                      <i className="fa-regular fa-circle-info me-2" /> Enter an amount
+                      <i className="fa-regular fa-circle-info me-2" /> 
+                      Enter an amount
                     </div>
                   )
                 ) : (
@@ -427,6 +443,21 @@ export default function SwapPage() {
           </Card>
         </Col>
       </Row>
+      {showConfirmSwap && (
+        <ConfirmSwapModal
+          toggle={toggleConfirmModal}
+          processing={() => {
+            setShowProcessingModal(true);
+            setShowConfirmSwap(false);
+          }}
+        />
+      )}
+      {showProcessingModal && (
+        <ProcessingModal toggle={toggleProcessingModal} />
+      )}
+      {showSettingsModal && (
+        <SettingsModal toggle={toggleSettingsModal} />
+      )}
     </Container>
   );
 }

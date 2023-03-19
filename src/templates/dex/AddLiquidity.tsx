@@ -18,6 +18,8 @@ import {
   ListGroup,
 } from "react-bootstrap";
 import { CoinsToDecimals } from "../../ton/dex/utils";
+import { ConfirmStakeModal } from "./components/modals/ConfirmStake";
+import { ProcessingModal } from "./components/modals/Processing";
 
 const calcShare = (amount: Coins, reserved: Coins): number => {
   if (reserved.isZero()) {
@@ -171,27 +173,37 @@ export default function AddLiquidityPage() {
   console.log("share", share);
   // console.log("res", leftReserved.toString(), rightReserved.toString())
 
+  const [showConfirmStake, setShowConfirmStake] = useState(false);
+  const toggleConfirmStake = () => {
+    setShowConfirmStake((current) => !current);
+  };
+  const [showProcessingModal, setShowProcessingModal] = useState(false);
+  const toggleProcessingModal = () => {
+    setShowProcessingModal((current) => !current);
+  };
+
   return (
     <Container>
       <Row className="justify-content-md-center">
         <Col lg={7} xl={5}>
           <NavComponent />
           <Card className="p-0">
-          <Card.Header className="d-flex align-items-center border-bottom-light" style={{padding: '20px 24px 20px 24px'}}>
-            <Button
-                  variant="icon p-2"
-                  onClick={go_back}
-                  className="me-2"
-                >
-                  <i className="fa-regular fa-arrow-left" />
-                </Button>
-                <Card.Title className="card-title fw-600">Add Liquidity</Card.Title>
+            <Card.Header
+              className="d-flex align-items-center border-bottom-light"
+              style={{ padding: "20px 24px 20px 24px" }}
+            >
+              <Button variant="icon p-2" onClick={go_back} className="me-2">
+                <i className="fa-regular fa-arrow-left" />
+              </Button>
+              <Card.Title className="card-title fw-600">
+                Add Liquidity
+              </Card.Title>
             </Card.Header>
             <Form className="p-4">
               <Form.Group className="mb-4">
                 <Form.Label className="d-flex align-items-end mb-2 px-2">
-                    <span className="fw-500"> {from.symbol}: </span>
-                    
+                  <span className="fw-500"> {from.symbol}: </span>
+
                   {walletInfo ? (
                     <div className="text-end small fw-500 ms-auto">
                       <div className="color-grey">Balance:</div>
@@ -206,7 +218,7 @@ export default function AddLiquidityPage() {
                 <InputGroup className="mb-3">
                   <InputGroup.Text className="p-1">
                     <Button
-                      variant="btn btn-sm btn-light d-flex align-items-center justify-content-center p-2 disabled"
+                      variant="btn btn-sm btn-light d-flex align-items-center justify-content-center p-2"
                       style={{ minWidth: "116px" }}
                     >
                       <img
@@ -216,7 +228,7 @@ export default function AddLiquidityPage() {
                         height="24"
                         alt={from.name}
                       />
-                      <span className="mx-3 fw-500">{from.symbol}</span>
+                      <span className="mx-2 fw-500">{from.symbol}</span>
                     </Button>
                   </InputGroup.Text>
                   <Form.Control
@@ -240,9 +252,9 @@ export default function AddLiquidityPage() {
               {/*    </Button>*/}
               {/*</Form.Group>*/}
               <Form.Group className="mb-4">
-              <Form.Label className="d-flex align-items-end mb-2 px-2">
-                    <span className="fw-500"> {to.symbol}: </span>
-                    
+                <Form.Label className="d-flex align-items-end mb-2 px-2">
+                  <span className="fw-500"> {to.symbol}: </span>
+
                   {walletInfo ? (
                     <div className="text-end small fw-500 ms-auto">
                       <div className="color-grey">Balance:</div>
@@ -256,9 +268,9 @@ export default function AddLiquidityPage() {
                 </Form.Label>
                 <InputGroup className="mb-3">
                   <InputGroup.Text className="p-1">
-                  <Button
+                    <Button
                       variant="btn btn-sm btn-light d-flex align-items-center justify-content-center p-2"
-                      style={{ minWidth: "116px" }}
+                      style={{ width: "116px" }}
                       data-bs-toggle="modal"
                       data-bs-target="#TokenModalRight"
                     >
@@ -269,7 +281,7 @@ export default function AddLiquidityPage() {
                         height="24"
                         alt={to.name}
                       />
-                      <span className="mx-3 fw-500">{to.symbol}</span>
+                      <span className="mx-2 fw-500">{to.symbol}</span>
                       <i className="fa-solid fa-angle-down" />
                     </Button>
                   </InputGroup.Text>
@@ -308,18 +320,19 @@ export default function AddLiquidityPage() {
                 sufficient > 0 ? (
                   <Button
                     className="btn btn-primary w-100"
-                    data-bs-toggle="modal"
-                    data-bs-target="#ConfirmStake"
+                    onClick={toggleConfirmStake}
                   >
                     Add Liquidity
                   </Button>
                 ) : (
-                  <div className="bg-soft-red text-center fw-500 p-3 w-100 rounded-8">
+                  <div className="bg-soft-red text-center fs-16 fw-500 p-3 w-100 rounded-8">
+                    <i className="fa-regular fa-circle-info me-2" />
                     {`Insufficient ${from.symbol} or ${to.symbol} balance`}
                   </div>
                 )
               ) : (
-                <div className="bg-soft-green text-center fw-500 p-3 w-100 rounded-8">
+                <div className="bg-soft-green text-center fs-16 fw-500 p-3 w-100 rounded-8">
+                  <i className="fa-regular fa-circle-info me-2" />
                   Enter an amount
                 </div>
               )}
@@ -346,6 +359,18 @@ export default function AddLiquidityPage() {
           </div>
         </Col>
       </Row>
+      {showConfirmStake && (
+        <ConfirmStakeModal
+          toggle={toggleConfirmStake}
+          processing={() => {
+            setShowProcessingModal(true);
+            setShowConfirmStake(false);
+          }}
+        />
+      )}
+      {showProcessingModal && (
+        <ProcessingModal toggle={toggleProcessingModal} />
+      )}
     </Container>
   );
 }

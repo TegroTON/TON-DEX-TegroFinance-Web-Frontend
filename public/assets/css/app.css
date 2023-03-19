@@ -344,6 +344,7 @@ button.btn.btn-icon {
   border-radius: 50%;
   padding: 0!important;
   border: 0!important;
+  transition: background .5s;
 }
 
 .btn.btn-icon:hover {
@@ -743,6 +744,18 @@ h3 {
   border-radius: 100px;
 }
 
+.toast-container  {
+  opacity: 0;
+  animation: fade 4s forwards;
+}
+
+@keyframes fade {
+  0% {opacity: 0;}
+  10% {opacity: 1;}
+  90% {opacity: 1;}
+  100% {opacity: 0;}
+}
+
 .modal-content {
   background: var(--bg-second);
   border: 0;
@@ -769,10 +782,12 @@ h3 {
   font-size: 16px;
   border-radius: 24px;
   margin: 0!important;
+  color: var(--text-primary);
 }
 
 .btn-close:hover {
   opacity: 1;
+  color: var(--text-primary);
   background: var(--btn-light-hover);
 }
 
@@ -1438,7 +1453,6 @@ h3 {
   padding-bottom: 100px;
   min-height: 90vh;
   position: relative;
-  contain: paint;
 }
 
 .hero {
@@ -1678,18 +1692,21 @@ h3 {
 
 .accordion-item__images img {
   border-radius: 100%;
-  border: 3px solid var(--bg-second);
+  outline: 2px solid var(--bg-second);
   background: #e8effb;
   position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.accordion-item__images img:nth-child(1) {
+  z-index: 2;
 }
 
 .accordion-item__images-small {
-  width: 40px;
-  height: 40px;
-  position: relative;
   margin-left: -20px;
-  top: 1px;
-  object-fit: cover;
 }
 
 .modal-dialog {
@@ -1834,7 +1851,7 @@ h3 {
     font-weight: 500;
     margin-bottom: 8px;
     display: block;
-    font-size: 12px;
+    font-size: 12px; 
   }
 
   .table-referal tr td:nth-child(2)::before {

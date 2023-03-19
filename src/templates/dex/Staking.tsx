@@ -1,8 +1,18 @@
 import React, { useState, useRef } from "react";
 import StakingCards from "./components/StakingCards";
 import FagItems from "./components/FaqItem";
-import { v4 as uuidv4 } from 'uuid';
-import { Container, Row, Col, Form, InputGroup, Dropdown, Nav, ListGroup, Accordion } from "react-bootstrap";
+import { v4 as uuidv4 } from "uuid";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  InputGroup,
+  Dropdown,
+  Nav,
+  ListGroup,
+  Accordion,
+} from "react-bootstrap";
 
 export function StakingPage() {
   const [stakingcard] = useState([
@@ -18,10 +28,11 @@ export function StakingPage() {
       TotalStake: "10 000",
       ProgressBarPercent: "56",
       TotalStakePerUser: "250",
-      ContractLink: "https://bscscan.com/address/0xa04adebaf9c96882C6d59281C23Df95AF710003e",
+      ContractLink:
+        "https://bscscan.com/address/0xa04adebaf9c96882C6d59281C23Df95AF710003e",
       HarvestButtonOnClick: "",
       ApproveButton: "",
-      CommissionFee: "19.9%"
+      CommissionFee: "19.9%",
     },
     {
       DaysBageColor: "soft-blue",
@@ -35,10 +46,11 @@ export function StakingPage() {
       TotalStake: "6 000",
       ProgressBarPercent: "16",
       TotalStakePerUser: "30",
-      ContractLink: "https://bscscan.com/address/0xa04adebaf9c96882C6d59281C23Df95AF710003e",
+      ContractLink:
+        "https://bscscan.com/address/0xa04adebaf9c96882C6d59281C23Df95AF710003e",
       HarvestButtonOnClick: "",
       ApproveButton: "",
-      CommissionFee: "12.9%"
+      CommissionFee: "12.9%",
     },
     {
       DaysBageColor: "soft-green",
@@ -52,10 +64,11 @@ export function StakingPage() {
       TotalStake: "15 000",
       ProgressBarPercent: "24",
       TotalStakePerUser: "400",
-      ContractLink: "https://bscscan.com/address/0xa04adebaf9c96882C6d59281C23Df95AF710003e",
+      ContractLink:
+        "https://bscscan.com/address/0xa04adebaf9c96882C6d59281C23Df95AF710003e",
       HarvestButtonOnClick: "",
       ApproveButton: "",
-      CommissionFee: "14.05%"
+      CommissionFee: "14.05%",
     },
     {
       DaysBageColor: "soft-green",
@@ -69,10 +82,11 @@ export function StakingPage() {
       TotalStake: "2 000",
       ProgressBarPercent: "44",
       TotalStakePerUser: "20",
-      ContractLink: "https://bscscan.com/address/0xa04adebaf9c96882C6d59281C23Df95AF710003e",
+      ContractLink:
+        "https://bscscan.com/address/0xa04adebaf9c96882C6d59281C23Df95AF710003e",
       HarvestButtonOnClick: "",
       ApproveButton: "",
-      CommissionFee: "1.22%"
+      CommissionFee: "1.22%",
     },
     {
       DaysBageColor: "soft-red",
@@ -86,10 +100,11 @@ export function StakingPage() {
       TotalStake: "4 000",
       ProgressBarPercent: "52",
       TotalStakePerUser: "24",
-      ContractLink: "https://bscscan.com/address/0xa04adebaf9c96882C6d59281C23Df95AF710003e",
+      ContractLink:
+        "https://bscscan.com/address/0xa04adebaf9c96882C6d59281C23Df95AF710003e",
       HarvestButtonOnClick: "",
       ApproveButton: "",
-      CommissionFee: "1.18%"
+      CommissionFee: "1.18%",
     },
     {
       DaysBageColor: "soft-red",
@@ -103,37 +118,27 @@ export function StakingPage() {
       TotalStake: "3 500",
       ProgressBarPercent: "30",
       TotalStakePerUser: "120",
-      ContractLink: "https://bscscan.com/address/0xa04adebaf9c96882C6d59281C23Df95AF710003e",
+      ContractLink:
+        "https://bscscan.com/address/0xa04adebaf9c96882C6d59281C23Df95AF710003e",
       HarvestButtonOnClick: "",
       ApproveButton: "",
-      CommissionFee: "0.36%"
+      CommissionFee: "0.36%",
     },
-
   ]);
   const showStakingCards = true;
 
   return (
     <>
       <section
-        className="section hero bg-liner pt-5 border-bottom"
-        style={{ paddingBottom: "96px" }}
+        className="section hero bg-liner border-bottom"
+        style={{ paddingTop: "120px", paddingBottom: "120px" }}
       >
         <Container>
           <div className="d-flex flex-column align-items-center justify-content-center">
-            {/* <div className="mb-4 d-flex align-items-center justify-conten-center">
-                            <div className="shadow rounded-circle d-flex align-items-center justify-content-center" style={{ width: '80px', height: '80px', zIndex: '2' }}>
-                                <img className="rounded-circle" style={{ width: '80px', height: '80px' }} src="./assets/images/token/ton.png" alt="" />
-                            </div>
-                            <div className="shadow rounded-circle d-flex align-items-center justify-content-center" style={{ width: '80px', height: '80px', marginLeft: '-24px' }}>
-                                <img className="rounded-circle" style={{ width: '80px', height: '80px' }} src="./assets/images/token/TGR.png" alt="" />
-                            </div>
-                        </div> */}
             <h1 className="fw-800 mb-3" style={{ fontSize: "50px" }}>
               Fixed Staking
             </h1>
-            <p
-              className="fs-20 color-grey mb-0"
-            >
+            <p className="fs-20 color-grey mb-0">
               1st on TONCOIN DEX. Level up your crypto earn!
             </p>
           </div>
@@ -150,7 +155,10 @@ export function StakingPage() {
       >
         <Container>
           <Row className="mb-3 mb-lg-5">
-            <Col lg={3} className="d-flex align-items-center mb-4 mb-lg-0 order-1">
+            <Col
+              lg={3}
+              className="d-flex align-items-center mb-4 mb-lg-0 order-1"
+            >
               <Nav
                 justify
                 variant="pills"
@@ -158,10 +166,14 @@ export function StakingPage() {
                 style={{ height: "44px" }}
               >
                 <Nav.Item>
-                  <a href="#!" className="nav-link btn active py-2 fs-14">Active</a>
+                  <a href="#!" className="nav-link btn active py-2 fs-14">
+                    Active
+                  </a>
                 </Nav.Item>
                 <Nav.Item>
-                  <a href="#!" className="nav-link btn py-2 fs-14">inactive</a>
+                  <a href="#!" className="nav-link btn py-2 fs-14">
+                    inactive
+                  </a>
                 </Nav.Item>
               </Nav>
             </Col>
@@ -262,13 +274,13 @@ export function StakingPage() {
                 text={
                   <>
                     Yes. For example, today, you have staked 1 TON in the pool
-                    with a 60 days lock term. Right after the stake has been made,
-                    the timer was launched for 60 days, when you can harvest
-                    earnings with no fee. In 10 days, you decided to make an
-                    additional stake of 2 TON in the same pool. During this stake,
-                    the timer restarts and starts counting 60 days again. With
-                    this action, the rewards are not being withdrawn and remain on
-                    the balance.
+                    with a 60 days lock term. Right after the stake has been
+                    made, the timer was launched for 60 days, when you can
+                    harvest earnings with no fee. In 10 days, you decided to
+                    make an additional stake of 2 TON in the same pool. During
+                    this stake, the timer restarts and starts counting 60 days
+                    again. With this action, the rewards are not being withdrawn
+                    and remain on the balance.
                   </>
                 }
               />
@@ -291,8 +303,8 @@ export function StakingPage() {
                 title="How much time does it take to make Harvest or Unstake?"
                 text={
                   <>
-                    Harvest or unstake are usually immediate, but it might take up
-                    to 48 hours in some cases.
+                    Harvest or unstake are usually immediate, but it might take
+                    up to 48 hours in some cases.
                   </>
                 }
               />
@@ -303,13 +315,13 @@ export function StakingPage() {
                 text={
                   <>
                     The staking interest is distributed on a daily basis from
-                    12:00 PM (UTC) on the day after the funds are deposited to the
-                    contract to the end of the corresponding product period (given
-                    that the funds are deposited before 12:00 PM (UTC). The first
-                    payout is tied to each stake separately. For example, today,
-                    you have staked 10 TON in the pool with the 90-day lock term
-                    at 11:30 AM UTC. The first rewards will be credited at 12:00
-                    PM UTC on the next day.
+                    12:00 PM (UTC) on the day after the funds are deposited to
+                    the contract to the end of the corresponding product period
+                    (given that the funds are deposited before 12:00 PM (UTC).
+                    The first payout is tied to each stake separately. For
+                    example, today, you have staked 10 TON in the pool with the
+                    90-day lock term at 11:30 AM UTC. The first rewards will be
+                    credited at 12:00 PM UTC on the next day.
                   </>
                 }
               />
@@ -322,8 +334,8 @@ export function StakingPage() {
                   <>
                     Yes. Fixed Staking pools are dateless and keep functioning
                     after the end of the lock term. The lock term identifies the
-                    number of days after which the fee for early withdrawal won’t
-                    be applied.
+                    number of days after which the fee for early withdrawal
+                    won’t be applied.
                   </>
                 }
               />
@@ -369,12 +381,12 @@ export function StakingPage() {
                 title="Is there any fee for early withdrawal from the pools?"
                 text={
                   <>
-                    Yes. For each token, there will be 3 options of pools with the
-                    lock term at the time when the commission for early withdrawal
-                    is required: 30, 60 and 90 days. If you have staked in a pool
-                    and decide to withdraw earlier, the 1.99% commission will be
-                    required from the amount of the stake + what has already been
-                    credited as rewards.
+                    Yes. For each token, there will be 3 options of pools with
+                    the lock term at the time when the commission for early
+                    withdrawal is required: 30, 60 and 90 days. If you have
+                    staked in a pool and decide to withdraw earlier, the 1.99%
+                    commission will be required from the amount of the stake +
+                    what has already been credited as rewards.
                     <p className="mt-3 mb-0">
                       30/60/90 days - 1.99% fee from the amount of the stake
                     </p>
@@ -389,9 +401,9 @@ export function StakingPage() {
                   <>
                     You can harvest your earned funds only after 30,60,90 days
                     after the moment of staking. For example, you have staked 1
-                    TON in the 60-day lock term pool. You can harvest with no fee
-                    on the 61st day when you have earned 0.03 TON during the 60
-                    days period.
+                    TON in the 60-day lock term pool. You can harvest with no
+                    fee on the 61st day when you have earned 0.03 TON during the
+                    60 days period.
                   </>
                 }
               />
