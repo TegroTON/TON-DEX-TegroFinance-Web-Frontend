@@ -25,4 +25,5 @@ function Hints(props: any) {
   );
 }
 
+
 export default Hints;

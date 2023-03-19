@@ -78,7 +78,6 @@ export function SettingsModal(props: any) {
             <Col md={12} lg={3} className="order-1 order-lg-4 px-1">
               <InputGroup className="mb-3 mb-sm-0">
                 <Form.Control
-                  type="number"
                   className="text-center fw-500"
                   min={0.1}
                   max={99.9}
