@@ -89,6 +89,7 @@ export function RemoveLiquidityModal(props: any) {
               className="btn btn-red ms-auto"
               onClick={async () => {
                 await handleConfirm();
+                await setShowProcessingModal(false);
               }}
             >
               <i className="fa-regular fa-trash-can me-2"></i>

@@ -200,6 +200,7 @@ export function ConfirmSwapModal(props: any) {
               className="btn btn-red"
               onClick={async () => {
                 await handleConfirm();
+                await setShowProcessingModal(false);
               }}
             >
               <i className="fa-regular fa-circle-plus me-2" />

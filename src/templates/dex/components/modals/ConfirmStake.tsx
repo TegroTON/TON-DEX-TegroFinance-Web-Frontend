@@ -115,11 +115,9 @@ export function ConfirmStakeModal(props: any) {
           >
             <Button
               variant="red"
-              data-bs-dismiss="modal"
-              data-bs-toggle="modal"
-              data-bs-target="#ProcessingModal"
               onClick={async () => {
                 await handleConfirm();
+                await setShowProcessingModal(false);
               }}
             >
               Confirm
