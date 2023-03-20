@@ -797,6 +797,10 @@ h3 {
   align-items: center;
 }
 
+.modal-footer {
+  border-color: var(--border-color)
+}
+
 .btn-close {
   background: none;
   padding: 0 !important;
