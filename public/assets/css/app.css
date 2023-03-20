@@ -761,6 +761,7 @@ h3 {
 .toast-container {
   opacity: 0;
   animation: fade 4s forwards;
+  z-index: 999;
 }
 
 @keyframes fade {
