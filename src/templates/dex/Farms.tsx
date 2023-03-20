@@ -171,6 +171,10 @@ export function FarmsPage() {
             </Col>
           </Row>
         </Container>
+         <div className="section__blur" style={{top: '-100px', marginLeft: '150px'}}>
+          <div className="blur__circle-1" />
+          <div className="blur__circle-2" />
+        </div>
       </section>
       <section
         className="section position-relative mb-3 mb-lg-5"

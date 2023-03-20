@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Coins } from "ton3-core";
 import { useForm } from "react-hook-form";
 import { DexContext, DexContextType } from "../../context";
@@ -19,12 +19,9 @@ import { UseFormatPriceImpact } from "../../hooks/useFormatPriceImpact";
 import { UsePrintRoute } from "../../hooks/usePrintRoute";
 import { useCalcPrice } from "../../hooks/useCalcPrice";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { log } from "util";
-import { StartPair } from "../../types";
 import { useLocation } from "react-router";
 import { CoinsToDecimals } from "../../ton/dex/utils";
 import { ConfirmSwapModal } from "./components/modals/ConfirmSwap";
-import { ProcessingModal } from "./components/modals/Processing";
 import { SettingsModal } from "./components/modals/Settings";
 
 export default function SwapPage() {
@@ -37,7 +34,6 @@ export default function SwapPage() {
   const to = searchParams.get("to");
 
   const {
-    startPair,
     setStartPair,
     swapLeft,
     swapRight,
@@ -48,7 +44,6 @@ export default function SwapPage() {
     setExtract,
     priceImpact,
     walletInfo,
-    tokens,
     swapPairs,
     switchSwap,
     updateLock,
@@ -90,7 +85,6 @@ export default function SwapPage() {
     register,
     setValue,
     getValues,
-    formState: { isValid },
   } = useForm({ mode: "onChange" });
 
   const updateAmount = (side: "left" | "right", value?: string) => {
@@ -294,8 +288,7 @@ export default function SwapPage() {
                   {walletInfo ? (
                     <div className="text-end small fw-500 ms-auto">
                       <div className="color-grey">Balance:</div>
-                      {swapRight.userBalance.toString()}
-                      {swapRight.token.symbol}
+                      {swapRight.userBalance.toString()} {swapRight.token.symbol}
                     </div>
                   ) : (
                     <></>

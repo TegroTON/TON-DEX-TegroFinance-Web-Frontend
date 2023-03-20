@@ -44,7 +44,7 @@ export function ProcessingModal(props: any) {
         {/*    after this transaction has been processed. */}
         {/* </p> */}
         <p className="color-grey fs-16 mb-0">
-          Confirm This Transaction <br /> In Your Wallet 🙂
+          Confirm this transaction <br /> In your wallet 🙂
         </p>
       </Modal.Body>
     </Modal>

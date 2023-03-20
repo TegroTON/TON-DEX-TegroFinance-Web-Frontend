@@ -13,6 +13,7 @@ import {
   ListGroup,
   Accordion,
 } from "react-bootstrap";
+import { left } from "fp-ts/lib/Separated";
 
 export function StakingPage() {
   const [stakingcard] = useState([
@@ -131,7 +132,7 @@ export function StakingPage() {
     <>
       <section
         className="section hero bg-liner border-bottom"
-        style={{ paddingTop: "120px", paddingBottom: "120px" }}
+        style={{ paddingTop: "120px", paddingBottom: "160px" }}
       >
         <Container>
           <div className="d-flex flex-column align-items-center justify-content-center">
@@ -148,6 +149,10 @@ export function StakingPage() {
             <div className="line"></div>
           </div>
         </Container>
+       <div className="section__blur" style={{top: '-250px', left: '35%'}}>
+          <div className="blur__circle-1" />
+          <div className="blur__circle-2" />
+        </div>
       </section>
       <section
         className="section position-relative mb-3 mb-lg-5"

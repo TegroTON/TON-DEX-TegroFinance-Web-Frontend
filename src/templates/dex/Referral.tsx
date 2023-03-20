@@ -109,24 +109,24 @@ export function ReferralPage() {
                       <>
                         <Form.Control className="fs-14" value={refUrl} />
                         <InputGroup.Text className="px-2">
-                          <Hints 
-                          show="top"
-                          text="Copy"
-                          content={
-                            <>
-                            <Button
-                            variant="icon rounded border-0 fs-14"
-                            onClick={() => {
-                              navigator.clipboard.writeText(refUrl);
-                              setShowAlertReferral(true);
-                            }}
-                          >
-                            <i className="fa-regular fa-copy fa-lg" />
-                          </Button>
-                            </>
-                          }
+                          <Hints
+                            show="top"
+                            text="Copy"
+                            content={
+                              <>
+                                <Button
+                                  variant="icon rounded border-0 fs-14"
+                                  onClick={() => {
+                                    navigator.clipboard.writeText(refUrl);
+                                    setShowAlertReferral(true);
+                                  }}
+                                >
+                                  <i className="fa-regular fa-copy fa-lg" />
+                                </Button>
+                              </>
+                            }
                           />
-                          
+
                         </InputGroup.Text>
                       </>
                     ) : (
