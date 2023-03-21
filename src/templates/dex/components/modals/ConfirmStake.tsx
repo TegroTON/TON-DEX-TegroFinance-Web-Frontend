@@ -109,7 +109,7 @@ export function ConfirmStakeModal(props: any) {
           <p className="fs-20 mb-0">Do you want to stake? 🙂</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button className="btn btn-light me-auto" onClick={props.toggle}>
+          <Button className="btn btn-light me-auto" onClick={toggleConfirmStakeModal}>
             Cancel
           </Button>
             <Button
