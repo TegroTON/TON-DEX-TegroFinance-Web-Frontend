@@ -90,7 +90,7 @@ export default function AddLiquidityPage() {
     const value = getValues(side) ?? 0;
     // console.log('val', value);
     if (value) {
-      // getStakeAmount(inAmount, lReserve, rReserve);
+      // getStakeAmount(inAmount, lReserve, rReserve); 
       if (side === "left") {
         inAmount = new Coins(Number(value).toFixed(leftToken.decimals), {
           decimals: leftToken.decimals,
