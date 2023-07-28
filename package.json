@@ -51,7 +51,7 @@
     "util": "^0.12.4",
     "uuid": "^9.0.0",
     "web-encoding": "^1.1.5",
-    "yaml": "^2.1.1"
+    "yaml": "^2.2.2"
   },
   "devDependencies": {
     "@originjs/vite-plugin-commonjs": "^1.0.3",
