@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@delab-team/connect": "^1.4.1",
-    "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
+    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@esbuild-plugins/node-modules-polyfill": "^0.1.4",
     "@tegro/ton3-client": "^0.0.17",
     "@tegro/ton3-contracts": "^0.0.4",
