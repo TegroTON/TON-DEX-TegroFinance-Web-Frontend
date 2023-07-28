@@ -41,7 +41,7 @@
     "react-qrcode-logo": "^2.7.0",
     "react-router-dom": "^6.3.0",
     "recoil": "^0.7.6",
-    "rollup-plugin-polyfill-node": "^0.10.1",
+    "rollup-plugin-polyfill-node": "^0.12.0",
     "ton": "^12.3.3",
     "ton-x": "^2.0.0",
     "ton3-core": "^0.0.19",
