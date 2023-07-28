@@ -22,7 +22,7 @@
     "bootstrap": "^5.1.3",
     "buffer": "^6.0.3",
     "events": "^3.3.0",
-    "fp-ts": "^2.13.1",
+    "fp-ts": "^2.16.1",
     "i18next": "^21.8.10",
     "i18next-browser-languagedetector": "^6.1.4",
     "i18next-http-backend": "^1.4.1",
