@@ -1,7 +1,1 @@
-# dex-frontend
-
-## Build frontend
-
-```
-npm run build
-```
+# DEX Web Frontend
