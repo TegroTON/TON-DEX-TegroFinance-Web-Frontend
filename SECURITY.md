@@ -1,24 +1,24 @@
-# Политика безопасности
+# Security Policy
 
-## Уязвимости
+## Vulnerabilities
 
-Если вы обнаружили уязвимость в проекте, пожалуйста, [сообщите о ней](https://github.com/TegroTON/TON-DEX-TegroFinance-Web-Frontend/issues/new/choose) как можно скорее. Мы приветствуем любую помощь в обнаружении и устранении уязвимостей.
+If you've discovered a vulnerability in the project, please [report it](https://github.com/TegroTON/TON-token-purchase-script/issues/new/choose) as soon as possible. We welcome any assistance in identifying and addressing vulnerabilities.
 
-## Отчеты об уязвимостях
+## Vulnerability Reports
 
-Отчеты об уязвимостях и предложения можете направить [через форму](https://github.com/TegroTON/TON-DEX-TegroFinance-Web-Frontend/issues/new/choose). Пожалуйста, опишите проблему и приложите инструкции по ее воспроизведению. Мы будем рассматривать каждый отчет индивидуально и будем связываться с вами, чтобы обсудить детали и сроки исправления.
+You can send vulnerability reports and suggestions [via this form](https://github.com/TegroTON/TON-token-purchase-script/issues/new/choose). Please describe the issue and attach instructions for its reproduction. We will review each report individually and will get in touch with you to discuss the details and estimated resolution timeline.
 
-## Обновления безопасности
+## Security Updates
 
-Мы стараемся выпускать обновления безопасности как можно быстрее после того, как мы узнаем о проблеме. Пожалуйста, следите за обновлениями проекта и устанавливайте их как можно скорее.
+We strive to release security updates as quickly as possible after becoming aware of an issue. Please monitor the project's updates and install them promptly.
 
-## Политика ответственности
+## Liability Policy
 
-Мы стремимся обеспечить максимальную безопасность нашего проекта, но не можем гарантировать отсутствие уязвимостей. Мы не несем ответственности за любой ущерб, причиненный использованием или невозможностью использования проекта.
+We aim to ensure the utmost security of our project, but we cannot guarantee the absence of vulnerabilities. We disclaim responsibility for any damages incurred due to the use or inability to use the project.
 
-## Обновление версий
+## Version Updates
 
-| Status | Version | Supported         |
-| -------| ------- | ------------------|
-| Release|  1.0   | :white_check_mark: |
-| Beta   |  0.1   | :x:                |
+| Status   | Version | Supported          |
+| -------- | ------- | ------------------ |
+| Release  |  1.0    | :white_check_mark: |
+| Beta     |  0.1    | :x:                |
