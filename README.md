@@ -12,7 +12,7 @@
     <a href="https://github.com/TegroTON/TON-DEX-TegroFinance-Web-Frontend"><strong>Explore the Documentation »</strong></a>
     <br/>
     <br/>
-    <a href="https://github.com/TegroTON/TON-DEX-TegroFinance-Web-Frontend">View Live Demo</a>
+    <a href="https://tegro.finance">View Live Demo</a>
     ·
     <a href="https://github.com/TegroTON/TON-DEX-TegroFinance-Web-Frontend/issues">Report a Bug</a>
     ·
