@@ -1,0 +1,8 @@
+{
+  "wallet": {
+    "copied": "Скопировано!",
+    "copyAddress": "Скопировать адрес",
+    "disconnect": "Отключить",
+    "disconnectDesc": "Отключить кошелек"
+  }
+}

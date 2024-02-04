@@ -1,0 +1,40 @@
+{
+  "swap": {
+    "swap": "Swap",
+    "youPay": "You pay:",
+    "youReceive": "You receive:",
+    "balance": "Balance:",
+    "price": "Price:",
+    "per": "per",
+    "slippageTolerance": "Slippage Tolerance:",
+    "minimumReceived": "Minimum received:",
+    "blockchainFee": "Blockchain Fee:",
+    "dexFee": "Exchange fee:",
+    "priceImpact": "Price Impact:",
+    "route": "Route:",
+    "insufficientTonBalance": "Insufficient TON balance!",
+    "insufficientAssetBalance": "Insufficient {{val, string}} balance!",
+    "enterAmount": "Enter an amount",
+    "connectWallet": "Connect Wallet",
+
+    "settings": {
+      "settings": "Settings",
+      "slippageHint": "Your transaction will revert it the price changes unfavorably by more than this percentage."
+    },
+
+    "confirm": {
+      "exchange": "Exchange",
+      "youGet": "You get",
+      "transactionCompleteCondition": {
+        "part1": "The result is an orienteer. If the price changes by more than ",
+        "part2": ", the transaction will be returned."
+      },
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    },
+
+    "error": {
+      "insufficient_pool_liquidity": "Insufficient {{val, string}} balance in pool!"
+    }
+  }
+}

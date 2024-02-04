@@ -1,0 +1,35 @@
+{
+  "liquidity": {
+    "yourLiquidity": "Your liquidity",
+    "removeDesc": "Remove liquidity to receive tokens back",
+    "addDesc": "Add liquidity to earn from commissions",
+    "descHint": "When you add liquidity, you are given pool tokens that represent your share.",
+    "yourActivePositions": "Your active liquidity positions \n will appear here.",
+    "addLiquidity": "Add Liquidity",
+    "minReceivedLPTokens": "Minimum received:",
+    "estimatedShareOfPool": "Estimated Share Of Pool:",
+    "insufficientBalance": "Insufficient {{asset0, string}} or {{asset1, string}} balance",
+    "desc": "By adding liquidity you'll earn up to 0.2% of all trades on this pair proportional to your share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.",
+    "shareInThePool": "Share in the pool",
+    "yourShareInThePool": "Your share in the pool:",
+    "assetBalance": "{{symbol, string}} balance:",
+    "assetPosition": "{{symbol, string}} position:",
+    "remove": {
+      "remove": "Remove",
+      "confirmationMessage": "Are you sure you\n want to remove liquidity?",
+      "removeLiquidity": "Remove"
+    },
+    "confirm": {
+      "youGet": "You get",
+      "complete": "Complete",
+      "suggest": "Suggest",
+      "alreadyProvided": "Already provided",
+      "provideToComplete": "Provide to complete:",
+      "confirmProvision": "Confirm",
+      "completeProvision": "Complete",
+      "rateChangedMessage": "The course was changed!",
+      "additionalProvideMessage": "You need to additionally transfer {{amount, string}} {{symbol, string}} to complete the liquidity provision",
+      "activationProvideMessage": "You need to transfer to complete liquidity provision"
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "swap": {
+    "swap": "Обмін",
+    "youPay": "Ви платите:",
+    "youReceive": "Ви отримуєте:",
+    "balance": "Баланс:",
+    "price": "Ціна:",
+    "per": "за",
+    "slippageTolerance": "Допустиме відхилення:",
+    "minimumReceived": "Мінімально отримано:",
+    "blockchainFee": "Комісія блокчейну:",
+    "dexFee": "Комісія біржі:",
+    "priceImpact": "Вплив на ціну:",
+    "route": "Маршрут:",
+    "insufficientTonBalance": "Недостатній баланс TON!",
+    "insufficientAssetBalance": "Недостатній баланс {{val, string}}!",
+    "enterAmount": "Введіть суму",
+    "connectWallet": "Підключити гаманець",
+
+    "settings": {
+      "settings": "Налаштування",
+      "slippageHint": "Ваша транзакція буде скасована, якщо ціна зміниться небажано більше, ніж цей відсоток."
+    },
+
+    "confirm": {
+      "exchange": "Обмін",
+      "youGet": "Ви отримаєте",
+      "transactionCompleteCondition": {
+        "part1": "Результат є орієнтиром. Якщо ціна зміниться більше ніж на ",
+        "part2": ", транзакція буде скасована."
+      },
+      "cancel": "Скасувати",
+      "confirm": "Підтвердити"
+    },
+
+    "error": {
+      "insufficient_pool_liquidity": "Недостатній баланс {{val, string}} у пулі!"
+    }
+  }
+}

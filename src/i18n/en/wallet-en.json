@@ -1,0 +1,8 @@
+{
+  "wallet": {
+    "copied": "Copied!",
+    "copyAddress": "Copy address",
+    "disconnect": "Disconnect",
+    "disconnectDesc": "Disable wallet"
+  }
+}

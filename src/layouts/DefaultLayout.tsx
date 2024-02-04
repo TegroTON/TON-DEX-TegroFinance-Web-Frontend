@@ -1,16 +1,22 @@
-import {Outlet, useSearchParams} from 'react-router-dom';
-import React from 'react';
-import {DefaultFooter} from '../templates/footers';
-import {DefaultHeader} from '../templates/headers';
+import { Outlet } from "react-router-dom";
+import { DefaultFooter } from "../pages/footers";
+import { DefaultHeader } from "../pages/headers";
+import { useReferralLink } from "../hooks/useReferralLink";
+import { useAuth } from "../hooks/useAuth";
+import { useTheme } from "../hooks/useTheme";
 
 export default function DefaultLayout() {
-    return (
-        <>
-            <div className="wrapper">
-                <DefaultHeader/>
-                <Outlet/>
-            </div>
-            <DefaultFooter/>
-        </>
-    );
+  useReferralLink();
+  useAuth();
+  useTheme();
+
+  return (
+    <>
+      <div className="wrapper">
+        <DefaultHeader />
+        <Outlet />
+      </div>
+      <DefaultFooter />
+    </>
+  );
 }

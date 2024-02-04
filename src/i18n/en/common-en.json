@@ -1,0 +1,10 @@
+{
+  "common": {
+    "cancel": "Cancel",
+    "preparingTransaction": "Loading..."
+  },
+  "tokenSelect": {
+    "selectToken": "Choose Token",
+    "searchPlaceholder": "Search by symbol or name..."
+  }
+}

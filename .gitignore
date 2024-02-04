@@ -1,3 +1,7 @@
 node_modules
 .idea
 dist
+new-design
+
+.env
+.env.dev

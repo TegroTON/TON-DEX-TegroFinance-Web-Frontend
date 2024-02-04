@@ -1,0 +1,35 @@
+{
+  "liquidity": {
+    "yourLiquidity": "Ваша ліквідність",
+    "removeDesc": "Вилучіть ліквідність, щоб отримати токени назад",
+    "addDesc": "Додайте ліквідність, щоб заробляти на комісіях",
+    "descHint": "Коли ви додаєте ліквідність, вам видаються токени пулу, які представляють вашу частку.",
+    "yourActivePositions": "Ваші активні позиції ліквідності \n з'являться тут.",
+    "addLiquidity": "Додати ліквідність",
+    "minReceivedLPTokens": "Мінімально отримано:",
+    "estimatedShareOfPool": "Оцінена частка у пулі:",
+    "insufficientBalance": "Недостатній баланс {{asset0, string}} чи {{asset1, string}}",
+    "desc": "Додавши ліквідність, ви заробите до 0,2% від усіх угод з цією парою пропорційно вашій частці в пулі. Комісії додаються до пулу, нараховуються в реальному часі й можуть бути виведені шляхом вилучення вашої ліквідності.",
+    "shareInThePool": "Частка в пулі",
+    "yourShareInThePool": "Ваша частка в пулі:",
+    "assetBalance": "Баланс {{symbol, string}}:",
+    "assetPosition": "Позиція {{symbol, string}}:",
+    "remove": {
+      "remove": "Вилучити",
+      "confirmationMessage": "Ви впевнені, що хочете\n вилучити ліквідність?",
+      "removeLiquidity": "Вилучити"
+    },
+    "confirm": {
+      "youGet": "Ви отримуєте",
+      "complete": "Завершити",
+      "suggest": "Запропонувати",
+      "alreadyProvided": "Вже надано",
+      "provideToComplete": "Надайте для завершення:",
+      "confirmProvision": "Підтвердити",
+      "completeProvision": "Завершити",
+      "rateChangedMessage": "Курс був змінений!",
+      "additionalProvideMessage": "Вам потрібно додатково перевести {{amount, string}} {{symbol, string}} для завершення надання ліквідності",
+      "activationProvideMessage": "Вам потрібно перевести для завершення надання ліквідності"    
+    }
+  }
+}
