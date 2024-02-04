@@ -1,7 +1,7 @@
 {
-  "name": "web",
+  "name": "ton-dex-tegro-finance",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "dev": "copyfiles -f ./buildfiles/dev/index.html ./; vite --host",
     "build": "copyfiles -f ./buildfiles/prod/index.html ./;tsc && vite build",
