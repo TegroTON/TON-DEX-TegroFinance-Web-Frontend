@@ -1,0 +1,75 @@
+{
+  "navigation": {
+    "exchange": {
+      "exchange": "Биржа"
+    },
+
+    "liquidity": {
+      "liquidity": "Ликвидность"
+    },
+
+    "wallet": {
+      "wallet": "Кошелек",
+      "webWallet": "Веб-кошелек",
+      "webWalletDesc": "Самый простой способ хранить, отправлять и получать Toncoin",
+      "androidApp": "Android-приложение",
+      "androidAppDesc": "Расширение кошелька для Android",
+      "chromeApp": "Chrome-приложение",
+      "chromeAppDesc": "Расширение кошелька для браузера Chrome",
+      "edgeApp": "Microsoft Edge",
+      "edgeAppDesc": "Расширение кошелька для браузера Edge"
+    },
+
+    "e-commerce": {
+      "e-commerce": "Электронная коммерция",
+      "paymentSystem": "Платежная система",
+      "paymentSystemDesc": "Подключение платежных систем и банков без комиссии.",
+      "forBusiness": "Для бизнеса",
+      "affiliateProgram": "Партнерская программа",
+      "affiliateProgramDesc": "Приглашайте клиентов и получайте процент от их оборота.",
+      "security": "Безопасность",
+      "securityDesc": "О PCI DSS, стандарты безопасности SSL",
+      "developers": "Разработчики",
+      "allDocumentation": "Вся документация",
+      "allDocumentationDesc": "Все способы интеграции и взаимодействия",
+      "addingStore": "Добавление магазина",
+      "apiDocumentation": "Документация по API"
+    },
+
+    "nft": {
+      "nft": "NFT",
+      "libermallDesc": "Новый, современный и стильный маркетплейс NFT",
+      "exploreCollections": "Исследовать коллекции",
+      "exploreCollectionsDesc": "Каталог коллекций NFT"
+    },
+
+    "more": {
+      "more": "Еще",
+      "discounts": "Скидки",
+      "discountsDesc": "И купоны",
+      "advantages": "Преимущества",
+      "advantagesDesc": "Используйте все возможности сервиса",
+      "bugBounty": "Награды за найденные уязвимости",
+      "bugBountyDesc": "Вы можете получить вознаграждение за обнаружение уязвимостей в Tegro.Finance",
+      "privacyPolicy": "Политика конфиденциальности",
+      "privacyPolicyDesc": "Последнее обновление 5 октября 2021 года",
+      "termsOfUse": "Условия использования",
+      "termsOfUseDesc": "Последнее обновление 18 октября 2022 года",
+      "contactUs": "Свяжитесь с нами",
+      "contactUsDesc": "Напишите нам"
+    }
+  },
+
+  "theme": {
+    "dark": "Темная тема",
+    "light": "Светлая тема"
+  },
+
+  "languages": {
+    "language": "Язык",
+    
+    "en": "Английский",
+    "ru": "Русский",
+    "ua": "Украинский"
+  }
+}

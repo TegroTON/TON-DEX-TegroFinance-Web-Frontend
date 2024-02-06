@@ -1,0 +1,75 @@
+{
+  "navigation": {
+    "exchange": {
+      "exchange": "Exchange"
+    },
+
+    "liquidity": {
+      "liquidity": "Liquidity"
+    },
+
+    "wallet": {
+      "wallet": "Wallet",
+      "webWallet": "Web Wallet",
+      "webWalletDesc": "The easiest way to store, send, and receive Toncoin",
+      "androidApp": "Android App",
+      "androidAppDesc": "Wallet extension for Android",
+      "chromeApp": "Chrome App",
+      "chromeAppDesc": "Wallet extension for Chrome browser",
+      "edgeApp": "Microsoft Edge",
+      "edgeAppDesc": "Wallet extension for Edge browser"
+    },
+
+    "e-commerce": {
+      "e-commerce": "E-commerce",
+      "paymentSystem": "Payment system",
+      "paymentSystemDesc": "Connection of payment systems and banks without commissions.",
+      "forBusiness": "For business",
+      "affiliateProgram": "Affiliate program",
+      "affiliateProgramDesc": "Invite clients and get percentage of their turnover.",
+      "security": "Security",
+      "securityDesc": "About PCI DSS, SSL Security Standards",
+      "developers": "Developers",
+      "allDocumentation": "All documentation",
+      "allDocumentationDesc": "All ways of integration and interaction",
+      "addingStore": "Adding a store",
+      "apiDocumentation": "API documentation"
+    },
+
+    "nft": {
+      "nft": "NFT",
+      "libermallDesc": "A new, modern and slick NFT marketplace",
+      "exploreCollections": "Explore collections",
+      "exploreCollectionsDesc": "Catalog of NFT collections"
+    },
+
+    "more": {
+      "more": "More",
+      "discounts": "Discounts",
+      "discountsDesc": "And Coupons",
+      "advantages": "Advantages",
+      "advantagesDesc": "Use all the features of the service",
+      "bugBounty": "Bug bounty",
+      "bugBountyDesc": "You can be rewarded for finding vulnerabilities in Tegro.Finance",
+      "privacyPolicy": "Privacy policy",
+      "privacyPolicyDesc": "Last updated October 5, 2021",
+      "termsOfUse": "Terms of use",
+      "termsOfUseDesc": "Last updated October 18, 2022",
+      "contactUs": "Contact us",
+      "contactUsDesc": "Write to us"
+    }
+  },
+
+  "theme": {
+    "dark": "Dark Mode",
+    "light": "Light Mode"
+  },
+
+  "languages": {
+    "language": "Language",
+    
+    "en": "English",
+    "ru": "Russian",
+    "ua": "Ukrainian"
+  }
+}

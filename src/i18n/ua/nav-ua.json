@@ -1,0 +1,74 @@
+{
+  "navigation": {
+    "exchange": {
+      "exchange": "Біржа"
+    },
+
+    "liquidity": {
+      "liquidity": "Ліквідність"
+    },
+
+    "wallet": {
+      "wallet": "Гаманець",
+      "webWallet": "Веб-гаманець",
+      "webWalletDesc": "Найпростіший спосіб зберігати, відправляти та отримувати Toncoin",
+      "androidApp": "Android-додаток",
+      "androidAppDesc": "Розширення гаманця для Android",
+      "chromeApp": "Chrome-додаток",
+      "chromeAppDesc": "Розширення гаманця для браузера Chrome",
+      "edgeApp": "Microsoft Edge",
+      "edgeAppDesc": "Розширення гаманця для браузера Edge"
+    },
+
+    "e-commerce": {
+      "e-commerce": "Електронна комерція",
+      "paymentSystem": "Платіжна система",
+      "paymentSystemDesc": "Підключення платіжних систем та банків без комісії.",
+      "forBusiness": "Для бізнесу",
+      "affiliateProgram": "Партнерська програма",
+      "affiliateProgramDesc": "Запрошуйте клієнтів та отримуйте відсоток від їх обороту.",
+      "security": "Безпека",
+      "securityDesc": "Про PCI DSS, стандарти безпеки SSL",
+      "developers": "Розробники",
+      "allDocumentation": "Вся документація",
+      "allDocumentationDesc": "Усі способи інтеграції та взаємодії",
+      "addingStore": "Додавання магазину",
+      "apiDocumentation": "Документація по API"
+    },
+
+    "nft": {
+      "nft": "NFT",
+      "libermallDesc": "Новий, сучасний та стильний маркетплейс NFT",
+      "exploreCollections": "Досліджуйте колекції",
+      "exploreCollectionsDesc": "Каталог колекцій NFT"
+    },
+
+    "more": {
+      "more": "Ще",
+      "discounts": "Знижки",
+      "discountsDesc": "I купони",
+      "advantages": "Переваги",
+      "advantagesDesc": "Використовуйте всі можливості сервісу",
+      "bugBounty": "Винагороди за знайдені уразливості",
+      "bugBountyDesc": "Ви можете отримати винагороду за виявлення уразливостей в Tegro.Finance",
+      "privacyPolicy": "Політика конфіденційності",
+      "privacyPolicyDesc": "Останнє оновлення 5 жовтня 2021 року",
+      "termsOfUse": "Умови використання",
+      "termsOfUseDesc": "Останнє оновлення 18 жовтня 2022 року",
+      "contactUs": "Зв'яжіться з нами",
+      "contactUsDesc": "Напишіть нам"
+    }
+  },
+
+  "theme": {
+    "dark": "Темна тема",
+    "light": "Світла тема"
+  },
+  "languages": {
+    "language": "Мова",
+    
+    "en": "Англійська",
+    "ru": "Російська",
+    "ua": "Українська"
+  }
+}

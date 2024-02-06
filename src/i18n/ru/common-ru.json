@@ -1,0 +1,10 @@
+{
+  "common": {
+    "cancel": "Отмена",
+    "preparingTransaction": "Загрузка..."
+  },
+  "tokenSelect": {
+    "selectToken": "Выберите токен",
+    "searchPlaceholder": "Поиск по названию или символу..."
+  }
+}

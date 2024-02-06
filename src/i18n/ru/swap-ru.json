@@ -1,0 +1,40 @@
+{
+  "swap": {
+    "swap": "Обмен",
+    "youPay": "Вы платите:",
+    "youReceive": "Вы получаете:",
+    "balance": "Баланс:",
+    "price": "Цена:",
+    "per": "за",
+    "slippageTolerance": "Допустимое отклонение:",
+    "minimumReceived": "Минимально получено:",
+    "blockchainFee": "Комиссия блокчейна:",
+    "dexFee": "Комиссия биржи:",
+    "priceImpact": "Влияние на цену:",
+    "route": "Маршрут:",
+    "insufficientTonBalance": "Недостаточный баланс TON!",
+    "insufficientAssetBalance": "Недостаточный баланс {{val, string}}!",
+    "enterAmount": "Введите сумму",
+    "connectWallet": "Подключить кошелек",
+
+    "settings": {
+      "settings": "Настройки",
+      "slippageHint": "Ваша транзакция будет отменена, если цена изменится не в вашу пользу на более чем указанный процент."
+    },
+
+    "confirm": {
+      "exchange": "Обмен",
+      "youGet": "Вы получаете",
+      "transactionCompleteCondition": {
+        "part1": "Результат является ориентиром. Если цена изменится более чем на ",
+        "part2": ", транзакция будет отменена."
+      },
+      "cancel": "Отмена",
+      "confirm": "Подтвердить"
+    },
+
+    "error": {
+      "insufficient_pool_liquidity": "Недостаточный баланс {{val, string}} в пуле!"
+    }
+  }
+}
