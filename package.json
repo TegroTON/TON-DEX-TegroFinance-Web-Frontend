@@ -25,7 +25,7 @@
     "fp-ts": "^2.13.1",
     "i18next": "^21.10.0",
     "i18next-browser-languagedetector": "^6.1.8",
-    "i18next-http-backend": "^1.4.5",
+    "i18next-http-backend": "^2.0.0",
     "int-encoder": "^1.1.1",
     "io-ts": "^2.2.20",
     "io-ts-reporters": "^2.0.1",
