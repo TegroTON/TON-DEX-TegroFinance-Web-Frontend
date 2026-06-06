@@ -39,6 +39,41 @@ Welcome to the official frontend platform for Tegro's Decentralized Exchange (DE
 - **Seamless Integration with TON Blockchain**: Ensuring smooth, secure transactions and a trustless trading environment.
 - **User-Friendly Interface**: Designed with the user in mind, providing an intuitive trading experience.
 - **Advanced Security Measures**: Incorporating state-of-the-art security protocols to safeguard user assets and data.
+- **Liquidity Pools & Swaps**: Trade tokens and provide liquidity directly from your TON wallet.
+- **Multi-language UI**: Built-in internationalization (i18next) for a global audience.
+
+## Tech Stack
+
+- **Framework:** React + [Vite](https://vitejs.dev/) + TypeScript
+- **State management:** Redux Toolkit
+- **TON connectivity:** [TON Connect](https://docs.ton.org/develop/dapps/ton-connect/overview) (`@tonconnect/sdk`, `@tonconnect/ui-react`)
+- **HTTP / data:** Axios
+- **i18n:** i18next
+- **UI:** Bootstrap
+
+## Getting Started
+
+### Prerequisites
+- [Node.js](https://nodejs.org/) 18+ and npm
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/TegroTON/TON-DEX-TegroFinance-Web-Frontend.git
+cd TON-DEX-TegroFinance-Web-Frontend
+
+# Install dependencies
+npm install
+
+# Start the dev server (http://localhost:5173)
+npm run dev
+
+# Build for production
+npm run build
+```
+
+The frontend talks to the [Tegro Finance backend](https://github.com/TegroTON/TON-DEX-TegroFinance-Web-Backend) and [DEX API](https://github.com/TegroTON/API-DEX-TON-Blockchain) — see those repos to run the full stack locally.
 
 ## Technical Roadmap
 
@@ -64,6 +99,25 @@ Your contributions can shape the future of decentralized finance on the TON bloc
 ## Legal Information
 
 The project is distributed under the MIT License. This license provides freedom for personal and commercial use, modification, and distribution of the software. For more details, see the [LICENSE](https://github.com/TegroTON/TON-DEX-TegroFinance-Web-Frontend/blob/main/LICENSE.md) file.
+
+## Architecture & Related Repositories
+
+Tegro Finance is built as a set of cooperating open-source services on TON:
+
+| Layer | Repository | Stack |
+|---|---|---|
+| **Web app (full)** | **TON-DEX-TegroFinance-Web-Frontend** *(this repo)* | TypeScript · React |
+| Web app (lite, TON/TOR) | [TON-DEX-TegroFinance-Web-Frontend-Lite](https://github.com/TegroTON/TON-DEX-TegroFinance-Web-Frontend-Lite) | TypeScript · React |
+| Backend / indexer | [TON-DEX-TegroFinance-Web-Backend](https://github.com/TegroTON/TON-DEX-TegroFinance-Web-Backend) | Python · FastAPI |
+| Public DEX API | [API-DEX-TON-Blockchain](https://github.com/TegroTON/API-DEX-TON-Blockchain) | Kotlin |
+
+## Tegro Ecosystem
+
+- 🔁 **DEX** — https://tegro.finance
+- 💳 **Payments (Tegro Money)** — https://tegro.money
+- 👛 **Wallet** — https://t.me/TegroMoneyBot
+- 💬 **Community** — https://t.me/TegroMoney
+- 🏠 **All open-source repos** — https://github.com/TegroTON
 
 ## Development Team
 
