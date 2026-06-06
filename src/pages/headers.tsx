@@ -101,7 +101,7 @@ export function DefaultHeader() {
                     id="collapsible-nav-dropdown"
                   >
                     <NavDropdown.Item
-                      href="https://tegro.io/wallet/"
+                      href="https://tegro.finance/wallet/"
                       target="_blank"
                       className="d-flex"
                     >
@@ -164,7 +164,7 @@ export function DefaultHeader() {
                   >
                     <NavDropdown.Item
                       className="d-flex"
-                      href="https://tegro.io/commerce/"
+                      href="https://tegro.money/"
                       target="_blank"
                     >
                       <i className="fa-light fa-money-check-dollar-pen dropdown-item-icon" />
