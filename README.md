@@ -119,10 +119,6 @@ Tegro Finance is built as a set of cooperating open-source services on TON:
 - 💬 **Community** — https://t.me/TegroMoney
 - 🏠 **All open-source repos** — https://github.com/TegroTON
 
-## Development Team
-
-- **Sviatoslav Gusev (DeFiTON)** - Chief Product Officer - [Profile](https://github.com/DeFiTON/)
-
 ## Special Thanks
 
 Our project stands on the shoulders of giants. We extend our heartfelt gratitude to:
