@@ -119,14 +119,8 @@ export function PrivacyPage() {
                   </li>
                   <li>
                     <b>{t("privacy.yourRights.item6.title")}</b>{" "}
-                    {t("privacy.yourRights.item6.part1")}{" "}
-                    <a href="mailto:contact@Tegro.Finance.com">
-                      contact@Tegro.Finance.com
-                    </a>
+                    {t("privacy.yourRights.item6.part1")}
                     {t("privacy.yourRights.item6.part2")}{" "}
-                    <a href="mailto:contact@Tegro.Finance.com">
-                      contact@Tegro.Finance.com
-                    </a>{" "}
                     {t("privacy.yourRights.item6.part3")}
                   </li>
                 </ul>
@@ -154,8 +148,6 @@ export function PrivacyPage() {
               <h2 className="mb-4">{t("privacy.contactInformation.title")}</h2>
               <div className="color-grey mb-5">
                 {t("privacy.contactInformation.text")}
-                <br />
-                E-mail: <a href="mailto:contact@dex.com">contact@dex.com</a>
               </div>
             </Card>
           </Col>

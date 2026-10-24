@@ -337,10 +337,7 @@ export function TermsPage() {
                   under this ToU by: (i) posting a notice in the Application; or
                   (ii) sending a message to the email address if it was
                   previously provided by you. To give us notice under this ToU,
-                  you must contact us by email at{" "}
-                  <a href="mailto:contact@Tegro.Finance">
-                    contact@Tegro.Finance
-                  </a>
+                  you must contact us via our support
                   .
                 </p>
                 <p>
