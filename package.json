@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
-    "@esbuild-plugins/node-modules-polyfill": "^0.1.4",
+    "@esbuild-plugins/node-modules-polyfill": "^0.2.0",
     "@reduxjs/toolkit": "^2.0.1",
     "@tonconnect/sdk": "^2.0.4",
     "@tonconnect/ui-react": "^2.0.0-beta.6",
